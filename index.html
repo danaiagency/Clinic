@@ -2,1203 +2,1235 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>همراه هوشمند پیشرفته</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>همراه هوشمند پیشرفته | پنل بیماران</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #F6FAF8;
-    --bg-alt: #EEF6F2;
-    --ink: #0B2B24;
-    --ink-soft: #587065;
-    --ink-faint: #93A69D;
-    --primary: #0F6E5D;
-    --primary-2: #17997F;
-    --primary-glow: #38C6A6;
-    --gold: #C9A227;
-    --gold-soft: #F3E7C4;
-    --coral: #FF7A61;
-    --blue: #3E7CB1;
-    --glass: rgba(255,255,255,0.62);
-    --glass-strong: rgba(255,255,255,0.82);
-    --glass-border: rgba(255,255,255,0.9);
-    --shadow-soft: 0 20px 60px -20px rgba(15,110,93,0.22);
-    --shadow-tiny: 0 6px 18px -6px rgba(15,110,93,0.18);
-    --radius-lg: 28px;
-    --radius-md: 20px;
-    --radius-sm: 14px;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'Vazirmatn', sans-serif;
-    background:
-      radial-gradient(1200px 600px at 85% -10%, rgba(56,198,166,0.14), transparent 60%),
-      radial-gradient(900px 500px at -10% 15%, rgba(201,162,39,0.10), transparent 55%),
-      linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
-    color:var(--ink);
-    min-height:100vh;
-    overflow-x:hidden;
-  }
-  .num{font-family:'IBM Plex Sans Arabic','Vazirmatn',sans-serif; font-variant-numeric: tabular-nums;}
-  ::selection{ background: var(--primary-glow); color:#fff; }
-  a{color:inherit; text-decoration:none;}
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#F7FAF8;
+  --surface:#FFFFFF;
+  --surface-soft:#EEF4F1;
+  --border: rgba(31,58,49,0.09);
+  --border-strong: rgba(31,58,49,0.14);
 
-  /* ===== Nav switcher ===== */
-  .view-switch{
-    position:fixed; top:18px; right:50%; transform:translateX(50%);
-    z-index:100; display:flex; gap:4px; padding:5px;
-    background:var(--glass-strong); backdrop-filter:blur(20px);
-    border:1px solid var(--glass-border); border-radius:100px;
-    box-shadow:var(--shadow-tiny);
-  }
-  .view-switch button{
-    border:none; background:transparent; font-family:inherit; font-size:13px; font-weight:600;
-    padding:9px 20px; border-radius:100px; cursor:pointer; color:var(--ink-soft);
-    transition: all .35s cubic-bezier(.2,.8,.2,1);
-  }
-  .view-switch button.active{ background:var(--primary); color:#fff; box-shadow:0 8px 20px -6px rgba(15,110,93,0.55); }
+  --primary:#2F6F5E;
+  --primary-dark:#1E4E41;
+  --primary-light:#8FD9C4;
+  --mint-glow: rgba(143,217,196,0.4);
 
-  .view{ display:none; animation: fadeIn .5s ease; }
-  .view.active{ display:block; }
-  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  --gold:#C9A15A;
+  --gold-soft:#F6ECD8;
+  --coral:#D9736A;
 
-  section{ padding: 100px 8vw; position:relative; }
-  @media (max-width:760px){ section{ padding:64px 6vw; } }
+  --text:#16211D;
+  --text-muted:#5C6E67;
+  --text-faint:#93A29C;
 
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--primary);
-    background:rgba(15,110,93,0.08); padding:7px 16px; border-radius:100px; margin-bottom:18px;
-  }
-  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--primary-glow); animation:pulseDot 1.8s infinite;}
-  @keyframes pulseDot{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(1.4);} }
+  --radius-sm:14px;
+  --radius-md:20px;
+  --radius-lg:28px;
+  --radius-pill:999px;
 
-  h1,h2,h3{ font-weight:800; letter-spacing:-0.02em; color:var(--ink); }
-  .section-title{ font-size:clamp(28px,3.6vw,42px); margin-bottom:14px; }
-  .section-sub{ color:var(--ink-soft); font-size:16px; max-width:560px; line-height:1.9; margin-bottom:48px; }
+  --shadow-soft: 0 10px 30px rgba(20,40,34,0.06);
+  --shadow-med: 0 16px 44px rgba(20,40,34,0.10);
+  --shadow-glow: 0 18px 50px rgba(47,111,94,0.22);
 
-  .glass{
-    background:var(--glass); backdrop-filter:blur(22px) saturate(160%);
-    -webkit-backdrop-filter:blur(22px) saturate(160%);
-    border:1px solid rgba(255,255,255,0.7);
-    border-radius:var(--radius-lg);
-    box-shadow:var(--shadow-soft);
-  }
-  .btn{
-    display:inline-flex; align-items:center; gap:10px; font-family:inherit; font-weight:700; font-size:15px;
-    padding:16px 30px; border-radius:100px; border:none; cursor:pointer;
-    transition: all .35s cubic-bezier(.2,.8,.2,1);
-  }
-  .btn-primary{
-    background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-    color:#fff; box-shadow:0 14px 30px -10px rgba(15,110,93,0.55);
-  }
-  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 20px 40px -8px rgba(15,110,93,0.6); }
-  .btn-ghost{
-    background:rgba(255,255,255,0.55); color:var(--ink); border:1px solid rgba(15,110,93,0.18);
-  }
-  .btn-ghost:hover{ background:#fff; transform:translateY(-3px); }
+  --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+  --ease: cubic-bezier(.22,.9,.32,1);
+}
 
-  /* ============ HERO (landing) ============ */
-  .hero{ display:flex; align-items:center; gap:60px; min-height:92vh; padding-top:140px; }
-  @media (max-width:900px){ .hero{ flex-direction:column; padding-top:110px; min-height:auto; } }
-  .hero-text{ flex:1.1; }
-  .hero-text h1{ font-size:clamp(36px,5vw,64px); line-height:1.15; margin-bottom:22px; }
-  .hero-text h1 span{ background:linear-gradient(135deg, var(--primary) 20%, var(--primary-glow) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .hero-text p.lead{ font-size:18px; color:var(--ink-soft); line-height:2; max-width:480px; margin-bottom:36px; }
-  .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
-  .hero-visual{ flex:1; display:flex; justify-content:center; align-items:center; position:relative; min-height:420px; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font);
+  background:
+    radial-gradient(1000px 500px at 85% -10%, rgba(143,217,196,0.20), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(201,161,90,0.10), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input{ font-family:inherit; }
+a{ text-decoration:none; color:inherit; }
+svg.i, svg.i-sm, svg.i-lg, svg.i-xl{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; display:block; }
+svg.i{ width:22px; height:22px; }
+svg.i-sm{ width:15px; height:15px; }
+svg.i-lg{ width:34px; height:34px; }
+svg.i-xl{ width:44px; height:44px; }
 
-  /* Signature Smart Orb */
-  .orb-wrap{ position:relative; width:380px; height:380px; }
-  .orb-ring{ position:absolute; inset:0; border-radius:50%; border:1.5px dashed rgba(15,110,93,0.25); animation: spin 40s linear infinite; }
-  .orb-ring.r2{ inset:34px; border-color:rgba(201,162,39,0.3); animation-duration:30s; animation-direction:reverse; }
-  .orb-ring.r3{ inset:68px; border:1.5px solid rgba(62,124,177,0.25); animation-duration:22s; }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
-  .orb-core{
-    position:absolute; inset:100px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #fff, #DFF6EE 40%, var(--primary-glow) 100%);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.6) inset, 0 30px 70px -15px rgba(15,110,93,0.55);
-    display:flex; align-items:center; justify-content:center;
-    animation: breathe 4.5s ease-in-out infinite;
-  }
-  @keyframes breathe{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.045); } }
-  .orb-core svg{ width:60%; height:60%; }
-  .orb-node{ position:absolute; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 6px 16px -4px rgba(15,110,93,0.4); display:flex; align-items:center; justify-content:center; animation: floatNode 3.6s ease-in-out infinite; }
-  .orb-node.n1{ top:8%; right:20%; background:linear-gradient(135deg,var(--gold),#E7C766); animation-delay:.2s;}
-  .orb-node.n2{ bottom:12%; left:12%; background:linear-gradient(135deg,var(--blue),#7CB6E0); animation-delay:.9s;}
-  .orb-node.n3{ top:20%; left:4%; background:linear-gradient(135deg,var(--coral),#FFA391); animation-delay:1.6s;}
-  .orb-node.n4{ bottom:22%; right:6%; background:linear-gradient(135deg,var(--primary),var(--primary-glow)); animation-delay:.5s;}
-  @keyframes floatNode{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-14px); } }
+:focus-visible{ outline:2px solid var(--primary); outline-offset:3px; border-radius:6px; }
 
-  /* ============ FEATURES ============ */
-  .feat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
-  @media (max-width:1100px){ .feat-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:600px){ .feat-grid{ grid-template-columns:1fr; } }
-  .feat-card{
-    padding:28px 24px; border-radius:var(--radius-md); position:relative; overflow:hidden;
-    transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s;
-    cursor:default;
-  }
-  .feat-card:hover{ transform:translateY(-8px); box-shadow:0 30px 50px -18px rgba(15,110,93,0.3); }
-  .feat-icon{
-    width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, rgba(15,110,93,0.12), rgba(56,198,166,0.18)); margin-bottom:18px;
-    transition: transform .4s;
-  }
-  .feat-card:hover .feat-icon{ transform:rotate(-8deg) scale(1.08); }
-  .feat-icon svg{ width:26px; height:26px; stroke:var(--primary); }
-  .feat-card h3{ font-size:17px; margin-bottom:8px; }
-  .feat-card p{ font-size:13.5px; color:var(--ink-soft); line-height:1.9; }
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001s !important; transition-duration:0.001s !important; scroll-behavior:auto !important; }
+}
 
-  /* ============ GAMIFICATION ============ */
-  .game-panel{ display:grid; grid-template-columns:1.1fr 1fr; gap:32px; align-items:stretch; }
-  @media (max-width:900px){ .game-panel{ grid-template-columns:1fr; } }
-  .level-card{ padding:36px; display:flex; flex-direction:column; gap:24px; }
-  .level-top{ display:flex; align-items:center; justify-content:space-between; }
-  .level-badge{
-    width:74px; height:74px; border-radius:22px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, var(--gold), #E7C766); color:#fff; font-size:26px; font-weight:900;
-    box-shadow:0 14px 30px -10px rgba(201,162,39,0.6);
-  }
-  .xp-bar-track{ width:100%; height:14px; background:rgba(15,110,93,0.1); border-radius:100px; overflow:hidden; }
-  .xp-bar-fill{ height:100%; border-radius:100px; background:linear-gradient(90deg, var(--primary), var(--primary-glow)); width:0%; transition: width 1.6s cubic-bezier(.2,.8,.2,1); position:relative; }
-  .xp-bar-fill::after{ content:''; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); animation: shine 2.2s infinite; }
-  @keyframes shine{ 0%{ transform:translateX(-100%); } 100%{ transform:translateX(200%); } }
+/* ============================================================
+   SCREENS
+   ============================================================ */
+.screen{ display:none; }
+.screen.active{ display:block; animation:screenIn .5s var(--ease); }
+@keyframes screenIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
 
-  .badge-wall{ padding:32px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .badge{
-    aspect-ratio:1; border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
-    background:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.8); cursor:default;
-    transition: transform .35s, box-shadow .35s;
-    text-align:center; padding:10px;
-  }
-  .badge:hover{ transform:translateY(-6px) scale(1.04); box-shadow:0 20px 35px -14px rgba(201,162,39,0.5); }
-  .badge .ic{ font-size:26px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
-  .badge span.t{ font-size:11px; font-weight:700; color:var(--ink-soft); line-height:1.4; }
-  .badge.locked{ opacity:.42; filter:grayscale(1); }
-  .badge.locked:hover{ transform:none; box-shadow:none; }
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal.show{ opacity:1; transform:none; }
 
-  /* ============ TIMELINE ============ */
-  .tl-wrap{ position:relative; padding:20px 0 10px; overflow-x:auto; }
-  .tl-line{ position:relative; display:flex; gap:0; min-width:920px; }
-  .tl-track{ position:absolute; top:29px; right:0; left:0; height:3px; background:rgba(15,110,93,0.14); border-radius:10px; }
-  .tl-track-fill{ position:absolute; top:29px; right:0; height:3px; background:linear-gradient(90deg, var(--primary-glow), var(--primary)); border-radius:10px; width:44%; }
-  .tl-step{ flex:1; display:flex; flex-direction:column; align-items:center; gap:14px; position:relative; z-index:2; }
-  .tl-dot{ width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#fff; border:3px solid rgba(15,110,93,0.18); font-size:22px; transition:.3s; }
-  .tl-step.done .tl-dot{ background:linear-gradient(135deg,var(--primary),var(--primary-glow)); border-color:transparent; color:#fff; }
-  .tl-step.current .tl-dot{ border-color:var(--gold); box-shadow:0 0 0 6px rgba(201,162,39,0.18); animation:pulseCur 2s infinite; }
-  @keyframes pulseCur{ 0%,100%{ box-shadow:0 0 0 6px rgba(201,162,39,0.18);} 50%{ box-shadow:0 0 0 10px rgba(201,162,39,0.08);} }
-  .tl-step p{ font-size:12.5px; font-weight:700; text-align:center; color:var(--ink-soft); }
-  .tl-step.done p, .tl-step.current p{ color:var(--ink); }
+/* ============================================================
+   TOPBAR (patient panel)
+   ============================================================ */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(247,250,248,0.82);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{
+  max-width:960px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px;
+}
+.clinic-brand{ display:flex; align-items:center; gap:10px; }
+.clinic-mark{
+  width:38px; height:38px; border-radius:12px;
+  background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:16px;
+  box-shadow:0 6px 16px rgba(47,111,94,0.3);
+}
+.clinic-name{ display:flex; flex-direction:column; line-height:1.3; }
+.clinic-name span{ font-weight:700; font-size:14.5px; }
+.clinic-name small{ font-size:11.5px; color:var(--text-faint); }
+.topbar-actions{ display:flex; align-items:center; gap:8px; }
+.icon-btn{
+  position:relative;
+  width:40px; height:40px; border-radius:var(--radius-pill);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text); transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s;
+}
+.icon-btn:hover{ transform:translateY(-2px); box-shadow:var(--shadow-soft); background:var(--surface-soft); }
+.icon-btn .dot{ position:absolute; top:8px; left:9px; width:7px; height:7px; border-radius:50%; background:var(--coral); box-shadow:0 0 0 2px var(--surface); }
+.icon-btn.sm{ width:34px; height:34px; }
+.icon-btn.primary{ background:var(--primary); color:#fff; border-color:var(--primary); }
+.icon-btn.primary:hover{ background:var(--primary-dark); }
 
-  /* ============ STREAK ============ */
-  .streak-grid{ display:grid; grid-template-columns:1fr 1.4fr; gap:28px; align-items:center; }
-  @media (max-width:860px){ .streak-grid{ grid-template-columns:1fr; } }
-  .flame-box{ padding:40px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; position:relative;}
-  .flame{ font-size:76px; animation: flameFlick 1.8s ease-in-out infinite; filter:drop-shadow(0 10px 18px rgba(255,122,97,0.5)); }
-  @keyframes flameFlick{ 0%,100%{ transform:scale(1) rotate(-2deg);} 50%{ transform:scale(1.08) rotate(2deg);} }
-  .streak-num{ font-size:52px; font-weight:900; color:var(--coral); }
-  .heatmap{ display:grid; grid-template-columns:repeat(14,1fr); gap:6px; padding:30px; }
-  .hm-cell{ aspect-ratio:1; border-radius:6px; background:rgba(15,110,93,0.08); }
-  .hm-cell.l1{ background:rgba(56,198,166,0.35); }
-  .hm-cell.l2{ background:rgba(23,153,127,0.6); }
-  .hm-cell.l3{ background:var(--primary); }
+/* ============================================================
+   PANEL MAIN
+   ============================================================ */
+.panel-main{ max-width:960px; margin:0 auto; padding:26px 20px 70px; }
 
-  /* ============ DASHBOARD PREVIEW (landing) ============ */
-  .dash-mock{ padding:36px; }
-  .stat-row{ display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-top:24px; }
-  @media (max-width:760px){ .stat-row{ grid-template-columns:repeat(2,1fr); } }
-  .stat-mini{ background:rgba(255,255,255,0.55); border-radius:18px; padding:18px; text-align:center; border:1px solid rgba(255,255,255,0.7); }
-  .stat-mini .v{ font-size:24px; font-weight:800; color:var(--primary); }
-  .stat-mini .l{ font-size:12px; color:var(--ink-soft); margin-top:4px; }
+.welcome-card{
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #ffffff, #F1F7F4);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:28px 30px;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  box-shadow:var(--shadow-soft);
+  margin-bottom:22px;
+}
+.welcome-card::after{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(220px 220px at 100% 0%, var(--mint-glow), transparent 70%);
+  pointer-events:none;
+}
+.welcome-text h1{ font-size:clamp(20px,3vw,26px); font-weight:800; margin-bottom:6px; }
+.welcome-text p{ color:var(--text-muted); font-size:14.5px; }
+.welcome-text strong{ color:var(--primary-dark); }
+.welcome-stats{ display:flex; align-items:center; gap:18px; flex-shrink:0; }
+.w-stat{ display:flex; flex-direction:column; gap:3px; text-align:center; }
+.w-stat-label{ font-size:11.5px; color:var(--text-faint); }
+.w-stat-value{ font-size:19px; font-weight:800; color:var(--text); }
+.w-stat-value small{ font-size:11px; font-weight:500; color:var(--text-muted); }
+.w-stat-divider{ width:1px; height:34px; background:var(--border-strong); }
 
-  /* ============ FOOD SCANNER ============ */
-  .scan-grid{ display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center; }
-  @media (max-width:860px){ .scan-grid{ grid-template-columns:1fr; } }
-  .phone-mock{ width:100%; max-width:300px; margin:0 auto; border-radius:36px; padding:14px; background:linear-gradient(160deg,#fff,#EAF6F1); box-shadow:var(--shadow-soft); border:1px solid #fff; }
-  .phone-screen{ border-radius:24px; overflow:hidden; background:#fff; }
-  .food-photo{ height:170px; background:linear-gradient(135deg,#FFE9C7,#FFCFA6); display:flex; align-items:center; justify-content:center; font-size:44px; position:relative; }
-  .scan-line{ position:absolute; left:8%; right:8%; height:2px; background:linear-gradient(90deg,transparent,var(--primary-glow),transparent); animation:scanMove 2.4s infinite; }
-  @keyframes scanMove{ 0%{ top:6%; } 100%{ top:92%; } }
-  .macro-row{ display:flex; justify-content:space-between; padding:14px 18px; border-top:1px solid #F0F0F0; }
-  .macro-row .m{ text-align:center; }
-  .macro-row .m b{ display:block; font-size:15px; }
-  .macro-row .m span{ font-size:10.5px; color:var(--ink-soft); }
-  .suggest-chip{ margin:12px 18px 18px; background:var(--bg-alt); border-radius:12px; padding:10px 14px; font-size:12px; color:var(--primary); font-weight:600; }
+.section-head{ margin-bottom:14px; }
+.section-head h2{ font-size:15.5px; font-weight:700; color:var(--text-muted); }
 
-  /* ============ AI CHAT ============ */
-  .chat-mock{ max-width:520px; margin:0 auto; padding:10px; }
-  .chat-msgs{ display:flex; flex-direction:column; gap:12px; padding:20px; min-height:280px; }
-  .msg{ max-width:78%; padding:13px 18px; border-radius:20px; font-size:13.5px; line-height:1.8; }
-  .msg.user{ align-self:flex-start; background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; border-bottom-left-radius:6px; }
-  .msg.ai{ align-self:flex-end; background:#fff; border:1px solid #EEF3F1; border-bottom-right-radius:6px; }
-  .msg.ai .tag{ font-size:11px; color:var(--primary); font-weight:700; margin-bottom:4px; display:block; }
-  .chat-input-row{ display:flex; gap:10px; padding:0 20px 20px; }
-  .chat-input-row .fake-input{ flex:1; background:#fff; border:1px solid #EEF3F1; border-radius:100px; padding:12px 20px; font-size:13px; color:var(--ink-faint); }
-  .chat-input-row .send{ width:44px; height:44px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; }
+.basic-section{ margin-bottom:26px; }
+.basic-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+.basic-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:18px 16px;
+  display:flex; flex-direction:column; gap:8px;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.basic-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-med); border-color:transparent; }
+.basic-icon{
+  width:38px; height:38px; border-radius:11px;
+  background:var(--surface-soft); color:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+}
+.basic-icon svg{ width:19px; height:19px; }
+.basic-title{ font-weight:700; font-size:14.5px; }
+.basic-desc{ font-size:12.5px; color:var(--text-faint); }
 
-  /* ============ FINAL CTA ============ */
-  .final-cta{ text-align:center; padding:70px 6vw; margin:0 8vw 100px; border-radius:36px; position:relative; overflow:hidden; }
-  .final-cta::before{ content:''; position:absolute; inset:-40%; background:radial-gradient(circle, rgba(56,198,166,0.18), transparent 60%); animation:spin 30s linear infinite; }
-  .final-cta h2{ font-size:clamp(28px,4vw,40px); margin-bottom:14px; }
-  .final-cta p{ color:var(--ink-soft); max-width:480px; margin:0 auto 30px; line-height:1.9; }
-  .trust-row{ display:flex; justify-content:center; gap:26px; margin-top:30px; flex-wrap:wrap; color:var(--ink-soft); font-size:13px; }
-  .trust-row span{ display:flex; align-items:center; gap:6px; }
+/* promo card */
+.promo-section{ margin-top:8px; }
+.promo-card{
+  position:relative; overflow:hidden; cursor:pointer;
+  border-radius:var(--radius-lg);
+  padding:2px;
+  background:linear-gradient(120deg, var(--primary-light), var(--gold), var(--primary));
+  background-size:220% 220%;
+  animation:borderFlow 8s ease infinite;
+  box-shadow:var(--shadow-glow);
+  transition:transform .35s var(--ease);
+}
+.promo-card:hover{ transform:translateY(-3px); }
+@keyframes borderFlow{ 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.promo-card::before{ content:''; }
+.promo-glow{
+  position:absolute; inset:0; z-index:0;
+  background:radial-gradient(360px 220px at 85% 0%, rgba(143,217,196,0.5), transparent 60%);
+  pointer-events:none;
+}
+.promo-badge{
+  position:relative; z-index:1;
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--gold-soft); color:#8A6A2E;
+  font-size:12px; font-weight:700;
+  padding:6px 14px; border-radius:var(--radius-pill);
+  margin:22px 0 0 26px;
+}
+.promo-body{
+  position:relative; z-index:1;
+  background:linear-gradient(160deg, #FFFFFF 0%, #F3F9F6 100%);
+  border-radius:calc(var(--radius-lg) - 2px);
+  padding:6px 30px 32px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:14px;
+}
+.promo-icon-wrap{
+  width:64px; height:64px; border-radius:20px;
+  background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 26px rgba(47,111,94,0.35);
+  animation:floatY 4.5s ease-in-out infinite;
+}
+@keyframes floatY{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+.promo-body h3{ font-size:clamp(21px,3vw,26px); font-weight:800; }
+.promo-body > p{ color:var(--text-muted); font-size:14.5px; max-width:520px; line-height:1.9; }
+.promo-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.chip{
+  font-size:12px; font-weight:600; color:var(--primary-dark);
+  background:var(--surface-soft); border:1px solid var(--border);
+  padding:6px 13px; border-radius:var(--radius-pill);
+}
 
-  footer{ text-align:center; padding:30px; color:var(--ink-faint); font-size:12.5px; }
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  border-radius:var(--radius-pill); font-weight:700; font-size:14px;
+  padding:12px 22px; transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s;
+}
+.btn-primary{ background:var(--primary); color:#fff; box-shadow:0 10px 26px rgba(47,111,94,0.3); }
+.btn-primary:hover{ background:var(--primary-dark); transform:translateY(-2px); box-shadow:0 14px 32px rgba(47,111,94,0.36); }
+.btn-lg{ padding:14px 26px; font-size:15px; margin-top:6px; }
+.btn-lg svg{ transform:scaleX(-1); }
+.btn-soft{ background:var(--surface-soft); color:var(--primary-dark); }
+.btn-soft:hover{ background:var(--primary-light); }
+.btn-sm{ padding:9px 16px; font-size:13px; }
 
-  /* ============================= DASHBOARD VIEW ============================= */
-  .dash-header{ display:flex; justify-content:space-between; align-items:center; padding:130px 8vw 0; flex-wrap:wrap; gap:20px; }
-  @media (max-width:760px){ .dash-header{ padding-top:110px; } }
-  .greet h2{ font-size:26px; margin-bottom:6px; }
-  .greet p{ color:var(--ink-soft); font-size:14px; }
-  .header-chips{ display:flex; gap:14px; }
-  .chip{ display:flex; align-items:center; gap:10px; padding:10px 18px; border-radius:16px; background:var(--glass-strong); border:1px solid rgba(255,255,255,0.8); box-shadow:var(--shadow-tiny); font-size:13px; font-weight:700; }
-  .chip .cv{ font-size:16px; color:var(--primary); }
+/* ============================================================
+   COMPANION HEADER
+   ============================================================ */
+.comp-header{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(180deg, #F7FAF8 60%, rgba(247,250,248,0.9));
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px 0;
+}
+.comp-header-top{
+  max-width:960px; margin:0 auto;
+  display:flex; align-items:center; gap:14px; margin-bottom:14px;
+}
+.comp-greeting{ flex:1; }
+.comp-greeting h1{ font-size:17px; font-weight:800; display:flex; align-items:center; gap:6px; }
+.wave{ display:inline-block; animation:wave 2.2s ease-in-out infinite; transform-origin:70% 70%; }
+@keyframes wave{ 0%,100%{transform:rotate(0);} 15%{transform:rotate(14deg);} 30%{transform:rotate(-8deg);} 45%{transform:rotate(14deg);} 60%{transform:rotate(0);} }
+.comp-greeting p{ font-size:12.5px; color:var(--text-muted); margin-top:2px; }
+.comp-greeting strong{ color:var(--primary-dark); }
+.level-badge{
+  background:linear-gradient(135deg, var(--gold), #B4884A);
+  color:#fff; font-weight:800; font-size:13px;
+  padding:7px 14px; border-radius:var(--radius-pill);
+  box-shadow:0 8px 18px rgba(201,161,90,0.35);
+}
+.comp-header-stats{
+  max-width:960px; margin:0 auto;
+  display:flex; align-items:center; gap:16px;
+  padding-bottom:14px;
+}
+.mini-ring-wrap{ position:relative; width:52px; height:52px; flex-shrink:0; }
+.mini-ring{ width:52px; height:52px; transform:rotate(-90deg); }
+.mini-ring-track{ fill:none; stroke:var(--surface-soft); stroke-width:6; }
+.mini-ring-fill{
+  fill:none; stroke:var(--primary); stroke-width:6; stroke-linecap:round;
+  stroke-dasharray:169.6; stroke-dashoffset:calc(169.6 - (169.6 * var(--pct) / 100));
+  transition:stroke-dashoffset 1.2s var(--ease);
+}
+.mini-ring-text{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.mini-ring-text strong{ font-size:13px; line-height:1; }
+.mini-ring-text small{ font-size:8px; color:var(--text-faint); }
+.xp-block{ flex:1; min-width:0; }
+.xp-labels{ display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-muted); margin-bottom:5px; }
+.xp-bar{ height:8px; border-radius:var(--radius-pill); background:var(--surface-soft); overflow:hidden; }
+.xp-bar.big{ height:11px; margin-top:12px; }
+.xp-fill{ height:100%; border-radius:var(--radius-pill); background:linear-gradient(90deg, var(--primary-light), var(--primary)); transition:width 1.2s var(--ease); }
+.streak-mini{
+  display:flex; align-items:center; gap:5px; flex-shrink:0;
+  background:linear-gradient(135deg, #FFF1EC, #FFE4DA); color:#C24E32;
+  padding:8px 12px; border-radius:var(--radius-pill); font-weight:800; font-size:14px;
+}
+.flame-i{ width:17px; height:17px; }
 
-  .dash-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:26px; padding:40px 8vw; }
-  @media (max-width:980px){ .dash-grid{ grid-template-columns:1fr; } }
+/* ============================================================
+   TABS
+   ============================================================ */
+.tabs{
+  position:sticky; top:98px; z-index:45;
+  display:flex; gap:8px; overflow-x:auto;
+  padding:10px 20px 12px; max-width:960px; margin:0 auto;
+  background:rgba(247,250,248,0.95);
+  backdrop-filter:blur(14px);
+  scrollbar-width:none; border-bottom:1px solid var(--border);
+}
+.tabs::-webkit-scrollbar{ display:none; }
+.tab{
+  flex-shrink:0; white-space:nowrap;
+  padding:9px 18px; border-radius:var(--radius-pill);
+  font-size:13.5px; font-weight:600; color:var(--text-muted);
+  background:var(--surface); border:1px solid var(--border);
+  transition:all .25s var(--ease);
+}
+.tab:hover{ color:var(--primary-dark); }
+.tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:0 8px 18px rgba(47,111,94,0.28); }
 
-  .ring-card{ padding:36px; display:flex; flex-direction:column; align-items:center; gap:20px; }
-  .progress-ring-svg{ width:230px; height:230px; }
-  .ring-center{ position:relative; }
-  .ring-label-abs{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .ring-label-abs b{ font-size:34px; }
-  .ring-label-abs span{ font-size:12px; color:var(--ink-soft); }
-  .ring-stats{ display:flex; gap:30px; }
-  .ring-stats div{ text-align:center; }
-  .ring-stats b{ font-size:18px; display:block; }
-  .ring-stats span{ font-size:11.5px; color:var(--ink-soft); }
+.tab-content{ max-width:960px; margin:0 auto; padding:22px 20px 90px; }
+.tab-panel{ display:none; animation:fadeUp .45s var(--ease); }
+.tab-panel.active{ display:block; }
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
+.tab-intro{ color:var(--text-muted); font-size:14px; margin-bottom:16px; }
+.section-sub-title{ font-size:15.5px; font-weight:700; margin:26px 0 14px; }
 
-  .smart-score-card{ padding:30px; display:flex; flex-direction:column; gap:18px; }
-  .score-top{ display:flex; align-items:center; justify-content:space-between; }
-  .score-circle{ width:88px; height:88px; }
-  .score-factors{ display:flex; flex-direction:column; gap:10px; }
-  .factor{ display:flex; align-items:center; gap:10px; font-size:12.5px; }
-  .factor .fbar{ flex:1; height:8px; border-radius:10px; background:rgba(15,110,93,0.1); overflow:hidden; }
-  .factor .fbar i{ display:block; height:100%; border-radius:10px; background:linear-gradient(90deg,var(--primary),var(--primary-glow)); }
+/* ============================================================
+   OVERVIEW TAB
+   ============================================================ */
+.hero-progress-card{
+  background:linear-gradient(150deg, #ffffff, #F1F7F4);
+  border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:30px; display:flex; align-items:center; gap:30px; flex-wrap:wrap;
+  box-shadow:var(--shadow-soft); margin-bottom:18px;
+}
+.hero-ring-wrap{ position:relative; width:180px; height:180px; flex-shrink:0; margin:0 auto; }
+.hero-ring{ width:180px; height:180px; transform:rotate(-90deg); }
+.hero-ring-track{ fill:none; stroke:var(--surface-soft); stroke-width:14; }
+.hero-ring-fill{
+  fill:none; stroke:url(#none); stroke:var(--primary); stroke-width:14; stroke-linecap:round;
+  stroke-dasharray:540.4; stroke-dashoffset:calc(540.4 - (540.4 * var(--pct) / 100));
+  transition:stroke-dashoffset 1.4s var(--ease);
+}
+.hero-ring-center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.hero-ring-pct{ font-size:30px; font-weight:800; color:var(--primary-dark); }
+.hero-ring-label{ font-size:12px; color:var(--text-faint); margin-top:2px; }
+.hero-progress-stats{ display:flex; gap:26px; flex-wrap:wrap; flex:1; justify-content:space-around; }
+.hp-stat{ display:flex; flex-direction:column; gap:5px; text-align:center; }
+.hp-label{ font-size:12px; color:var(--text-faint); }
+.hp-value{ font-size:22px; font-weight:800; }
+.hp-value small{ font-size:12px; font-weight:500; color:var(--text-muted); }
+.hp-stat.highlight .hp-value{ color:var(--primary-dark); }
 
-  .nutrition-rings{ display:flex; justify-content:space-around; padding:30px; flex-wrap:wrap; gap:20px; }
-  .nring{ display:flex; flex-direction:column; align-items:center; gap:8px; }
-  .nring svg{ width:86px; height:86px; }
-  .nring b{ font-size:13px; }
-  .nring span{ font-size:11px; color:var(--ink-soft); }
+.ai-recommend-card{
+  display:flex; gap:14px; align-items:flex-start;
+  background:linear-gradient(120deg, #FBF6EC, #F3F9F6);
+  border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:18px 20px; margin-bottom:18px;
+}
+.ai-recommend-icon{
+  width:38px; height:38px; border-radius:11px; flex-shrink:0;
+  background:var(--gold); color:#fff; display:flex; align-items:center; justify-content:center;
+}
+.ai-recommend-icon svg{ width:19px; height:19px; }
+.ai-recommend-tag{ font-size:11.5px; font-weight:700; color:#8A6A2E; text-transform:uppercase; letter-spacing:.02em; }
+.ai-recommend-card p{ font-size:14px; color:var(--text); margin-top:4px; line-height:1.8; }
 
-  .mission-list{ display:flex; flex-direction:column; gap:12px; padding:26px; }
-  .mission{ display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:16px; background:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.7); transition:.3s; }
-  .mission:hover{ transform:translateX(-4px); }
-  .mission .mcheck{ width:26px; height:26px; border-radius:50%; border:2px solid var(--primary); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
-  .mission.done .mcheck{ background:var(--primary); color:#fff; }
-  .mission.done span{ text-decoration:line-through; color:var(--ink-faint); }
-  .mission span{ font-size:13.5px; font-weight:600; flex:1; }
-  .mission .xp-tag{ font-size:11px; color:var(--gold); font-weight:800; }
+.weight-dash-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:22px; box-shadow:var(--shadow-soft);
+}
+.wd-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.wd-head h3{ font-size:15.5px; font-weight:700; }
+.wd-badge{ display:inline-flex; align-items:center; gap:4px; background:#EAF7F1; color:var(--primary-dark); font-size:12px; font-weight:700; padding:5px 11px; border-radius:var(--radius-pill); }
+.weight-chart{ width:100%; height:110px; margin-bottom:6px; }
+.wc-line{ fill:none; stroke:var(--primary); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+.wc-fill{ fill:url(#none); fill:rgba(47,111,94,0.08); stroke:none; }
+.wc-dot{ fill:var(--primary); stroke:#fff; stroke-width:2; }
+.wd-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+.wd-item{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:12px; text-align:center; }
+.wd-item span{ display:block; font-size:11px; color:var(--text-faint); margin-bottom:4px; }
+.wd-item strong{ font-size:14.5px; }
+.wd-item strong.pos{ color:var(--primary-dark); }
 
-  .weight-chart{ padding:30px; }
-  .wc-svg{ width:100%; height:180px; }
-  .wc-legend{ display:flex; justify-content:space-between; margin-top:16px; font-size:12px; color:var(--ink-soft); }
+/* ============================================================
+   FEATURES TAB
+   ============================================================ */
+.feature-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
+.feature-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:18px 16px; display:flex; flex-direction:column; gap:9px;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+}
+.feature-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-med); border-color:transparent; }
+.feature-card svg{ color:var(--primary); width:22px; height:22px; }
+.feature-card h4{ font-size:13.5px; font-weight:700; }
+.feature-card p{ font-size:12px; color:var(--text-faint); line-height:1.6; }
 
-  .challenge-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:26px; }
-  @media (max-width:760px){ .challenge-row{ grid-template-columns:1fr; } }
-  .chal-card{ padding:18px; border-radius:18px; background:rgba(255,255,255,0.55); border:1px solid rgba(255,255,255,0.7); }
-  .chal-card .chead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .chal-card h4{ font-size:13.5px; }
-  .chal-card .rew{ font-size:11px; color:var(--gold); font-weight:800; }
+/* ============================================================
+   ACHIEVEMENTS TAB
+   ============================================================ */
+.level-card{
+  background:linear-gradient(120deg, #ffffff, #F3F9F6);
+  border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:22px; box-shadow:var(--shadow-soft); margin-bottom:16px;
+}
+.level-left{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+.level-circle{
+  width:52px; height:52px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(145deg, var(--gold), #B4884A); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px;
+  box-shadow:0 8px 20px rgba(201,161,90,0.35);
+}
+.level-title{ display:block; font-weight:700; font-size:14.5px; }
+.level-sub{ display:block; font-size:12px; color:var(--text-faint); margin-top:2px; }
 
-  .health-log{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:26px; }
-  @media (max-width:760px){ .health-log{ grid-template-columns:repeat(2,1fr); } }
-  .hl-btn{ display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 10px; border-radius:16px; background:rgba(255,255,255,0.5); border:1px dashed rgba(15,110,93,0.25); font-size:12px; font-weight:700; color:var(--ink-soft); cursor:pointer; transition:.3s; }
-  .hl-btn:hover{ background:#fff; border-style:solid; color:var(--primary); transform:translateY(-4px); }
-  .hl-btn .hi{ font-size:22px; }
+.streak-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:22px; box-shadow:var(--shadow-soft); margin-bottom:16px;
+  display:flex; gap:22px; flex-wrap:wrap; align-items:center;
+}
+.streak-flame{ display:flex; flex-direction:column; align-items:center; gap:6px; color:#E8734A; flex-shrink:0; }
+.flame-anim{ animation:flick 1.6s ease-in-out infinite; }
+@keyframes flick{ 0%,100%{ transform:scale(1) rotate(0deg); } 50%{ transform:scale(1.08) rotate(-2deg); } }
+.streak-count strong{ display:block; font-size:24px; font-weight:800; color:var(--text); text-align:center; }
+.streak-count span{ font-size:11.5px; color:var(--text-faint); }
+.streak-side{ flex:1; min-width:200px; display:flex; flex-direction:column; gap:10px; }
+.streak-best{ font-size:13px; color:var(--text-muted); }
+.heatmap{ display:grid; grid-template-columns:repeat(7, 1fr); gap:5px; max-width:210px; }
+.heat-cell{ width:100%; aspect-ratio:1; border-radius:4px; background:var(--surface-soft); }
+.heat-cell.l1{ background:#C9EBDD; }
+.heat-cell.l2{ background:#7FCBAF; }
+.heat-cell.l3{ background:var(--primary); }
 
-  .section-block{ padding:0 8vw 40px; }
-  .block-title{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-  .block-title h3{ font-size:19px; }
-  .block-title a{ font-size:12.5px; color:var(--primary); font-weight:700; }
+.badge-wall{ display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
+.badge-item{
+  display:flex; flex-direction:column; align-items:center; gap:9px; text-align:center;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:18px 10px; transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.badge-item:hover{ transform:translateY(-4px) scale(1.02); box-shadow:var(--shadow-med); }
+.badge-icon{
+  width:50px; height:50px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--surface-soft); color:var(--text-faint);
+}
+.badge-icon.gold{
+  background:linear-gradient(145deg, var(--gold), #B4884A); color:#fff;
+  box-shadow:0 8px 18px rgba(201,161,90,0.35);
+}
+.badge-item span{ font-size:12px; font-weight:600; color:var(--text-muted); }
+.badge-item.locked{ opacity:0.55; }
 
-  .confetti-piece{ position:fixed; top:-10px; width:8px; height:8px; opacity:0.9; z-index:200; pointer-events:none; }
+/* ============================================================
+   TIMELINE TAB
+   ============================================================ */
+.timeline-status-card{
+  background:linear-gradient(120deg, #F3F9F6, #ffffff);
+  border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:20px 22px; margin-bottom:22px; box-shadow:var(--shadow-soft);
+}
+.ts-tag{ font-size:11.5px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:4px 11px; border-radius:var(--radius-pill); }
+.timeline-status-card h3{ font-size:19px; font-weight:800; margin:10px 0 6px; }
+.timeline-status-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.8; }
 
-  /* ============ INTERACTIVE ADD-ONS ============ */
-  .info-tap{ cursor:pointer; transition: transform .25s, box-shadow .25s; }
-  .info-tap:hover{ transform:translateY(-3px); box-shadow:0 16px 26px -12px rgba(15,110,93,0.3); }
-  .badge{ cursor:pointer; }
-  .mission{ cursor:pointer; }
-  .chal-card{ cursor:pointer; }
-  .factor{ cursor:pointer; border-radius:10px; padding:4px 6px; margin:-4px -6px; transition:background .25s; }
-  .factor:hover{ background:rgba(15,110,93,0.06); }
-  .nring{ cursor:pointer; transition: transform .25s; }
-  .nring:hover{ transform:translateY(-4px); }
-  .tl-step{ cursor:pointer; }
-  .tl-step:hover .tl-dot{ transform:scale(1.08); }
+.timeline-scroll{ overflow-x:auto; padding-bottom:10px; -webkit-overflow-scrolling:touch; }
+.timeline-track{ display:flex; align-items:flex-start; gap:0; min-width:640px; position:relative; padding:10px 6px; }
+.timeline-track::before{
+  content:''; position:absolute; top:31px; right:26px; left:26px; height:2px;
+  background:var(--border-strong); z-index:0;
+}
+.tl-step{ flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; position:relative; z-index:1; }
+.tl-dot{
+  width:38px; height:38px; border-radius:50%; background:var(--surface);
+  border:2px solid var(--border-strong); color:var(--text-faint);
+  display:flex; align-items:center; justify-content:center;
+}
+.tl-step.done .tl-dot{ background:var(--primary); border-color:var(--primary); color:#fff; }
+.tl-step.current .tl-dot{
+  background:var(--surface); border-color:var(--primary); color:var(--primary);
+  box-shadow:0 0 0 6px var(--mint-glow); animation:pulseRing 2s infinite;
+}
+@keyframes pulseRing{ 0%{ box-shadow:0 0 0 4px var(--mint-glow); } 50%{ box-shadow:0 0 0 9px rgba(143,217,196,0.15); } 100%{ box-shadow:0 0 0 4px var(--mint-glow); } }
+.tl-label{ font-size:12px; font-weight:600; color:var(--text-muted); white-space:nowrap; }
+.tl-step.current .tl-label{ color:var(--primary-dark); font-weight:800; }
 
-  .food-emoji{ position:relative; z-index:1; transition: transform .4s; }
-  .scan-flash{ animation: scanFlash 1.2s ease; }
-  @keyframes scanFlash{ 0%{ filter:brightness(1);} 40%{ filter:brightness(1.5) saturate(1.4);} 100%{ filter:brightness(1);} }
+/* ============================================================
+   NUTRITION TAB
+   ============================================================ */
+.nutrition-rings{ display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin-bottom:8px; }
+.nring-item{ display:flex; flex-direction:column; align-items:center; gap:4px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px 6px; }
+.nring{ width:64px; height:64px; transform:rotate(-90deg); }
+.nr-track{ fill:none; stroke:var(--surface-soft); stroke-width:8; }
+.nr-fill{ fill:none; stroke-width:8; stroke-linecap:round; stroke-dasharray:213.5; stroke-dashoffset:calc(213.5 - (213.5 * var(--pct) / 100)); transition:stroke-dashoffset 1.2s var(--ease); }
+.nr-fill.c1{ stroke:var(--primary); }
+.nr-fill.c2{ stroke:var(--gold); }
+.nr-fill.c3{ stroke:#4FA9D8; }
+.nr-fill.c4{ stroke:var(--coral); }
+.nr-fill.c5{ stroke:#9B7FD8; }
+.nr-val{ font-size:13px; font-weight:800; margin-top:2px; }
+.nr-lbl{ font-size:10.5px; color:var(--text-faint); }
 
-  .range-btns{ display:flex; gap:8px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
-  .range-btn{ font-family:inherit; font-size:12px; font-weight:700; padding:7px 16px; border-radius:100px; border:1px solid rgba(15,110,93,0.18); background:rgba(255,255,255,0.5); cursor:pointer; color:var(--ink-soft); transition:.3s; }
-  .range-btn.active{ background:var(--primary); color:#fff; border-color:transparent; }
+.scanner-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:20px; box-shadow:var(--shadow-soft);
+}
+.scanner-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.scan-btn{
+  display:flex; align-items:center; gap:7px;
+  background:var(--primary); color:#fff; font-weight:700; font-size:13px;
+  padding:11px 18px; border-radius:var(--radius-pill);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.scan-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(47,111,94,0.3); }
+.scan-btn.ghost{ background:var(--surface-soft); color:var(--primary-dark); }
+.scan-btn svg{ width:17px; height:17px; }
 
-  .fake-input.real-input{ border:none; outline:none; font-family:inherit; }
-  .fake-input.real-input::placeholder{ color:var(--ink-faint); }
-  .send{ cursor:pointer; border:none; transition:transform .25s; }
-  .send:hover{ transform:scale(1.08); }
-  .typing{ align-self:flex-end; display:flex; gap:5px; padding:14px 20px; background:#fff; border:1px solid #EEF3F1; border-radius:20px; border-bottom-right-radius:6px; width:fit-content; }
-  .typing span{ width:7px; height:7px; border-radius:50%; background:var(--ink-faint); animation: typingBounce 1.1s infinite; }
-  .typing span:nth-child(2){ animation-delay:.15s; } .typing span:nth-child(3){ animation-delay:.3s; }
-  @keyframes typingBounce{ 0%,60%,100%{ transform:translateY(0); opacity:.5; } 30%{ transform:translateY(-6px); opacity:1; } }
+.scan-result{ display:flex; gap:16px; background:var(--surface-soft); border-radius:var(--radius-md); padding:16px; }
+.scan-result.pulse-in{ animation:pulseIn .5s var(--ease); }
+@keyframes pulseIn{ from{ opacity:0.3; transform:scale(0.97); } to{ opacity:1; transform:none; } }
+.scan-result-img{
+  width:72px; height:72px; border-radius:var(--radius-sm); flex-shrink:0;
+  background:linear-gradient(145deg, #E4F0EB, #D3E7DE); color:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+}
+.scan-result-info{ flex:1; }
+.scan-food-name{ font-weight:700; font-size:14.5px; }
+.scan-macros{ display:flex; gap:14px; flex-wrap:wrap; margin:8px 0; font-size:12.5px; color:var(--text-muted); }
+.scan-macros b{ color:var(--text); }
+.scan-suggestion{ display:flex; align-items:center; gap:6px; font-size:12.5px; color:#8A6A2E; background:var(--gold-soft); padding:8px 12px; border-radius:var(--radius-sm); }
 
-  .toast-host{ position:fixed; bottom:26px; left:50%; transform:translateX(-50%); z-index:400; display:flex; flex-direction:column; gap:10px; align-items:center; pointer-events:none; }
-  .toast{ background:rgba(20,40,34,0.92); color:#fff; padding:13px 22px; border-radius:100px; font-size:13.5px; font-weight:600; box-shadow:0 20px 40px -10px rgba(0,0,0,0.35); backdrop-filter:blur(10px); animation: toastIn .35s cubic-bezier(.2,.8,.2,1); display:flex; align-items:center; gap:8px; white-space:nowrap; }
-  .toast.out{ animation: toastOut .35s ease forwards; }
-  @keyframes toastIn{ from{ opacity:0; transform:translateY(16px) scale(.9); } to{ opacity:1; transform:translateY(0) scale(1); } }
-  @keyframes toastOut{ to{ opacity:0; transform:translateY(10px) scale(.92); } }
+/* ============================================================
+   CHAT TAB
+   ============================================================ */
+.chat-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft); overflow:hidden; display:flex; flex-direction:column;
+  height:min(560px, 70vh);
+}
+.chat-messages{ flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:12px; }
+.msg{ max-width:78%; padding:11px 15px; border-radius:16px; font-size:13.5px; line-height:1.8; }
+.msg.ai{ align-self:flex-start; background:var(--surface-soft); border-bottom-right-radius:4px; }
+.msg.user{ align-self:flex-end; background:var(--primary); color:#fff; border-bottom-left-radius:4px; }
+.msg.img-msg{ padding:8px; }
+.msg-img{ display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.18); padding:8px 12px; border-radius:12px; font-size:12.5px; }
+.typing{ display:flex; gap:4px; padding:4px 0; }
+.typing span{ width:6px; height:6px; border-radius:50%; background:var(--text-faint); animation:typingDot 1.2s infinite; }
+.typing span:nth-child(2){ animation-delay:.2s; }
+.typing span:nth-child(3){ animation-delay:.4s; }
+@keyframes typingDot{ 0%,60%,100%{ opacity:.3; transform:translateY(0); } 30%{ opacity:1; transform:translateY(-3px); } }
+.chat-input-row{
+  display:flex; align-items:center; gap:8px; padding:12px 16px;
+  border-top:1px solid var(--border); background:var(--surface);
+}
+.chat-input-row input{
+  flex:1; border:none; outline:none; background:var(--surface-soft);
+  border-radius:var(--radius-pill); padding:11px 16px; font-size:13.5px; color:var(--text);
+}
 
-  .modal-overlay{ position:fixed; inset:0; background:rgba(11,43,36,0.35); backdrop-filter:blur(6px); z-index:500; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s; padding:20px; }
-  .modal-overlay.active{ opacity:1; pointer-events:all; }
-  .modal-box{ background:var(--glass-strong); backdrop-filter:blur(24px) saturate(160%); border:1px solid rgba(255,255,255,0.85); border-radius:28px; padding:32px; max-width:420px; width:100%; box-shadow:0 40px 90px -20px rgba(0,0,0,0.35); transform:translateY(20px) scale(.96); transition:transform .35s cubic-bezier(.2,.8,.2,1); max-height:80vh; overflow-y:auto; }
-  .modal-overlay.active .modal-box{ transform:translateY(0) scale(1); }
-  .modal-box h3{ font-size:19px; margin-bottom:10px; }
-  .modal-box p.md{ font-size:13.5px; color:var(--ink-soft); line-height:1.9; margin-bottom:16px; }
-  .modal-close-x{ position:absolute; left:28px; top:26px; width:32px; height:32px; border-radius:50%; background:rgba(15,110,93,0.08); border:none; cursor:pointer; font-size:15px; color:var(--ink-soft); display:flex; align-items:center; justify-content:center; }
-  .modal-box{ position:relative; }
-  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
-  .sev-chip{ font-family:inherit; padding:9px 18px; border-radius:100px; border:1px solid rgba(15,110,93,0.2); background:#fff; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--ink-soft); transition:.25s; }
-  .sev-chip.sel{ background:var(--primary); color:#fff; border-color:transparent; }
-  .modal-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:6px; }
-  .modal-list .mli{ display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.5); padding:10px 14px; border-radius:14px; font-size:13px; }
+/* ============================================================
+   CHALLENGES TAB
+   ============================================================ */
+.mission-list{ display:flex; flex-direction:column; gap:10px; }
+.mission-item{
+  display:flex; align-items:center; gap:12px;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:14px 16px; cursor:pointer; transition:background .25s;
+}
+.mission-item:hover{ background:var(--surface-soft); }
+.mission-item.done{ opacity:0.6; }
+.mission-item input{ width:18px; height:18px; accent-color:var(--primary); }
+.mission-icon{ width:34px; height:34px; border-radius:10px; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.mission-icon svg{ width:17px; height:17px; }
+.mission-text{ flex:1; font-size:13.5px; font-weight:600; }
+.mission-xp{ font-size:12px; font-weight:700; color:var(--gold); }
+
+.weekly-challenge-card{
+  display:flex; align-items:center; gap:16px;
+  background:linear-gradient(120deg, #F3F9F6, #FBF6EC);
+  border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:20px; box-shadow:var(--shadow-soft);
+}
+.wc-icon{ width:56px; height:56px; border-radius:16px; background:var(--surface); color:var(--gold); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:var(--shadow-soft); }
+.wc-info{ flex:1; }
+.wc-title{ font-weight:700; font-size:14.5px; }
+.wc-progress{ height:8px; border-radius:var(--radius-pill); background:rgba(255,255,255,0.6); margin:10px 0 6px; overflow:hidden; }
+.wc-progress-fill{ height:100%; background:linear-gradient(90deg, var(--primary-light), var(--primary)); border-radius:var(--radius-pill); }
+.wc-sub{ font-size:12px; color:var(--text-muted); }
+.wc-reward{ font-weight:800; color:var(--gold); font-size:13.5px; flex-shrink:0; }
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti-layer{ position:fixed; inset:0; pointer-events:none; z-index:999; overflow:hidden; }
+.confetti-piece{
+  position:absolute; top:40%; width:8px; height:8px; border-radius:2px;
+  animation:confettiFall 1.5s ease-out forwards;
+}
+@keyframes confettiFall{
+  0%{ transform:translate(0,0) rotate(0); opacity:1; }
+  100%{ transform:translate(var(--x), 420px) rotate(var(--r)); opacity:0; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 780px){
+  .basic-grid{ grid-template-columns:repeat(2, 1fr); }
+  .feature-grid{ grid-template-columns:repeat(2, 1fr); }
+  .badge-wall{ grid-template-columns:repeat(2, 1fr); }
+  .nutrition-rings{ grid-template-columns:repeat(3, 1fr); }
+  .wd-grid{ grid-template-columns:repeat(2, 1fr); }
+  .hero-progress-card{ justify-content:center; text-align:center; }
+  .hero-progress-stats{ justify-content:center; gap:22px; }
+  .streak-card{ flex-direction:column; align-items:stretch; text-align:center; }
+  .streak-flame{ align-self:center; }
+  .heatmap{ margin:0 auto; }
+}
+
+@media (max-width: 560px){
+  .topbar-inner{ padding:12px 16px; }
+  .panel-main{ padding:20px 16px 60px; }
+  .welcome-card{ flex-direction:column; align-items:flex-start; padding:22px 20px; }
+  .welcome-stats{ width:100%; justify-content:space-between; }
+  .basic-grid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+  .basic-card{ padding:14px 12px; }
+  .promo-body{ padding:4px 20px 26px; }
+  .promo-badge{ margin:18px 0 0 20px; }
+  .comp-header{ padding:12px 16px 0; }
+  .comp-header-top{ gap:10px; }
+  .comp-greeting h1{ font-size:15.5px; }
+  .tabs{ top:96px; padding:8px 16px 10px; }
+  .tab-content{ padding:18px 16px 80px; }
+  .feature-grid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+  .feature-card{ padding:14px 12px; }
+  .badge-wall{ grid-template-columns:repeat(2, 1fr); }
+  .nutrition-rings{ grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .nring{ width:54px; height:54px; }
+  .hero-ring-wrap{ width:150px; height:150px; }
+  .hero-ring{ width:150px; height:150px; }
+  .hero-progress-card{ padding:22px 18px; gap:20px; }
+  .hero-progress-stats{ gap:16px; }
+  .hp-value{ font-size:18px; }
+  .wd-grid{ grid-template-columns:repeat(2, 1fr); }
+  .scanner-actions{ flex-direction:column; }
+  .scan-btn{ justify-content:center; }
+  .scan-result{ flex-direction:column; }
+  .chat-card{ height:min(500px, 65vh); }
+  .msg{ max-width:88%; }
+  .weekly-challenge-card{ flex-direction:column; text-align:center; }
+  .wc-progress{ margin:10px 0; }
+}
+
+@media (max-width: 380px){
+  .basic-grid, .feature-grid, .badge-wall{ grid-template-columns:1fr 1fr; }
+  .nutrition-rings{ grid-template-columns:repeat(3, 1fr); }
+}
 </style>
 </head>
 <body>
 
-<div class="toast-host" id="toastHost"></div>
-<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
-  <div class="modal-box" id="modalBox">
-    <button class="modal-close-x" onclick="closeModal()">✕</button>
-    <div id="modalContent"></div>
-  </div>
-</div>
+<!-- ================= ICON SPRITE ================= -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 004 0"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c1-4 5-6 7-6s6 2 7 6"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M19 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-forward" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.3"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M4 21h16"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.9 6.3.7-4.7 4.4 1.2 6.3L12 17l-5.5 3.3 1.2-6.3L3 9.6l6.3-.7z"/></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 01-10 0z"/><path d="M5 6H3v2a4 4 0 004 4"/><path d="M19 6h2v2a4 4 0 01-4 4"/><path d="M12 13v4"/><path d="M8 21h8"/><path d="M10 17h4v4h-4z"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2s5 4.5 5 9a5 5 0 01-10 0c0-1.3.6-2.3 1.3-3.2.4 1 1.2 1.4 1.7.9C9.4 7 9 5 12 2z"/></symbol>
+<symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z"/></symbol>
+<symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 6c-2.5 4.5-9.5 9-9.5 9z"/></symbol>
+<symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M12 3a2 2 0 012 2v9a4 4 0 11-4 0V5a2 2 0 012-2z"/></symbol>
+<symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="8" rx="4" transform="rotate(-30 12 14)"/><path d="M9 9l6 6"/></symbol>
+<symbol id="i-footprints" viewBox="0 0 24 24"><ellipse cx="8" cy="8" rx="2.3" ry="3.3"/><ellipse cx="16" cy="16" rx="2.3" ry="3.3"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="12" rx="1.5"/><path d="M4 13h16"/><path d="M12 9v12"/><path d="M12 9c-2 0-3.2-1.3-3.2-2.7C8.8 5 10.2 4.3 11.2 5.3 12 4.3 13.4 5 13.4 6.3 13.4 7.7 14 9 12 9z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6z"/></symbol>
+<symbol id="i-paperclip" viewBox="0 0 24 24"><path d="M8 12l6-6a3 3 0 114 4l-8 8a5 5 0 01-7-7l7-7"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.4"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></symbol>
+<symbol id="i-trend-down" viewBox="0 0 24 24"><path d="M3 6l8 8 4-4 6 6"/><path d="M15 16h6v-6"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="2"/><path d="M8 9V7a4 4 0 018 0v2"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></symbol>
+<symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M4 12h16"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></symbol>
+</defs>
+</svg>
 
-<div class="view-switch">
-  <button class="active" data-view="landing">معرفی سرویس</button>
-  <button data-view="dashboard">داشبورد من</button>
-</div>
+<!-- ================= PATIENT PANEL (SCREEN 1) ================= -->
+<div id="screen-panel" class="screen active">
 
-<!-- ================= VIEW 1 : LANDING / INTRO ================= -->
-<div class="view active" id="view-landing">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-text">
-      <div class="eyebrow"><span class="dot"></span> اختصاصی برای بیماران کلینیک</div>
-      <h1>همراه <span>هوشمند پیشرفته</span></h1>
-      <p class="lead">دستیار شخصی شما در تمام مسیر کاهش وزن و مراقبت پس از عمل؛ همیشه در کنار شما، همیشه در جریان وضعیت شما.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" onclick="switchView('dashboard')">شروع دوره آزمایشی ۱۴ روزه</button>
-        <a class="btn btn-ghost" href="#features">مشاهده امکانات</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="clinic-brand">
+        <div class="clinic-mark">آ</div>
+        <div class="clinic-name">
+          <span>کلینیک آرامیس</span>
+          <small>پنل بیماران</small>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="icon-btn avatar-btn" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="orb-wrap">
-        <div class="orb-ring"></div>
-        <div class="orb-ring r2"></div>
-        <div class="orb-ring r3"></div>
-        <div class="orb-node n1">🥗</div>
-        <div class="orb-node n2">💧</div>
-        <div class="orb-node n3">❤️</div>
-        <div class="orb-node n4">✨</div>
-        <div class="orb-core">
-          <svg viewBox="0 0 100 100" fill="none">
-            <path d="M50 20 C 30 35, 30 55, 50 82 C 70 55, 70 35, 50 20 Z" stroke="#0F6E5D" stroke-width="3" fill="rgba(15,110,93,0.08)"/>
-            <path d="M35 50 L45 50 L50 40 L56 60 L62 50 L70 50" stroke="#0F6E5D" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </header>
+
+  <main class="panel-main">
+
+    <section class="welcome-card reveal">
+      <div class="welcome-text">
+        <h1>سلام محمد 👋</h1>
+        <p>امروز <strong>روز ۳۲</strong> بعد از عمل شماست. مسیر خوبی رو تا اینجا اومدید.</p>
+      </div>
+      <div class="welcome-stats">
+        <div class="w-stat">
+          <span class="w-stat-label">وزن فعلی</span>
+          <span class="w-stat-value">۸۲ <small>کیلوگرم</small></span>
+        </div>
+        <div class="w-stat-divider"></div>
+        <div class="w-stat">
+          <span class="w-stat-label">نوبت بعدی</span>
+          <span class="w-stat-value">۱۴ مرداد</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="basic-section reveal">
+      <div class="section-head">
+        <h2>خدمات پنل شما</h2>
+      </div>
+      <div class="basic-grid">
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-calendar"/></svg></span>
+          <span class="basic-title">نوبت‌دهی</span>
+          <span class="basic-desc">رزرو و مشاهده نوبت‌ها</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-file"/></svg></span>
+          <span class="basic-title">پرونده پزشکی</span>
+          <span class="basic-desc">سوابق و مدارک درمانی</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-message"/></svg></span>
+          <span class="basic-title">پیام به پزشک</span>
+          <span class="basic-desc">ارتباط مستقیم با تیم درمان</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-thermometer"/></svg></span>
+          <span class="basic-title">نتایج آزمایش</span>
+          <span class="basic-desc">۳ آزمایش جدید</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-pill"/></svg></span>
+          <span class="basic-title">دستور دارویی</span>
+          <span class="basic-desc">داروها و مکمل‌های فعال</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-card"/></svg></span>
+          <span class="basic-title">صورت‌حساب</span>
+          <span class="basic-desc">پرداخت‌ها و فاکتورها</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="promo-section reveal">
+      <div class="promo-card" id="enterCompanionBtn" role="button" tabindex="0">
+        <div class="promo-glow"></div>
+        <div class="promo-badge"><svg class="i-sm"><use href="#i-sparkles"/></svg> ویژه شما</div>
+        <div class="promo-body">
+          <div class="promo-icon-wrap">
+            <svg class="i-lg"><use href="#i-sparkles"/></svg>
+          </div>
+          <h3>همراه هوشمند پیشرفته</h3>
+          <p>دستیار شخصی شما در تمام مسیر کاهش وزن و مراقبت پس از عمل. یک فضای اختصاصی که هر روز کنارتونه.</p>
+          <div class="promo-chips">
+            <span class="chip">تحلیل عکس غذا</span>
+            <span class="chip">حافظه هوشمند</span>
+            <span class="chip">دستاورد و امتیاز</span>
+            <span class="chip">مسیر درمان زنده</span>
+          </div>
+          <button class="btn btn-primary btn-lg">
+            ورود به همراه هوشمند
+            <svg class="i"><use href="#i-back"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= AI COMPANION (SCREEN 2) ================= -->
+<div id="screen-companion" class="screen">
+
+  <header class="comp-header">
+    <div class="comp-header-top">
+      <button class="icon-btn" id="backBtn" aria-label="بازگشت">
+        <svg class="i"><use href="#i-forward"/></svg>
+      </button>
+      <div class="comp-greeting">
+        <h1>سلام محمد <span class="wave">👋</span></h1>
+        <p>امروز <strong>روز ۳۲</strong> بعد از عمل شماست</p>
+      </div>
+      <div class="comp-level">
+        <span class="level-badge">Lv 5</span>
+      </div>
+    </div>
+    <div class="comp-header-stats">
+      <div class="mini-ring-wrap">
+        <svg class="mini-ring" viewBox="0 0 64 64">
+          <circle class="mini-ring-track" cx="32" cy="32" r="27"/>
+          <circle class="mini-ring-fill" cx="32" cy="32" r="27" style="--pct:78"/>
+        </svg>
+        <div class="mini-ring-text"><strong>78</strong><small>امتیاز</small></div>
+      </div>
+      <div class="xp-block">
+        <div class="xp-labels"><span>XP سطح ۵</span><span>۲,۴۵۰ / ۳,۰۰۰</span></div>
+        <div class="xp-bar"><div class="xp-fill" style="width:82%"></div></div>
+      </div>
+      <div class="streak-mini">
+        <svg class="i flame-i"><use href="#i-flame"/></svg>
+        <span>۱۲</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">نمای کلی</button>
+    <button class="tab" data-tab="features">امکانات</button>
+    <button class="tab" data-tab="achievements">دستاوردها</button>
+    <button class="tab" data-tab="timeline">مسیر درمان</button>
+    <button class="tab" data-tab="nutrition">تغذیه</button>
+    <button class="tab" data-tab="chat">دستیار هوشمند</button>
+    <button class="tab" data-tab="challenges">چالش‌ها</button>
+  </nav>
+
+  <main class="tab-content">
+
+    <!-- ===== TAB: OVERVIEW ===== -->
+    <section class="tab-panel active" id="tab-overview">
+
+      <div class="hero-progress-card">
+        <div class="hero-ring-wrap">
+          <svg class="hero-ring" viewBox="0 0 200 200">
+            <circle class="hero-ring-track" cx="100" cy="100" r="86"/>
+            <circle class="hero-ring-fill" cx="100" cy="100" r="86" style="--pct:69"/>
           </svg>
+          <div class="hero-ring-center">
+            <span class="hero-ring-pct">۶۹٪</span>
+            <span class="hero-ring-label">تا هدف نهایی</span>
+          </div>
+        </div>
+        <div class="hero-progress-stats">
+          <div class="hp-stat">
+            <span class="hp-label">وزن فعلی</span>
+            <span class="hp-value">۸۲ <small>kg</small></span>
+          </div>
+          <div class="hp-stat">
+            <span class="hp-label">وزن هدف</span>
+            <span class="hp-value">۷۵ <small>kg</small></span>
+          </div>
+          <div class="hp-stat highlight">
+            <span class="hp-label">کاهش تاکنون</span>
+            <span class="hp-value">۱۶ <small>kg</small></span>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="eyebrow"><span class="dot"></span> امکانات</div>
-    <h2 class="section-title">همه ابزارهایی که در مسیر بهبودی نیاز دارید</h2>
-    <p class="section-sub">از تحلیل تصویر غذا تا مرور آزمایش‌ها؛ یک دستیار واحد که همه چیز را به خاطر می‌سپارد.</p>
-    <div class="feat-grid" id="featGrid"></div>
-  </section>
+      <div class="ai-recommend-card">
+        <div class="ai-recommend-icon"><svg class="i"><use href="#i-sparkles"/></svg></div>
+        <div>
+          <span class="ai-recommend-tag">پیشنهاد امروز هوش مصنوعی</span>
+          <p>سه روز پیاپیه که پروتئین کافی دریافت نکردید. امروز یک وعده تخم‌مرغ یا پنیر کم‌چرب اضافه کنید.</p>
+        </div>
+      </div>
 
-  <!-- GAMIFICATION -->
-  <section>
-    <div class="eyebrow"><span class="dot"></span> انگیزه روزانه</div>
-    <h2 class="section-title">مسیر بهبودی، این‌بار مثل یک بازی</h2>
-    <p class="section-sub">هر قدم کوچک، پاداشی واقعی دارد. سطح بگیرید، مدال جمع کنید و پیشرفت‌تان را ببینید.</p>
-    <div class="game-panel">
-      <div class="glass level-card">
-        <div class="level-top">
+      <div class="weight-dash-card">
+        <div class="wd-head">
+          <h3>روند کاهش وزن</h3>
+          <span class="wd-badge"><svg class="i-sm"><use href="#i-trend-down"/></svg> ۱۶٪ کاهش</span>
+        </div>
+        <svg class="weight-chart" viewBox="0 0 320 120" preserveAspectRatio="none">
+          <polyline class="wc-line" points="10,14 50,24 90,32 130,44 170,56 210,70 250,82 300,90"/>
+          <polygon class="wc-fill" points="10,14 50,24 90,32 130,44 170,56 210,70 250,82 300,90 300,120 10,120"/>
+          <circle class="wc-dot" cx="300" cy="90" r="4"/>
+        </svg>
+        <div class="wd-grid">
+          <div class="wd-item"><span>BMI</span><strong>26.4</strong></div>
+          <div class="wd-item"><span>دور شکم</span><strong>۹۸ cm</strong></div>
+          <div class="wd-item"><span>هفته</span><strong>هشتم</strong></div>
+          <div class="wd-item"><span>روند</span><strong class="pos">پایدار ↓</strong></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== TAB: FEATURES ===== -->
+    <section class="tab-panel" id="tab-features">
+      <p class="tab-intro">همه‌چیزی که همراه هوشمند برای مسیر شما فراهم می‌کنه.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><svg class="i"><use href="#i-sparkles"/></svg><h4>AI هوشمند با حافظه</h4><p>گفتگوهای قبلی رو به یاد می‌سپاره</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-camera"/></svg><h4>تحلیل عکس غذا</h4><p>کالری و مواد مغذی رو از عکس تشخیص می‌ده</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-bars"/></svg><h4>تحلیل کالری</h4><p>پیگیری دقیق مصرف روزانه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-file"/></svg><h4>تحلیل آزمایش</h4><p>خوانش هوشمند نتایج آزمایشگاه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-heart"/></svg><h4>تحلیل عکس زخم</h4><p>پایش روند بهبودی محل جراحی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-list"/></svg><h4>برنامه غذایی شخصی</h4><p>متناسب با مرحله درمان شما</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-trend-down"/></svg><h4>تحلیل روند کاهش وزن</h4><p>نمودار و پیش‌بینی هوشمند</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-clock"/></svg><h4>Timeline درمان</h4><p>نقشه راه کامل تا یک سال آینده</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-trophy"/></svg><h4>Achievement</h4><p>مدال برای هر پیشرفت واقعی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-zap"/></svg><h4>گیمیفیکیشن</h4><p>سطح، امتیاز و رقابت با خودتون</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-flame"/></svg><h4>Streak</h4><p>روزهای پیاپی ثبت رو حفظ کنید</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-grid"/></svg><h4>داشبورد پیشرفته</h4><p>همه شاخص‌ها در یک نگاه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-target"/></svg><h4>هدف‌گذاری</h4><p>اهداف کوتاه و بلندمدت شخصی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-gift"/></svg><h4>Recipe AI</h4><p>پیشنهاد دستور غذای مناسب شما</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-droplet"/></svg><h4>Nutrition AI</h4><p>تعادل پروتئین، آب و ریزمغذی‌ها</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-bell"/></svg><h4>گزارش‌های هوشمند</h4><p>خلاصه هفتگی برای شما و پزشک</p></div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: ACHIEVEMENTS ===== -->
+    <section class="tab-panel" id="tab-achievements">
+
+      <div class="level-card">
+        <div class="level-left">
+          <div class="level-circle">۵</div>
           <div>
-            <div style="font-size:13px;color:var(--ink-soft);font-weight:700;margin-bottom:4px;">سطح فعلی</div>
-            <div style="font-size:24px;font-weight:800;">قهرمان مسیر</div>
+            <span class="level-title">سطح ۵ — پیگیر مصمم</span>
+            <span class="level-sub">۵۵۰ XP تا سطح بعدی</span>
           </div>
-          <div class="level-badge">۷</div>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;">
-            <span>XP تا سطح بعد</span><span class="num" id="xpText">۸۴۰ / ۱۲۰۰</span>
+        <div class="xp-bar big"><div class="xp-fill" style="width:82%"></div></div>
+      </div>
+
+      <div class="streak-card">
+        <div class="streak-flame">
+          <svg class="i-xl flame-anim"><use href="#i-flame"/></svg>
+          <div class="streak-count"><strong>۱۲</strong><span>روز پیاپی</span></div>
+        </div>
+        <div class="streak-side">
+          <div class="streak-best">رکورد قبلی: <strong>۱۹ روز</strong></div>
+          <div class="heatmap" id="heatmap"></div>
+          <button class="btn btn-soft btn-sm" id="logWeightBtn">ثبت وزن امروز <svg class="i-sm"><use href="#i-check"/></svg></button>
+        </div>
+      </div>
+
+      <h3 class="section-sub-title">دیوار دستاوردها</h3>
+      <div class="badge-wall">
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-trend-down"/></svg></div>
+          <span>اولین ۵ کیلو</span>
+        </div>
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-calendar"/></svg></div>
+          <span>۳۰ روز ثبت وزن</span>
+        </div>
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-droplet"/></svg></div>
+          <span>قهرمان آب</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>قهرمان پروتئین</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>۱۰۰ روز بعد از عمل</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>۵۰ کیلو کاهش</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: TIMELINE ===== -->
+    <section class="tab-panel" id="tab-timeline">
+      <div class="timeline-status-card">
+        <span class="ts-tag">مرحله فعلی</span>
+        <h3>رژیم نرم</h3>
+        <p>۹ روز تا شروع مرحله «غذای معمولی». پزشک شما توصیه می‌کنه وعده‌ها رو کوچک و پرتکرار نگه دارید.</p>
+      </div>
+      <div class="timeline-scroll">
+        <div class="timeline-track">
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">مشاوره</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">آزمایش</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">عمل</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">رژیم مایع</span></div>
+          <div class="tl-step current"><span class="tl-dot"><svg class="i-sm"><use href="#i-activity"/></svg></span><span class="tl-label">رژیم نرم</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">غذای معمولی</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۳ ماه</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۶ ماه</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۱ سال</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: NUTRITION ===== -->
+    <section class="tab-panel" id="tab-nutrition">
+      <div class="nutrition-rings">
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c1" cx="40" cy="40" r="34" style="--pct:74"/></svg>
+          <span class="nr-val">۸۹۰</span><span class="nr-lbl">کالری</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c2" cx="40" cy="40" r="34" style="--pct:60"/></svg>
+          <span class="nr-val">۴۸g</span><span class="nr-lbl">پروتئین</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c3" cx="40" cy="40" r="34" style="--pct:85"/></svg>
+          <span class="nr-val">۱.۷L</span><span class="nr-lbl">آب</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c4" cx="40" cy="40" r="34" style="--pct:40"/></svg>
+          <span class="nr-val">۲۲g</span><span class="nr-lbl">چربی</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c5" cx="40" cy="40" r="34" style="--pct:55"/></svg>
+          <span class="nr-val">۶۵g</span><span class="nr-lbl">کربوهیدرات</span>
+        </div>
+      </div>
+
+      <h3 class="section-sub-title">اسکنر غذا</h3>
+      <div class="scanner-card">
+        <div class="scanner-actions">
+          <button class="scan-btn" id="scanBtn"><svg class="i"><use href="#i-camera"/></svg>گرفتن عکس</button>
+          <button class="scan-btn ghost"><svg class="i"><use href="#i-upload"/></svg>آپلود از گالری</button>
+          <button class="scan-btn ghost"><svg class="i"><use href="#i-clock"/></svg>تاریخچه</button>
+        </div>
+        <div class="scan-result" id="scanResult">
+          <div class="scan-result-img"><svg class="i-lg"><use href="#i-image"/></svg></div>
+          <div class="scan-result-info">
+            <span class="scan-food-name">سینه مرغ گریل با سالاد</span>
+            <div class="scan-macros">
+              <span><b>۳۲۰</b> کالری</span>
+              <span><b>۳۸g</b> پروتئین</span>
+              <span><b>۹g</b> چربی</span>
+              <span><b>۱۲g</b> کربوهیدرات</span>
+            </div>
+            <p class="scan-suggestion"><svg class="i-sm"><use href="#i-sparkles"/></svg> پیشنهاد: کمی روغن زیتون اضافه کنید تا جذب ویتامین بهتر بشه.</p>
           </div>
-          <div class="xp-bar-track"><div class="xp-bar-fill" id="levelXpFill" data-w="70"></div></div>
-        </div>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;">
-          <div class="stat-mini" style="flex:1;"><div class="v num">۳۲</div><div class="l">روز پیوسته</div></div>
-          <div class="stat-mini" style="flex:1;"><div class="v num">۱۲</div><div class="l">مدال کسب‌شده</div></div>
-          <div class="stat-mini" style="flex:1;"><div class="v num">٪۶۸</div><div class="l">پیشرفت هدف</div></div>
         </div>
       </div>
-      <div class="glass badge-wall" id="badgeWall"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TIMELINE -->
-  <section>
-    <div class="eyebrow"><span class="dot"></span> مسیر درمان</div>
-    <h2 class="section-title">جایی که هستید، جایی که می‌روید</h2>
-    <p class="section-sub">تایم‌لاین کامل مسیر از مشاوره تا یک سال پس از عمل، شفاف و همیشه در دسترس.</p>
-    <div class="glass tl-wrap" style="padding:34px 30px;">
-      <div class="tl-line" id="tlLine">
-        <div class="tl-track"></div>
-        <div class="tl-track-fill"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STREAK -->
-  <section>
-    <div class="eyebrow"><span class="dot"></span> استریک روزانه</div>
-    <h2 class="section-title">شعله انگیزه‌تان را روشن نگه دارید</h2>
-    <p class="section-sub">هر روز ثبت‌شده، یک آجر دیگر روی دیوار موفقیت شماست.</p>
-    <div class="streak-grid">
-      <div class="glass flame-box">
-        <div class="flame">🔥</div>
-        <div class="streak-num num">۳۲</div>
-        <div style="color:var(--ink-soft);font-size:13px;">روز پیوسته ثبت</div>
-        <button class="btn-ghost info-tap" style="border-radius:100px;padding:8px 18px;font-size:11.5px;font-weight:700;margin-top:6px;" onclick="showModal(`<h3>🔥 تاریخچه استریک</h3><p class='md'>رکورد شما ۴۵ روز پیوسته ثبت است. استریک فعلی ۳۲ روز است — فقط ۱۴ روز دیگر تا شکستن رکورد جدید فاصله دارید!</p><div class='modal-list'><div class='mli'><span>بهترین ماه</span><span class='num'>خرداد</span></div><div class='mli'><span>میانگین استریک</span><span class='num'>۱۸ روز</span></div></div>`)">رکورد: ۴۵ روز</button>
-      </div>
-      <div class="glass heatmap" id="heatmap"></div>
-    </div>
-  </section>
-
-  <!-- DASHBOARD PREVIEW -->
-  <section>
-    <div class="eyebrow"><span class="dot"></span> پیش‌نمایش</div>
-    <h2 class="section-title">داشبورد هوشمند؛ همه چیز در یک نگاه</h2>
-    <p class="section-sub">وزن، کالری، پروتئین، آب و امتیاز روزانه — همیشه به‌روز، همیشه دقیق.</p>
-    <div class="glass dash-mock">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
-        <div style="font-weight:800;font-size:17px;">وضعیت امروز شما</div>
-        <div class="btn-ghost" style="border-radius:100px;padding:8px 16px;font-size:11.5px;font-weight:700;">پیشنهاد هوش مصنوعی: آب بیشتری بنوشید 💧</div>
-      </div>
-      <div class="stat-row" id="previewStatRow"></div>
-    </div>
-  </section>
-
-  <!-- FOOD SCANNER -->
-  <section>
-    <div class="scan-grid">
-      <div>
-        <div class="eyebrow"><span class="dot"></span> اسکن غذا</div>
-        <h2 class="section-title">یک عکس، تحلیل کامل</h2>
-        <p class="section-sub">فقط از غذایتان عکس بگیرید؛ هوش مصنوعی کالری، پروتئین، چربی و کربوهیدرات را در چند ثانیه محاسبه می‌کند و جایگزین سالم‌تر پیشنهاد می‌دهد.</p>
-        <button class="btn btn-primary" onclick="runFoodScan(document.getElementById('scanner1'))">امتحان اسکنر غذا</button>
-      </div>
-      <div class="phone-mock scanner-block" id="scanner1">
-        <div class="phone-screen">
-          <div class="food-photo"><span class="food-emoji">🍲</span><div class="scan-line"></div></div>
-          <div class="macro-row">
-            <div class="m"><b class="num">۴۲۰</b><span>کالری</span></div>
-            <div class="m"><b class="num">۲۲g</b><span>پروتئین</span></div>
-            <div class="m"><b class="num">۱۴g</b><span>چربی</span></div>
-            <div class="m"><b class="num">۳۸g</b><span>کربوهیدرات</span></div>
+    <!-- ===== TAB: CHAT ===== -->
+    <section class="tab-panel" id="tab-chat">
+      <div class="chat-card">
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg ai">
+            <p>سلام محمد! چطور می‌تونم امروز کمکتون کنم؟ می‌تونید عکس غذا، عکس محل زخم یا جواب آزمایش رو برام بفرستید.</p>
           </div>
-          <div class="suggest-chip">✨ پیشنهاد: نصف برنج را با سالاد جایگزین کنید</div>
+          <div class="msg user img-msg">
+            <div class="msg-img"><svg class="i"><use href="#i-image"/></svg><span>عکس غذا</span></div>
+          </div>
+          <div class="msg ai">
+            <p>این وعده حدود ۳۲۰ کالری و ۳۸ گرم پروتئین داره — عالیه برای این مرحله از رژیم شما.</p>
+          </div>
+          <div class="msg user img-msg">
+            <div class="msg-img"><svg class="i"><use href="#i-file"/></svg><span>PDF آزمایش خون</span></div>
+          </div>
+          <div class="msg ai">
+            <p>سطح آهن شما کمی پایینه. پیشنهاد می‌کنم این هفته با پزشک درباره مکمل آهن صحبت کنید.</p>
+          </div>
+          <div class="msg user">
+            <p>امروز میشه پیاده‌روی کنم؟</p>
+          </div>
+          <div class="msg ai" id="typingMsg" style="display:none">
+            <div class="typing"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <button class="icon-btn sm"><svg class="i"><use href="#i-paperclip"/></svg></button>
+          <button class="icon-btn sm"><svg class="i"><use href="#i-mic"/></svg></button>
+          <input type="text" id="chatInput" placeholder="پیام خود را بنویسید…">
+          <button class="icon-btn sm primary" id="chatSendBtn"><svg class="i"><use href="#i-send"/></svg></button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- AI CHAT -->
-  <section>
-    <div class="eyebrow"><span class="dot"></span> هوش مصنوعی همراه</div>
-    <h2 class="section-title">همیشه یک سؤال با شما فاصله دارد</h2>
-    <p class="section-sub">عکس زخم، آزمایش یا غذا بفرستید؛ پاسخ‌ها بر اساس تاریخچه کامل شما شخصی‌سازی می‌شود.</p>
-    <div class="glass chat-mock">
-      <div class="chat-msgs" id="chatMsgs1">
-        <div class="msg user">سلام، این زخم بعد از عمل طبیعیه؟ 📷</div>
-        <div class="msg ai"><span class="tag">همراه هوشمند</span>با توجه به روند بهبودی شما در ۳ هفته اخیر، وضعیت زخم طبیعی به نظر می‌رسد. اگر قرمزی افزایش یافت حتماً اطلاع دهید.</div>
-        <div class="msg user">امروز چقدر پروتئین بخورم؟</div>
-        <div class="msg ai"><span class="tag">همراه هوشمند</span>بر اساس وزن و مرحله رژیم شما، هدف امروز ۶۰ گرم پروتئین است؛ تا الان ۳۸ گرم ثبت شده.</div>
+    <!-- ===== TAB: CHALLENGES ===== -->
+    <section class="tab-panel" id="tab-challenges">
+      <h3 class="section-sub-title">ماموریت‌های امروز</h3>
+      <div class="mission-list">
+        <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-scale"/></svg></span><span class="mission-text">ثبت وزن</span><span class="mission-xp">+۱۰ XP</span></label>
+        <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-droplet"/></svg></span><span class="mission-text">خوردن ۸ لیوان آب</span><span class="mission-xp">+۱۵ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-camera"/></svg></span><span class="mission-text">ثبت یک وعده غذایی</span><span class="mission-xp">+۱۰ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-footprints"/></svg></span><span class="mission-text">۲۰ دقیقه پیاده‌روی</span><span class="mission-xp">+۲۰ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-heart"/></svg></span><span class="mission-text">ثبت علائم امروز</span><span class="mission-xp">+۱۰ XP</span></label>
       </div>
-      <div class="chat-input-row">
-        <input class="fake-input real-input" id="chatInput1" type="text" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter') sendChat('chatMsgs1','chatInput1')">
-        <button class="send" onclick="sendChat('chatMsgs1','chatInput1')">➤</button>
+
+      <h3 class="section-sub-title">چالش هفتگی</h3>
+      <div class="weekly-challenge-card">
+        <div class="wc-icon"><svg class="i-lg"><use href="#i-gift"/></svg></div>
+        <div class="wc-info">
+          <span class="wc-title">۷ روز ثبت کامل تغذیه</span>
+          <div class="wc-progress"><div class="wc-progress-fill" style="width:71%"></div></div>
+          <span class="wc-sub">۵ از ۷ روز — ۲ روز تا پاداش</span>
+        </div>
+        <span class="wc-reward">+۱۰۰ XP</span>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FINAL CTA -->
-  <div class="glass final-cta">
-    <div class="eyebrow"><span class="dot"></span> فعال‌سازی رایگان</div>
-    <h2>۱۴ روز، کاملاً رایگان</h2>
-    <p>بدون نیاز به پرداخت در ابتدا. فعال‌سازی فقط با یک کلیک، همین حالا.</p>
-    <button class="btn btn-primary" style="padding:19px 44px;font-size:16px;" onclick="switchView('dashboard')">فعال کردن همراه هوشمند</button>
-    <div class="trust-row">
-      <span>🔒 اطلاعات شما کاملاً محرمانه است</span>
-      <span>🩺 زیر نظر تیم درمانی کلینیک</span>
-      <span>⏱ لغو در هر زمان</span>
-    </div>
-  </div>
-
-  <footer>© همراه هوشمند پیشرفته — طراحی‌شده برای مسیر سلامتی شما</footer>
+  </main>
 </div>
 
-<!-- ================= VIEW 2 : DASHBOARD ================= -->
-<div class="view" id="view-dashboard">
-
-  <div class="dash-header">
-    <div class="greet">
-      <h2>سلام محمد 👋</h2>
-      <p>امروز روز <b class="num">۳۲</b> بعد از عمل شماست</p>
-    </div>
-    <div class="header-chips">
-      <div class="chip"><span class="cv">🏆</span> سطح <span class="num">۷</span></div>
-      <div class="chip"><span class="cv">⚡</span> <span class="num">۸۴۰</span> XP</div>
-      <div class="chip"><span class="cv">✨</span> اسکور <span class="num">۸۸</span></div>
-    </div>
-  </div>
-
-  <div class="dash-grid">
-    <div class="glass ring-card">
-      <div class="ring-center">
-        <svg class="progress-ring-svg" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="86" stroke="rgba(15,110,93,0.1)" stroke-width="14" fill="none"/>
-          <circle id="mainRing" cx="100" cy="100" r="86" stroke="url(#gradRing)" stroke-width="14" fill="none" stroke-linecap="round" transform="rotate(-90 100 100)"/>
-          <defs>
-            <linearGradient id="gradRing" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#17997F"/>
-              <stop offset="100%" stop-color="#38C6A6"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="ring-label-abs">
-          <b class="num">٪۶۸</b>
-          <span>پیشرفت تا هدف</span>
-        </div>
-      </div>
-      <div class="ring-stats" id="ringStats"></div>
-    </div>
-
-    <div class="glass smart-score-card">
-      <div class="score-top">
-        <div>
-          <div style="font-size:13px;color:var(--ink-soft);font-weight:700;">Smart Score امروز</div>
-          <div style="font-size:30px;font-weight:900;color:var(--primary);"><span id="scoreNum" class="num">۸۸</span><span style="font-size:14px;color:var(--ink-faint);">/۱۰۰</span></div>
-        </div>
-        <svg class="score-circle" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="42" stroke="rgba(15,110,93,0.1)" stroke-width="10" fill="none"/>
-          <circle id="scoreRing" cx="50" cy="50" r="42" stroke="#17997F" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="35" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s;"/>
-        </svg>
-      </div>
-      <div class="score-factors" id="scoreFactors"></div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>ماموریت‌های امروز</h3><a href="#" id="showMoreMissionsBtn" onclick="event.preventDefault(); toggleMoreMissions();">مشاهده همه</a></div>
-    <div class="glass mission-list" id="missionList"></div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>دیوار مدال‌ها</h3><a href="#" id="moreBadgesBtn" onclick="event.preventDefault(); showMoreBadges();">مدال‌های بیشتر</a></div>
-    <div class="glass badge-wall" id="badgeWall2"></div>
-  </div>
-
-  <div class="dash-grid">
-    <div class="glass flame-box" style="justify-content:center;">
-      <div class="flame">🔥</div>
-      <div class="streak-num num">۳۲</div>
-      <div style="color:var(--ink-soft);font-size:13px;">استریک فعلی · رکورد <span class="num">۴۵</span></div>
-    </div>
-    <div class="glass nutrition-rings">
-      <div class="nring info-tap" onclick="showModal(`<h3>🔥 کالری روزانه</h3><p class='md'>تا الان <b>۱۴۲۰</b> کالری از هدف <b>۱۸۰۰</b> کالری مصرف کرده‌اید. حدود ۳۸۰ کالری تا رسیدن به هدف باقی مانده.</p>`)">
-        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="rgba(255,122,97,0.15)" stroke-width="9" fill="none"/><circle cx="50" cy="50" r="40" stroke="#FF7A61" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="60" transform="rotate(-90 50 50)"/></svg>
-        <b class="num">۱۴۲۰</b><span>کالری</span>
-      </div>
-      <div class="nring info-tap" onclick="showModal(`<h3>🥩 پروتئین</h3><p class='md'>امروز <b>۵۸ گرم</b> پروتئین ثبت کرده‌اید، از هدف <b>۷۰ گرم</b>. کمی مرغ یا ماست یونانی اضافه کنید تا به هدف برسید.</p>`)">
-        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="rgba(62,124,177,0.15)" stroke-width="9" fill="none"/><circle cx="50" cy="50" r="40" stroke="#3E7CB1" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="90" transform="rotate(-90 50 50)"/></svg>
-        <b class="num">۵۸g</b><span>پروتئین</span>
-      </div>
-      <div class="nring" id="waterRing" onclick="addWater()">
-        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="rgba(23,153,127,0.15)" stroke-width="9" fill="none"/><circle id="waterCircle" cx="50" cy="50" r="40" stroke="#17997F" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="40" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .5s;"/></svg>
-        <b class="num" id="waterCount">۶</b><span>لیوان آب (لمس کنید +۱)</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>مسیر درمان شما</h3><a href="#" onclick="event.preventDefault(); showModal(`<h3>🗓 جزئیات کامل مسیر درمان</h3><p class='md'>شما اکنون در مرحله «رژیم نرم» و روز ۳۲ پس از عمل هستید. برای مشاهده جزئیات هر مرحله، روی همان مرحله در تایم‌لاین کلیک کنید.</p><div class='modal-list'><div class='mli'><span>مرحله فعلی</span><span>رژیم نرم</span></div><div class='mli'><span>مرحله بعدی</span><span>غذای معمولی</span></div><div class='mli'><span>روزهای باقی‌مانده</span><span class='num'>۱۰ روز</span></div></div>`)">جزئیات کامل</a></div>
-    <div class="glass tl-wrap" style="padding:34px 30px;">
-      <div class="tl-line" id="tlLine2">
-        <div class="tl-track"></div>
-        <div class="tl-track-fill"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>اسکنر غذا</h3><a href="#" onclick="event.preventDefault(); runFoodScan(document.getElementById('scanner2'));">آپلود جدید</a></div>
-    <div class="glass scanner-block" id="scanner2" style="padding:26px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;">
-      <div class="phone-mock" style="max-width:220px;margin:0;">
-        <div class="phone-screen">
-          <div class="food-photo" style="height:120px;"><span class="food-emoji">🥗</span><div class="scan-line"></div></div>
-          <div class="macro-row" style="padding:10px 14px;">
-            <div class="m"><b class="num">۳۱۰</b><span>کالری</span></div>
-            <div class="m"><b class="num">۱۸g</b><span>پروتئین</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="flex:1;min-width:220px;display:flex;gap:12px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="runFoodScan(document.getElementById('scanner2'))">📷 گرفتن عکس</button>
-        <button class="btn btn-ghost" onclick="runFoodScan(document.getElementById('scanner2'))">🖼 آپلود از گالری</button>
-        <button class="btn btn-ghost" onclick="showScanHistory()">🕓 تاریخچه اسکن‌ها</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>روند وزن</h3><a href="#" onclick="event.preventDefault(); showModal(`<h3>📉 خلاصه روند وزن</h3><p class='md'>در ۵ هفته گذشته، ۱۲.۳ کیلوگرم کاهش وزن داشته‌اید — میانگین ۲.۴۶ کیلوگرم در هفته که کاملاً در محدوده سالم و پایدار است.</p><div class='modal-list'><div class='mli'><span>وزن شروع</span><span class='num'>۹۶.۵ kg</span></div><div class='mli'><span>وزن فعلی</span><span class='num'>۸۴.۲ kg</span></div><div class='mli'><span>باقی‌مانده تا هدف</span><span class='num'>۹.۲ kg</span></div></div>`)">مشاهده کامل</a></div>
-    <div class="glass weight-chart">
-      <div class="range-btns" id="rangeBtns"></div>
-      <svg class="wc-svg" viewBox="0 0 600 180" preserveAspectRatio="none">
-        <polyline id="wcLine" points="0,40 80,55 160,50 240,80 320,95 400,120 480,130 560,150" fill="none" stroke="#17997F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <polyline id="wcArea" points="0,40 80,55 160,50 240,80 320,95 400,120 480,130 560,150 560,180 0,180" fill="url(#gradArea)" stroke="none" opacity="0.5"/>
-        <defs>
-          <linearGradient id="gradArea" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#38C6A6" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#38C6A6" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="wc-legend" id="wcLegend">
-        <span>هفته ۱</span><span>هفته ۲</span><span>هفته ۳</span><span>هفته ۴</span><span>هفته ۵</span><span>الان</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>ماموریت‌های هفتگی</h3><a href="#" onclick="event.preventDefault(); showRewardsModal();">جایزه‌ها</a></div>
-    <div class="glass challenge-row" id="challengeRow"></div>
-  </div>
-
-  <div class="section-block">
-    <div class="block-title"><h3>ثبت وضعیت سلامت</h3></div>
-    <div class="glass health-log" id="healthLog"></div>
-  </div>
-
-  <div class="section-block" id="fullChatSection">
-    <div class="block-title"><h3>دستیار هوشمند</h3><a href="#fullChatSection" onclick="document.getElementById('chatInput2').focus()">گفتگوی کامل</a></div>
-    <div class="glass chat-mock" style="max-width:100%;">
-      <div class="chat-msgs" id="chatMsgs2">
-        <div class="msg user">امروز حالم کمی تهوع داره</div>
-        <div class="msg ai"><span class="tag">همراه هوشمند</span>با توجه به مرحله رژیم نرم شما، این طبیعی است. آب کمی بیشتر بنوشید و وعده‌ها را کوچک‌تر کنید. اگر ادامه داشت به تیم درمانی اطلاع می‌دهم.</div>
-      </div>
-      <div class="chat-input-row">
-        <input class="fake-input real-input" id="chatInput2" type="text" placeholder="پیام، عکس یا فایل ارسال کنید..." onkeydown="if(event.key==='Enter') sendChat('chatMsgs2','chatInput2')">
-        <button class="send" onclick="sendChat('chatMsgs2','chatInput2')">➤</button>
-      </div>
-    </div>
-  </div>
-
-  <footer>© همراه هوشمند پیشرفته — همیشه در کنار شما</footer>
-</div>
+<!-- confetti layer -->
+<div class="confetti-layer" id="confettiLayer"></div>
 
 <script>
-// ================= UTILITIES =================
-function toFa(v){
-  const fa=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-  return String(v).split('').map(c=> (c>='0'&&c<='9') ? fa[+c] : c).join('');
-}
-function showToast(msg){
-  const host = document.getElementById('toastHost');
-  const t = document.createElement('div');
-  t.className='toast';
-  t.textContent = msg;
-  host.appendChild(t);
-  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 350); }, 2600);
-}
-function showModal(html){
-  document.getElementById('modalContent').innerHTML = html;
-  document.getElementById('modalOverlay').classList.add('active');
-}
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('active');
-}
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+/* ---------- screen switching ---------- */
+const panelScreen = document.getElementById('screen-panel');
+const companionScreen = document.getElementById('screen-companion');
 
-// ================= XP / LEVEL STATE =================
-let xpTotal = 840, xpMax = 1200, currentLevel = 7;
-function addXp(n){
-  xpTotal += n;
-  if(xpTotal < 0) xpTotal = 0;
-  if(xpTotal >= xpMax){
-    xpTotal -= xpMax;
-    currentLevel += 1;
-    const badgeEl = document.querySelector('.level-badge');
-    if(badgeEl){ badgeEl.textContent = toFa(currentLevel); }
-    showToast(`🎉 تبریک! به سطح ${toFa(currentLevel)} رسیدید`);
-  }
-  const xpText = document.getElementById('xpText');
-  if(xpText) xpText.textContent = `${toFa(xpTotal)} / ${toFa(xpMax)}`;
-  const fill = document.getElementById('levelXpFill');
-  if(fill) fill.style.width = Math.min(100,(xpTotal/xpMax*100)) + '%';
+function enterCompanion(){
+  panelScreen.classList.remove('active');
+  companionScreen.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
 }
+function exitCompanion(){
+  companionScreen.classList.remove('active');
+  panelScreen.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+}
+document.getElementById('enterCompanionBtn').addEventListener('click', enterCompanion);
+document.getElementById('enterCompanionBtn').addEventListener('keypress', e=>{ if(e.key==='Enter') enterCompanion(); });
+document.getElementById('backBtn').addEventListener('click', exitCompanion);
 
-// ================= VIEW SWITCHING =================
-function switchView(name){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+name).classList.add('active');
-  document.querySelectorAll('.view-switch button').forEach(b=>b.classList.toggle('active', b.dataset.view===name));
-  window.scrollTo({top:0, behavior:'smooth'});
-  setTimeout(animateOnShow, 150);
-}
-document.querySelectorAll('.view-switch button').forEach(b=>{
-  b.addEventListener('click', ()=>switchView(b.dataset.view));
-});
-
-// ---------- Features data ----------
-const features = [
-  {icon:'🧠', t:'هوش مصنوعی با حافظه', d:'تمام سوابق و مکالمات شما را به خاطر می‌سپارد و پاسخ‌های شخصی‌سازی‌شده می‌دهد.'},
-  {icon:'📸', t:'تحلیل عکس غذا', d:'فقط عکس بگیرید؛ ترکیبات و مقادیر تغذیه‌ای به‌طور خودکار محاسبه می‌شود.'},
-  {icon:'🔥', t:'تحلیل کالری', d:'کالری دریافتی روزانه را با هدف تعیین‌شده مقایسه و پیشنهاد اصلاحی می‌دهد.'},
-  {icon:'🧪', t:'تحلیل آزمایش', d:'نتایج آزمایش شما را می‌خواند و روند تغییرات را در طول زمان نشان می‌دهد.'},
-  {icon:'🩹', t:'تحلیل عکس زخم', d:'روند بهبودی محل جراحی را از روی تصویر بررسی و هشدارهای لازم را می‌دهد.'},
-  {icon:'🥙', t:'برنامه غذایی شخصی', d:'رژیمی متناسب با مرحله درمان و ترجیحات غذایی شما طراحی می‌شود.'},
-  {icon:'📉', t:'تحلیل روند کاهش وزن', d:'نمودار دقیق روند وزن، همراه با پیش‌بینی رسیدن به هدف.'},
-  {icon:'📊', t:'گزارش‌های هوشمند', d:'خلاصه‌ای هفتگی و ماهانه از وضعیت سلامت شما، آماده ارائه به پزشک.'},
-  {icon:'🗓', t:'Timeline درمان', d:'تمام مراحل درمان از مشاوره تا یک سال پس از عمل در یک مسیر شفاف.'},
-  {icon:'🏅', t:'Achievement', d:'با رسیدن به هر نقطه عطف، مدال و پاداش دریافت می‌کنید.'},
-  {icon:'🎮', t:'Gamification', d:'مسیر درمان را مثل یک بازی هدفمند و لذت‌بخش تجربه کنید.'},
-  {icon:'⚡', t:'Streak روزانه', d:'با ثبت پیوسته روزانه، شعله انگیزه‌تان روشن می‌ماند.'},
-  {icon:'📈', t:'Dashboard پیشرفته', d:'همه شاخص‌های سلامت شما در یک نمای واحد و زنده.'},
-  {icon:'🎯', t:'هدف‌گذاری', d:'اهداف کوتاه و بلندمدت را تعریف کنید و پیشرفت را دنبال کنید.'},
-  {icon:'👩‍🍳', t:'Recipe AI', d:'دستور پخت‌های سالم و متناسب با محدودیت‌های غذایی شما.'},
-  {icon:'🍎', t:'Nutrition AI', d:'تحلیل کامل ریزمغذی‌ها و پیشنهاد اصلاح رژیم روزانه.'},
-];
-document.getElementById('featGrid').innerHTML = features.map(f=>`
-  <div class="glass feat-card">
-    <div class="feat-icon" style="font-size:24px;">${f.icon}</div>
-    <h3>${f.t}</h3>
-    <p>${f.d}</p>
-  </div>`).join('');
-
-// ---------- Badges ----------
-const badges = [
-  {ic:'🏅', t:'اولین ۵ کیلو کاهش وزن', locked:false, date:'۱۵ خرداد ۱۴۰۴', desc:'برای اولین بار ۵ کیلوگرم از وزن اولیه خود کم کردید — قدمی بزرگ در مسیر سلامتی!'},
-  {ic:'🏅', t:'۳۰ روز ثبت وزن', locked:false, date:'۲ تیر ۱۴۰۴', desc:'به مدت ۳۰ روز پیوسته وزن خود را ثبت کردید. نظم شما تحسین‌برانگیز است.'},
-  {ic:'💧', t:'قهرمان مصرف آب', locked:false, date:'۹ تیر ۱۴۰۴', desc:'یک هفته کامل هدف روزانه مصرف آب را محقق کردید.'},
-  {ic:'🥩', t:'قهرمان پروتئین', locked:false, date:'۱۸ تیر ۱۴۰۴', desc:'هدف پروتئین روزانه را ۱۰ روز پشت‌سرهم محقق کردید.'},
-  {ic:'🎉', t:'۱۰۰ روز بعد از عمل', locked:true, need:'۶۸ روز دیگر تا باز شدن این مدال باقی مانده.'},
-  {ic:'👑', t:'استریک ۶۰ روزه', locked:true, need:'۲۸ روز دیگر با استریک فعلی تا باز شدن این مدال فاصله دارید.'},
-];
-const extraBadges = [
-  {ic:'🚶', t:'۱۰,۰۰۰ قدم روزانه', locked:false, date:'۲۲ تیر ۱۴۰۴', desc:'یک روز کامل با بیش از ۱۰ هزار قدم پیاده‌روی داشتید.'},
-  {ic:'🥗', t:'هفته سبزیجات', locked:true, need:'۳ روز دیگر تا تکمیل این چالش باقی مانده.'},
-  {ic:'🌙', t:'خواب منظم ۷ شب', locked:true, need:'۵ شب دیگر تا باز شدن این مدال باقی مانده.'},
-];
-const badgeSets = {main: badges, extra: extraBadges};
-function renderBadge(b, setName, idx){
-  return `<div class="badge ${b.locked?'locked':''}" onclick="openBadgeDetail('${setName}',${idx})">
-    <div class="ic">${b.locked?'🔒':b.ic}</div>
-    <span class="t">${b.t}</span>
-  </div>`;
-}
-function badgeHtml(){ return badges.map((b,i)=>renderBadge(b,'main',i)).join(''); }
-document.getElementById('badgeWall').innerHTML = badgeHtml();
-document.getElementById('badgeWall2').innerHTML = badgeHtml();
-
-function openBadgeDetail(setName, idx){
-  const b = badgeSets[setName][idx];
-  if(b.locked){
-    showModal(`<h3>🔒 ${b.t}</h3><p class="md">این مدال هنوز باز نشده است.<br>${b.need}</p>`);
-  }else{
-    showModal(`<h3>${b.ic} ${b.t}</h3><p class="md">تبریک! این مدال را کسب کرده‌اید.</p><div class="modal-list"><div class="mli"><span>تاریخ دریافت</span><span>${b.date}</span></div></div>`);
-  }
-}
-let moreBadgesShown = false;
-function showMoreBadges(){
-  if(moreBadgesShown){ showToast('همه مدال‌ها نمایش داده شده‌اند'); return; }
-  moreBadgesShown = true;
-  const extraHtml = extraBadges.map((b,i)=>renderBadge(b,'extra',i)).join('');
-  document.getElementById('badgeWall2').insertAdjacentHTML('beforeend', extraHtml);
-  const btn = document.getElementById('moreBadgesBtn');
-  if(btn) btn.textContent = 'همه مدال‌ها نمایش داده شد ✓';
-  showToast('۳ مدال جدید بارگذاری شد 🏅');
-}
-
-// ---------- Timeline ----------
-const steps = [
-  {ic:'💬', t:'مشاوره', s:'done', detail:'در ۲ اردیبهشت با تیم درمانی مشاوره اولیه انجام شد و برنامه جراحی تعیین گردید.'},
-  {ic:'🧪', t:'آزمایش', s:'done', detail:'آزمایش‌های پیش از عمل در ۱۰ اردیبهشت با نتایج مطلوب تکمیل شد.'},
-  {ic:'🏥', t:'عمل', s:'done', detail:'عمل جراحی در ۲۸ خرداد با موفقیت انجام شد.'},
-  {ic:'🥤', t:'رژیم مایع', s:'done', detail:'دو هفته اول پس از عمل، رژیم مایع به‌طور کامل رعایت شد.'},
-  {ic:'🍲', t:'رژیم نرم', s:'current', detail:'شما اکنون در روز ۳۲ پس از عمل و در مرحله رژیم نرم هستید؛ حدود ۱۰ روز تا پایان این مرحله باقی است.'},
-  {ic:'🍽', t:'غذای معمولی', s:'', detail:'این مرحله معمولاً از هفته ششم پس از عمل آغاز می‌شود.'},
-  {ic:'📅', t:'۳ ماه', s:'', detail:'ویزیت کنترل سه‌ماهه و ارزیابی روند کاهش وزن.'},
-  {ic:'📆', t:'۶ ماه', s:'', detail:'بررسی جامع وضعیت تغذیه‌ای و آزمایش‌های دوره‌ای.'},
-  {ic:'🏆', t:'۱ سال', s:'', detail:'جشن یک‌سالگی مسیر تغییر؛ مرور کامل نتایج و برنامه‌ریزی نگهداری وزن.'},
-];
-function openTimelineStep(idx){
-  const st = steps[idx];
-  const status = st.s==='done' ? '✅ تکمیل‌شده' : st.s==='current' ? '🟡 در حال انجام' : '⏳ آینده';
-  showModal(`<h3>${st.ic} ${st.t}</h3><p class="md"><b>${status}</b><br><br>${st.detail}</p>`);
-}
-const tlHtml = steps.map((st,idx)=>`<div class="tl-step ${st.s}" onclick="openTimelineStep(${idx})"><div class="tl-dot">${st.ic}</div><p>${st.t}</p></div>`).join('');
-document.getElementById('tlLine').innerHTML += tlHtml;
-document.getElementById('tlLine2').innerHTML += tlHtml;
-
-// ---------- Heatmap ----------
-let hmHtml='';
-for(let i=0;i<70;i++){
-  const r = Math.random();
-  const cls = r>0.75?'l3':r>0.5?'l2':r>0.25?'l1':'';
-  hmHtml += `<div class="hm-cell ${cls}"></div>`;
-}
-document.getElementById('heatmap').innerHTML = hmHtml;
-
-// ---------- Missions ----------
-const missions = [
-  {t:'ثبت وزن امروز', xp:10, done:true},
-  {t:'خوردن ۸ لیوان آب', xp:15, done:true},
-  {t:'ثبت وعده‌های غذایی', xp:20, done:false},
-  {t:'۱۵ دقیقه پیاده‌روی', xp:15, done:false},
-  {t:'ثبت علائم روزانه', xp:10, done:false},
-  {t:'مصرف کامل دارو', xp:10, done:true, extra:true},
-  {t:'مدیتیشن ۵ دقیقه‌ای', xp:10, done:false, extra:true},
-  {t:'ثبت دور کمر هفتگی', xp:15, done:false, extra:true},
-];
-let showAllMissions = false;
-function renderMissions(){
-  const list = showAllMissions ? missions : missions.filter(m=>!m.extra);
-  document.getElementById('missionList').innerHTML = list.map(m=>{
-    const idx = missions.indexOf(m);
-    return `<div class="mission ${m.done?'done':''}" onclick="toggleMission(${idx})">
-    <div class="mcheck">${m.done?'✓':''}</div>
-    <span>${m.t}</span>
-    <div class="xp-tag">+${m.xp} XP</div>
-  </div>`;
-  }).join('');
-}
-function toggleMission(idx){
-  const m = missions[idx];
-  m.done = !m.done;
-  addXp(m.done ? m.xp : -m.xp);
-  showToast(m.done ? `✅ «${m.t}» ثبت شد (+${toFa(m.xp)} XP)` : `«${m.t}» به حالت انجام‌نشده برگشت`);
-  renderMissions();
-}
-function toggleMoreMissions(){
-  showAllMissions = !showAllMissions;
-  document.getElementById('showMoreMissionsBtn').textContent = showAllMissions ? 'بستن' : 'مشاهده همه';
-  renderMissions();
-}
-renderMissions();
-
-// ---------- Challenges ----------
-const challenges = [
-  {t:'۷ روز پیوسته ثبت وزن', rew:'+۱۰۰ XP', xp:100, p:80},
-  {t:'مصرف کامل پروتئین هفته', rew:'+۸۰ XP', xp:80, p:60},
-  {t:'۳ بار ورزش این هفته', rew:'مدال ویژه', xp:50, p:33},
-];
-function renderChallenges(){
-  document.getElementById('challengeRow').innerHTML = challenges.map((c,idx)=>`
-  <div class="chal-card" onclick="bumpChallenge(${idx})">
-    <div class="chead"><h4>${c.t}</h4><span class="rew">${c.p>=100?'تکمیل شد ✅':c.rew}</span></div>
-    <div class="xp-bar-track" style="height:8px;"><div class="xp-bar-fill" style="height:100%;width:${c.p}%;"></div></div>
-  </div>`).join('');
-}
-function bumpChallenge(idx){
-  const c = challenges[idx];
-  if(c.p >= 100){ showToast('این ماموریت قبلاً تکمیل شده است ✅'); return; }
-  c.p = Math.min(100, c.p + 20);
-  renderChallenges();
-  if(c.p >= 100){
-    showToast(`🎉 «${c.t}» تکمیل شد! پاداش: ${c.rew}`);
-    addXp(c.xp);
-  }else{
-    showToast(`پیشرفت «${c.t}» به‌روزرسانی شد`);
-  }
-}
-renderChallenges();
-function showRewardsModal(){
-  showModal(`<h3>🎁 جوایز این هفته</h3><p class="md">با تکمیل هر ماموریت هفتگی، امتیاز و جوایز زیر را دریافت می‌کنید:</p>
-  <div class="modal-list">
-    <div class="mli"><span>۷ روز پیوسته ثبت وزن</span><span>+۱۰۰ XP</span></div>
-    <div class="mli"><span>مصرف کامل پروتئین هفته</span><span>+۸۰ XP</span></div>
-    <div class="mli"><span>۳ بار ورزش این هفته</span><span>مدال ویژه</span></div>
-  </div>`);
-}
-
-// ---------- Health log ----------
-const healthItems = [
-  {ic:'📝', t:'ثبت علائم', opts:['بدون علائم','خستگی خفیف','سرگیجه','تهوع خفیف']},
-  {ic:'😣', t:'ثبت درد', opts:['خفیف','متوسط','شدید']},
-  {ic:'🤢', t:'ثبت تهوع', opts:['ندارم','خفیف','شدید']},
-  {ic:'💊', t:'ثبت دارو', opts:['مصرف شد ✅','فراموش کردم']},
-  {ic:'🩹', t:'ثبت زخم', opts:['بدون تغییر','در حال بهبود','نگران‌کننده - نیاز به بررسی']},
-];
-document.getElementById('healthLog').innerHTML = healthItems.map((h,idx)=>`
-  <div class="hl-btn" onclick="openHealthLog(${idx})"><div class="hi">${h.ic}</div>${h.t}</div>`).join('');
-function openHealthLog(idx){
-  const h = healthItems[idx];
-  const chips = h.opts.map((o,i)=>`<button class="sev-chip ${i===0?'sel':''}" onclick="selectChip(this)">${o}</button>`).join('');
-  showModal(`<h3>${h.ic} ${h.t}</h3><p class="md">وضعیت امروز خود را انتخاب کنید:</p>
-  <div class="chip-row" id="healthChips">${chips}</div>
-  <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="confirmHealthLog('${h.t}')">ثبت</button>`);
-}
-function selectChip(el){
-  Array.from(el.parentElement.children).forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-}
-function confirmHealthLog(title){
-  const sel = document.querySelector('#healthChips .sev-chip.sel');
-  const val = sel ? sel.textContent : '';
-  closeModal();
-  showToast(`${title} ثبت شد: ${val} (+۵ XP)`);
-  addXp(5);
-}
-
-// ---------- Animations on load ----------
-function animateOnShow(){
-  document.querySelectorAll('.xp-bar-fill').forEach(el=>{
-    const w = el.dataset.w || 70;
-    el.style.width = '0%';
-    requestAnimationFrame(()=> setTimeout(()=>{ el.style.width = w+'%'; }, 50));
+/* ---------- tabs ---------- */
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.tab-panel');
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+    tab.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    document.querySelector('.tab-content').scrollTo({top:0, behavior:'instant'});
   });
-  const ring = document.getElementById('mainRing');
-  if(ring){
-    const circumference = 2*Math.PI*86;
-    const pct = 0.68;
-    ring.style.strokeDasharray = circumference;
-    ring.style.strokeDashoffset = circumference;
-    ring.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(.2,.8,.2,1)';
-    requestAnimationFrame(()=> setTimeout(()=>{
-      ring.style.strokeDashoffset = circumference * (1-pct);
-    }, 100));
-  }
-}
-animateOnShow();
+});
 
-// gentle confetti burst on badge hover (delight micro-interaction)
-document.addEventListener('mouseover', (e)=>{
-  if(e.target.closest && e.target.closest('.badge') && !e.target.closest('.badge').classList.contains('locked')){
-    const el = e.target.closest('.badge');
-    if(el.dataset.fired) return;
-    el.dataset.fired = '1';
-    burstConfetti(el);
-    setTimeout(()=> delete el.dataset.fired, 3000);
+/* ---------- heatmap ---------- */
+const heatmap = document.getElementById('heatmap');
+const levels = [0,1,2,3,1,2,3,0,2,3,3,1,2,3,3,2,1,0,2,3,3,1,2,3,3,2,1,3,3,2,3,3,1,2,3];
+levels.forEach(l=>{
+  const d = document.createElement('span');
+  d.className = 'heat-cell l'+l;
+  heatmap.appendChild(d);
+});
+
+/* ---------- confetti + log weight ---------- */
+document.getElementById('logWeightBtn').addEventListener('click', ()=>{
+  const layer = document.getElementById('confettiLayer');
+  const colors = ['#2F6F5E','#8FD9C4','#C9A15A','#D9736A','#F3E7D0'];
+  for(let i=0;i<60;i++){
+    const c = document.createElement('span');
+    c.className = 'confetti-piece';
+    c.style.left = (45 + Math.random()*10) + '%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.setProperty('--x', (Math.random()*200-100)+'px');
+    c.style.setProperty('--r', (Math.random()*720-360)+'deg');
+    c.style.animationDelay = (Math.random()*0.15)+'s';
+    layer.appendChild(c);
+    setTimeout(()=>c.remove(), 1600);
   }
 });
-// ================= FOOD SCANNER =================
-const foodItems = [
-  {emoji:'🍲', name:'خورش قیمه', cal:420, protein:22, fat:14, carb:38, tip:'نصف برنج را با سالاد جایگزین کنید'},
-  {emoji:'🥗', name:'سالاد مرغ', cal:310, protein:28, fat:9, carb:18, tip:'انتخاب عالی! پروتئین بالا و کالری متعادل'},
-  {emoji:'🍗', name:'مرغ کبابی با سبزیجات', cal:380, protein:34, fat:11, carb:20, tip:'برای افزایش فیبر، سبزیجات را دو برابر کنید'},
-  {emoji:'🍛', name:'برنج و خورشت', cal:520, protein:18, fat:16, carb:64, tip:'مقدار برنج کمی زیاد است؛ نصف کنید'},
-  {emoji:'🥙', name:'ساندویچ سبزیجات', cal:290, protein:14, fat:8, carb:34, tip:'برای وعده بعد از عمل مناسب و سبک است'},
-];
-function runFoodScan(container){
-  if(!container) return;
-  const photo = container.querySelector('.food-photo');
-  const emojiEl = container.querySelector('.food-emoji');
-  const macroBs = container.querySelectorAll('.macro-row .m b');
-  const suggestEl = container.querySelector('.suggest-chip');
-  if(photo) photo.classList.add('scan-flash');
-  showToast('در حال تحلیل تصویر توسط هوش مصنوعی... 🔍');
-  setTimeout(()=>{
-    const item = foodItems[Math.floor(Math.random()*foodItems.length)];
-    if(emojiEl) emojiEl.textContent = item.emoji;
-    const vals = [toFa(item.cal), toFa(item.protein)+'g', toFa(item.fat)+'g', toFa(item.carb)+'g'];
-    macroBs.forEach((b,i)=>{ if(vals[i]!==undefined) b.textContent = vals[i]; });
-    if(suggestEl) suggestEl.textContent = '✨ '+item.tip;
-    if(photo) photo.classList.remove('scan-flash');
-    showToast(`تحلیل «${item.name}» انجام شد ✅`);
-    addXp(5);
-  }, 1300);
-}
-function showScanHistory(){
-  showModal(`<h3>🕓 تاریخچه اسکن‌ها</h3><p class="md">آخرین وعده‌های ثبت‌شده با اسکنر غذا:</p>
-  <div class="modal-list">
-    <div class="mli"><span>🍲 خورش قیمه</span><span>امروز، ۱۳:۲۰</span></div>
-    <div class="mli"><span>🥗 سالاد مرغ</span><span>دیروز، ۲۰:۱۰</span></div>
-    <div class="mli"><span>🍗 مرغ کبابی</span><span>دیروز، ۱۳:۰۵</span></div>
-  </div>`);
-}
 
-// ================= AI CHAT =================
-const aiReplies = [
-  {keys:['وزن'], reply:'روند کاهش وزن شما در ۵ هفته اخیر عالی بوده — به‌طور میانگین ۲.۴ کیلوگرم در هفته. همین مسیر را ادامه دهید.'},
-  {keys:['آب'], reply:'هدف امروز شما ۸ لیوان آب است. تا الان ۶ لیوان ثبت شده؛ ۲ لیوان دیگر مانده.'},
-  {keys:['درد'], reply:'درد خفیف در این مرحله طبیعی است. اگر شدت آن افزایش یافت یا با تب همراه شد، حتماً با تیم درمانی تماس بگیرید.'},
-  {keys:['زخم'], reply:'با توجه به روند بهبودی ثبت‌شده شما، وضعیت زخم طبیعی به نظر می‌رسد. اگر قرمزی یا ترشح مشاهده کردید، عکس جدید ارسال کنید.'},
-  {keys:['تهوع'], reply:'در مرحله رژیم نرم، تهوع خفیف شایع است. وعده‌ها را کوچک‌تر و آهسته‌تر میل کنید و از نوشیدنی‌های گازدار پرهیز کنید.'},
-  {keys:['غذا','کالری','پروتئین'], reply:'بر اساس مرحله رژیم شما، هدف امروز ۱۸۰۰ کالری و ۷۰ گرم پروتئین است. تا الان ۱۴۲۰ کالری و ۵۸ گرم پروتئین ثبت شده.'},
-  {keys:['ورزش','پیاده'], reply:'۱۵ تا ۲۰ دقیقه پیاده‌روی سبک روزانه در این مرحله توصیه می‌شود. فعالیت شدید را تا تایید پزشک به تعویق بیندازید.'},
-  {keys:['سلام'], reply:'سلام محمد 👋 خوشحالم که اینجایید. امروز چطور می‌تونم کمکتون کنم؟'},
-];
-function getAIReply(text){
-  const lower = text.trim();
-  for(const r of aiReplies){
-    if(r.keys.some(k=>lower.includes(k))) return r.reply;
-  }
-  return 'ممنون که به اشتراک گذاشتید. این مورد را با توجه به سوابق شما بررسی کردم و در چارچوب طبیعی مسیر درمانی‌تان قرار دارد. اگر نگرانی خاصی دارید، می‌توانم شما را به تیم درمانی وصل کنم.';
-}
-function sendChat(containerId, inputId){
-  const input = document.getElementById(inputId);
-  const container = document.getElementById(containerId);
-  const text = input.value.trim();
-  if(!text) return;
+/* ---------- scanner demo reveal ---------- */
+const scanBtn = document.getElementById('scanBtn');
+const scanResult = document.getElementById('scanResult');
+scanResult.style.opacity = '1';
+scanBtn.addEventListener('click', ()=>{
+  scanResult.classList.remove('pulse-in');
+  void scanResult.offsetWidth;
+  scanResult.classList.add('pulse-in');
+});
+
+/* ---------- chat demo ---------- */
+const chatInput = document.getElementById('chatInput');
+const chatSendBtn = document.getElementById('chatSendBtn');
+const chatMessages = document.getElementById('chatMessages');
+const typingMsg = document.getElementById('typingMsg');
+
+function sendChat(){
+  const val = chatInput.value.trim();
+  if(!val) return;
   const userMsg = document.createElement('div');
-  userMsg.className='msg user';
-  userMsg.textContent = text;
-  container.appendChild(userMsg);
-  input.value='';
-  container.scrollTop = container.scrollHeight;
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = '<p></p>';
+  userMsg.querySelector('p').textContent = val;
+  chatMessages.insertBefore(userMsg, typingMsg);
+  chatInput.value = '';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  const typing = document.createElement('div');
-  typing.className='typing';
-  typing.innerHTML = '<span></span><span></span><span></span>';
-  container.appendChild(typing);
-  container.scrollTop = container.scrollHeight;
+  typingMsg.style.display = 'block';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 
   setTimeout(()=>{
-    typing.remove();
+    typingMsg.style.display = 'none';
     const aiMsg = document.createElement('div');
-    aiMsg.className='msg ai';
-    aiMsg.innerHTML = `<span class="tag">همراه هوشمند</span>${getAIReply(text)}`;
-    container.appendChild(aiMsg);
-    container.scrollTop = container.scrollHeight;
-  }, 1100);
+    aiMsg.className = 'msg ai';
+    aiMsg.innerHTML = '<p>بله، با توجه به مرحله رژیم نرم شما، یک پیاده‌روی سبک ۱۵ تا ۲۰ دقیقه‌ای توصیه می‌شه. زیاده‌روی نکنید.</p>';
+    chatMessages.insertBefore(aiMsg, typingMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, 1200);
 }
+chatSendBtn.addEventListener('click', sendChat);
+chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
 
-// ================= WATER RING =================
-let waterCount = 6;
-const waterGoal = 8;
-function addWater(){
-  if(waterCount >= waterGoal){ showToast('هدف آب امروز قبلاً تکمیل شده 💧'); return; }
-  waterCount++;
-  document.getElementById('waterCount').textContent = toFa(waterCount);
-  const circumference = 251;
-  const offset = circumference * (1 - Math.min(waterCount/waterGoal,1));
-  document.getElementById('waterCircle').style.strokeDashoffset = offset;
-  if(waterCount >= waterGoal){
-    showToast('🎉 هدف آب امروز کامل شد!');
-    addXp(10);
-  }else{
-    showToast(`+۱ لیوان آب ثبت شد (${toFa(waterCount)}/${toFa(waterGoal)})`);
-  }
-}
-
-// ================= SMART SCORE FACTORS =================
-const factorsData = [
-  {t:'ثبت وزن', p:100},
-  {t:'ثبت غذا', p:85},
-  {t:'آب', p:70},
-  {t:'ورزش', p:60},
-  {t:'مصرف دارو', p:100},
-];
-function renderFactors(){
-  document.getElementById('scoreFactors').innerHTML = factorsData.map((f,idx)=>`
-    <div class="factor" onclick="completeFactor(${idx})">
-      <span>${f.t}</span>
-      <div class="fbar"><i style="width:${f.p}%"></i></div>
-    </div>`).join('');
-}
-function updateSmartScore(){
-  const score = Math.round(factorsData.reduce((a,f)=>a+f.p,0)/factorsData.length);
-  document.getElementById('scoreNum').textContent = toFa(score);
-  const circumference = 264;
-  document.getElementById('scoreRing').style.strokeDashoffset = circumference * (1 - score/100);
-  return score;
-}
-function completeFactor(idx){
-  const f = factorsData[idx];
-  if(f.p >= 100){ showToast(`«${f.t}» قبلاً تکمیل شده است`); return; }
-  f.p = 100;
-  renderFactors();
-  const score = updateSmartScore();
-  showToast(`✅ «${f.t}» تکمیل شد — امتیاز روزانه: ${toFa(score)}`);
-  addXp(5);
-}
-renderFactors();
-updateSmartScore();
-
-// ================= WEIGHT CHART RANGES =================
-const wcRanges = {
-  '1m': {label:'۱ ماه', pts:[[0,60],[120,50],[240,66],[360,55],[480,62],[600,50]], legend:['هفته ۱','هفته ۲','هفته ۳','هفته ۴','الان']},
-  '3m': {label:'۳ ماه', pts:[[0,40],[120,60],[240,55],[360,85],[480,75],[600,110]], legend:['ماه ۱','ماه ۲','ماه ۳']},
-  '6m': {label:'۶ ماه', pts:[[0,25],[100,45],[200,42],[300,78],[400,92],[500,118],[600,140]], legend:['ماه ۱','۲','۳','۴','۵','۶']},
-  '1y': {label:'۱ سال', pts:[[0,15],[100,32],[200,52],[300,72],[350,92],[400,108],[500,128],[600,150]], legend:['فصل ۱','فصل ۲','فصل ۳','فصل ۴']},
-};
-function updateWeightChart(key){
-  const r = wcRanges[key];
-  const ptsStr = r.pts.map(p=>p.join(',')).join(' ');
-  document.getElementById('wcLine').setAttribute('points', ptsStr);
-  const last = r.pts[r.pts.length-1], first = r.pts[0];
-  document.getElementById('wcArea').setAttribute('points', `${ptsStr} ${last[0]},180 ${first[0]},180`);
-  document.getElementById('wcLegend').innerHTML = r.legend.map(l=>`<span>${l}</span>`).join('');
-  document.querySelectorAll('.range-btn').forEach(b=>b.classList.toggle('active', b.dataset.key===key));
-}
-function renderRangeButtons(){
-  document.getElementById('rangeBtns').innerHTML = Object.keys(wcRanges).map(k=>
-    `<button class="range-btn" data-key="${k}" onclick="updateWeightChart('${k}')">${wcRanges[k].label}</button>`).join('');
-  updateWeightChart('1m');
-}
-renderRangeButtons();
-
-// ================= PREVIEW STATS (landing) & RING STATS (dashboard) =================
-const previewStats = [
-  {v:'۲۶.۴', l:'BMI', d:'شاخص توده بدنی شما نسبت به قد و وزن؛ محدوده هدف برای شما ۲۲ تا ۲۵ است.'},
-  {v:'۸۴.۲', l:'وزن (kg)', d:'آخرین وزن ثبت‌شده شما، امروز صبح اندازه‌گیری شده است.'},
-  {v:'۱۴۲۰', l:'کالری', d:'مجموع کالری دریافتی امروز از وعده‌های ثبت‌شده.'},
-  {v:'۵۸g', l:'پروتئین', d:'پروتئین دریافتی امروز؛ برای حفظ توده عضلانی در دوران کاهش وزن حیاتی است.'},
-  {v:'۸۸', l:'Smart Score', d:'امتیاز ترکیبی روزانه بر اساس ثبت وزن، غذا، آب، ورزش و دارو.'},
-];
-document.getElementById('previewStatRow').innerHTML = previewStats.map(s=>`
-  <div class="stat-mini info-tap" onclick="showModal('<h3>${s.l}</h3><p class=\\'md\\'>${s.d}</p>')"><div class="v num">${s.v}</div><div class="l">${s.l}</div></div>`).join('');
-
-const ringStatsData = [
-  {v:'۸۴.۲', l:'وزن فعلی (kg)', d:'آخرین وزن ثبت‌شده امروز صبح.'},
-  {v:'۷۵.۰', l:'وزن هدف (kg)', d:'هدف نهایی تعیین‌شده توسط تیم درمانی شما.'},
-  {v:'۹۶.۵', l:'وزن اولیه (kg)', d:'وزن شما در روز مشاوره اولیه، پیش از شروع مسیر درمان.'},
-];
-document.getElementById('ringStats').innerHTML = ringStatsData.map(s=>`
-  <div class="info-tap" onclick="showModal('<h3>${s.l}</h3><p class=\\'md\\'>${s.d}</p>')"><b class="num">${s.v}</b><span>${s.l}</span></div>`).join('');
-
-function burstConfetti(el){
-  const rect = el.getBoundingClientRect();
-  const colors = ['#0F6E5D','#38C6A6','#C9A227','#FF7A61','#3E7CB1'];
-  for(let i=0;i<14;i++){
-    const p = document.createElement('div');
-    p.className='confetti-piece';
-    p.style.background = colors[i%colors.length];
-    p.style.left = (rect.left + rect.width/2) + 'px';
-    p.style.top = (rect.top) + 'px';
-    p.style.borderRadius = Math.random()>0.5? '50%':'2px';
-    document.body.appendChild(p);
-    const dx = (Math.random()-0.5)*140;
-    const dur = 900+Math.random()*500;
-    p.animate([
-      {transform:'translate(0,0) rotate(0deg)', opacity:1},
-      {transform:`translate(${dx}px, ${220+Math.random()*80}px) rotate(${Math.random()*360}deg)`, opacity:0}
-    ], {duration:dur, easing:'cubic-bezier(.2,.8,.2,1)'});
-    setTimeout(()=>p.remove(), dur+50);
-  }
-}
+/* ---------- reveal on load ---------- */
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('show'), 80*i);
+  });
+});
 </script>
 </body>
 </html>
