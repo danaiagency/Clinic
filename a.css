@@ -1,0 +1,168 @@
+/* ============================================================
+   CLINIC ARAMIS — SHARED THEME
+   این فایل بین همه صفحات سایت (لندینگ، اپلیکیشن) مشترکه.
+   هر تغییری تو رنگ/فونت/برند اینجا انجام بشه، همه‌جا اعمال می‌شه.
+   ============================================================ */
+
+:root{
+  --bg:#F7FAF8;
+  --surface:#FFFFFF;
+  --surface-soft:#EEF4F1;
+  --border: rgba(31,58,49,0.09);
+  --border-strong: rgba(31,58,49,0.14);
+
+  --primary:#2F6F5E;
+  --primary-dark:#1E4E41;
+  --primary-light:#8FD9C4;
+  --mint-glow: rgba(143,217,196,0.4);
+
+  --gold:#C9A15A;
+  --gold-soft:#F6ECD8;
+  --coral:#D9736A;
+
+  --text:#16211D;
+  --text-muted:#5C6E67;
+  --text-faint:#93A29C;
+
+  --radius-sm:14px;
+  --radius-md:20px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+
+  --shadow-soft: 0 10px 30px rgba(20,40,34,0.06);
+  --shadow-med: 0 16px 44px rgba(20,40,34,0.10);
+  --shadow-glow: 0 18px 50px rgba(47,111,94,0.22);
+
+  --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+  --ease: cubic-bezier(.22,.9,.32,1);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font);
+  background:
+    radial-gradient(1000px 500px at 85% -10%, rgba(143,217,196,0.20), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(201,161,90,0.10), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input{ font-family:inherit; }
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+svg.i, svg.i-sm, svg.i-lg, svg.i-xl{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; display:block; }
+svg.i{ width:22px; height:22px; }
+svg.i-sm{ width:15px; height:15px; }
+svg.i-lg{ width:34px; height:34px; }
+svg.i-xl{ width:44px; height:44px; }
+:focus-visible{ outline:2px solid var(--primary); outline-offset:3px; border-radius:6px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001s !important; transition-duration:0.001s !important; scroll-behavior:auto !important; }
+}
+
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal.show{ opacity:1; transform:none; }
+
+.wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+.btn{ display:inline-flex; align-items:center; gap:8px; border-radius:var(--radius-pill); font-weight:700; font-size:14px; padding:12px 22px; transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s; }
+.btn-primary{ background:var(--primary); color:#fff; box-shadow:0 10px 26px rgba(47,111,94,0.3); }
+.btn-primary:hover{ background:var(--primary-dark); transform:translateY(-2px); box-shadow:0 14px 32px rgba(47,111,94,0.36); }
+.btn-soft{ background:var(--surface-soft); color:var(--primary-dark); }
+.btn-soft:hover{ background:var(--primary-light); }
+.btn-outline{ background:transparent; border:1.5px solid var(--border-strong); color:var(--text); }
+.btn-outline:hover{ border-color:var(--primary); color:var(--primary-dark); }
+.btn-lg{ padding:14px 28px; font-size:15px; }
+.btn-sm{ padding:9px 16px; font-size:13px; }
+
+.eyebrow{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:6px 14px; border-radius:var(--radius-pill); margin-bottom:14px; }
+.sec-title{ font-size:clamp(22px,3.4vw,32px); font-weight:800; margin-bottom:10px; }
+.sec-desc{ color:var(--text-muted); font-size:14.5px; max-width:560px; line-height:1.9; }
+.sec-head{ margin-bottom:34px; }
+.sec-head.center{ text-align:center; margin-inline:auto; }
+.sec-head.center .sec-desc{ margin-inline:auto; }
+section.page-sec{ padding:70px 0; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.site-nav{
+  position:sticky; top:0; z-index:60;
+  background:rgba(247,250,248,0.85);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid var(--border);
+}
+.site-nav-inner{ max-width:1120px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-mark{
+  width:40px; height:40px; border-radius:12px; flex-shrink:0;
+  background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:17px; box-shadow:0 6px 16px rgba(47,111,94,0.3);
+  overflow:hidden;
+}
+.brand-name{ display:flex; flex-direction:column; line-height:1.3; }
+.brand-name span{ font-weight:700; font-size:15px; }
+.brand-name small{ font-size:11px; color:var(--text-faint); }
+.nav-links{ display:flex; align-items:center; gap:6px; }
+.nav-links a{ font-size:13.5px; font-weight:600; color:var(--text-muted); padding:9px 14px; border-radius:var(--radius-pill); transition:background .2s, color .2s; }
+.nav-links a:hover{ background:var(--surface-soft); color:var(--primary-dark); }
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.nav-burger{ display:none; width:40px; height:40px; border-radius:var(--radius-pill); align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); }
+.mobile-menu{ display:none; flex-direction:column; gap:2px; padding:10px 24px 16px; border-top:1px solid var(--border); }
+.mobile-menu a{ padding:12px 6px; font-size:14px; font-weight:600; color:var(--text-muted); border-bottom:1px solid var(--border); }
+.mobile-menu.open{ display:flex; }
+
+/* ============================================================
+   CTA BANNER (قابل استفاده در چند صفحه)
+   ============================================================ */
+.cta-banner{
+  border-radius:var(--radius-lg); padding:44px 40px; text-align:center;
+  background:linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color:#fff; position:relative; overflow:hidden;
+}
+.cta-banner::after{ content:''; position:absolute; inset:0; background:radial-gradient(360px 220px at 90% 0%, rgba(143,217,196,0.35), transparent 60%); }
+.cta-banner h2{ font-size:clamp(20px,3vw,28px); font-weight:800; margin-bottom:10px; position:relative; }
+.cta-banner p{ opacity:.85; font-size:14.5px; margin-bottom:22px; position:relative; max-width:520px; margin-inline:auto; }
+.cta-actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; position:relative; }
+.cta-actions .btn-primary{ background:#fff; color:var(--primary-dark); }
+.cta-actions .btn-primary:hover{ background:var(--gold-soft); }
+.cta-actions .btn-outline{ border-color:rgba(255,255,255,0.4); color:#fff; }
+.cta-actions .btn-outline:hover{ border-color:#fff; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{ background:var(--surface); border-top:1px solid var(--border); padding:54px 0 0; }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 1fr; gap:30px; padding-bottom:40px; }
+.footer-about p{ font-size:13px; color:var(--text-muted); line-height:1.9; margin-top:12px; max-width:280px; }
+.footer-col h5{ font-size:13.5px; font-weight:700; margin-bottom:14px; }
+.footer-col a, .footer-col span{ display:block; font-size:12.8px; color:var(--text-faint); margin-bottom:10px; }
+.footer-col a:hover{ color:var(--primary-dark); }
+.footer-social{ display:flex; gap:8px; margin-top:12px; }
+.footer-social a{ width:34px; height:34px; border-radius:var(--radius-pill); background:var(--surface-soft); display:flex; align-items:center; justify-content:center; color:var(--primary-dark); }
+.footer-bottom{ border-top:1px solid var(--border); padding:18px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.footer-bottom p{ font-size:12px; color:var(--text-faint); }
+.footer-bottom .credit{ font-size:12px; color:var(--text-faint); }
+.footer-bottom .credit strong{ color:var(--primary-dark); font-weight:700; }
+
+/* ============================================================
+   RESPONSIVE (مشترک)
+   ============================================================ */
+@media (max-width: 720px){
+  .nav-links{ display:none; }
+  .nav-burger{ display:flex; }
+}
+@media (max-width: 900px){
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 560px){
+  .wrap{ padding:0 18px; }
+  section.page-sec{ padding:50px 0; }
+  .footer-grid{ grid-template-columns:1fr; gap:26px; }
+}
