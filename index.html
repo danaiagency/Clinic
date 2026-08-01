@@ -171,7 +171,7 @@ section.page-sec{ padding:70px 0; }
   border:1px solid var(--border);
 }
 .hero-photo-card img{ width:100%; height:100%; object-fit:cover; display:block; }
-.hero-photo-fallback{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:var(--text-faint); text-align:center; padding:20px; }
+.hero-photo-fallback{ position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:var(--text-faint); text-align:center; padding:20px; background:var(--surface-soft); }
 .hero-photo-fallback svg{ width:52px; height:52px; opacity:.5; }
 .hero-photo-fallback span{ font-size:12.5px; max-width:220px; line-height:1.8; }
 .hero-photo-badge{
@@ -352,7 +352,11 @@ section.page-sec{ padding:70px 0; }
    ============================================================ */
 @media (max-width: 900px){
   .hero-grid{ grid-template-columns:1fr; }
-  .hero-media{ order:-1; max-width:360px; margin:0 auto; }
+  .hero-media{ order:-1; max-width:360px; margin:0 auto; padding-top:26px; }
+  .hero-float-card{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    animation:none; width:max-content; max-width:calc(100% - 20px);
+  }
   .doctor-grid{ grid-template-columns:1fr; }
   .doctor-photo-card{ max-width:320px; margin:0 auto; }
   .services-grid, .why-grid, .blog-grid{ grid-template-columns:repeat(2,1fr); }
@@ -371,6 +375,9 @@ section.page-sec{ padding:70px 0; }
   .role-tabs{ grid-template-columns:1fr; }
   .simple-stats{ grid-template-columns:1fr; }
   .hero-actions .btn{ width:100%; justify-content:center; }
+  .hero-float-card{ padding:10px 14px; }
+  .hero-float-card strong{ font-size:12px; }
+  .hero-float-card span{ font-size:10.5px; }
 }
 
 /* ============================================================
@@ -1065,7 +1072,7 @@ section.page-sec{ padding:70px 0; }
                فایل رو با اسم hero-doctor.jpg داخل پوشه images بذارید. -->
           <img src="images/hero-doctor.jpg" alt="فضای کلینیک هوشمند آرامیس"
                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="hero-photo-fallback" style="display:flex;">
+          <div class="hero-photo-fallback">
             <svg class="i-xl"><use href="#i-image"/></svg>
             <span>اینجا عکس فضای کلینیک یا تیم درمانی قرار می‌گیره — راهنمای بالای فایل رو ببینید</span>
           </div>
