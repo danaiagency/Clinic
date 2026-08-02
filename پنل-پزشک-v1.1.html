@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7FAF8">
+<title>کلینیک هوشمند | پنل پزشک</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!--
+============================================================================
+راهنمای عکس‌ها
+============================================================================
+۱) کنار همین فایل، پوشه‌ای به اسم «images» بسازید.
+۲) لوگوی کلینیک رو با اسم logo.png داخل پوشه images بذارید (پیشنهاد: 200×200، فرمت png با پس‌زمینه شفاف).
+۳) تا وقتی لوگو رو نذارید، به‌جای اون یک نشان حرفی نمایش داده میشه (خرابی نیست، فقط منتظر عکسه).
+============================================================================
+-->
+
+<style>
+:root{
+  --bg:#F7FAF8;
+  --surface:#FFFFFF;
+  --surface-soft:#EEF4F1;
+  --border: rgba(31,58,49,0.09);
+  --border-strong: rgba(31,58,49,0.14);
+
+  --primary:#2F6F5E;
+  --primary-dark:#1E4E41;
+  --primary-light:#8FD9C4;
+  --mint-glow: rgba(143,217,196,0.4);
+
+  --gold:#C9A15A;
+  --gold-soft:#F6ECD8;
+  --coral:#D9736A;
+  --coral-soft:#FBE8E5;
+  --blue:#4FA9D8;
+  --blue-soft:#E7F3FA;
+
+  --text:#16211D;
+  --text-muted:#5C6E67;
+  --text-faint:#93A29C;
+
+  --radius-sm:14px;
+  --radius-md:20px;
+  --radius-lg:28px;
+  --radius-pill:999px;
+
+  --shadow-soft: 0 10px 30px rgba(20,40,34,0.06);
+  --shadow-med: 0 16px 44px rgba(20,40,34,0.10);
+  --shadow-glow: 0 18px 50px rgba(47,111,94,0.22);
+
+  --font: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+  --ease: cubic-bezier(.22,.9,.32,1);
+  --sidebar-w: 248px;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font);
+  background:
+    radial-gradient(900px 480px at 90% -10%, rgba(143,217,196,0.18), transparent 60%),
+    var(--bg);
+  color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input, textarea{ font-family:inherit; }
+a{ text-decoration:none; color:inherit; }
+svg.i, svg.i-sm, svg.i-lg{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; display:block; }
+svg.i{ width:20px; height:20px; }
+svg.i-sm{ width:15px; height:15px; }
+svg.i-lg{ width:30px; height:30px; }
+:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; border-radius:6px; }
+
+.view{ display:none; }
+.view.active{ display:block; animation:fadeUp .4s var(--ease); }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+
+.btn{ display:inline-flex; align-items:center; gap:7px; border-radius:var(--radius-pill); font-weight:700; font-size:13.5px; padding:10px 18px; transition:all .25s var(--ease); }
+.btn-primary{ background:var(--primary); color:#fff; box-shadow:0 8px 20px rgba(47,111,94,0.28); }
+.btn-primary:hover{ background:var(--primary-dark); transform:translateY(-2px); }
+.btn-soft{ background:var(--surface-soft); color:var(--primary-dark); }
+.btn-soft:hover{ background:var(--primary-light); }
+.btn-sm{ padding:8px 14px; font-size:12.5px; }
+
+/* ============ APP SHELL ============ */
+.app-shell{ display:flex; min-height:100vh; }
+
+/* ---- SIDEBAR ---- */
+.sidebar{
+  width:var(--sidebar-w); flex-shrink:0; background:var(--surface);
+  border-left:1px solid var(--border); display:flex; flex-direction:column;
+  position:sticky; top:0; height:100vh; padding:20px 14px; z-index:60;
+}
+.sb-brand{ display:flex; align-items:center; gap:10px; padding:6px 8px 22px; }
+.sb-logo{
+  width:40px; height:40px; border-radius:12px; flex-shrink:0; overflow:hidden;
+  background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:16px; box-shadow:0 6px 16px rgba(47,111,94,0.3);
+}
+.sb-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.sb-brand-text{ display:flex; flex-direction:column; line-height:1.3; }
+.sb-brand-text span{ font-weight:700; font-size:14px; }
+.sb-brand-text small{ font-size:10.5px; color:var(--text-faint); }
+
+.sb-nav{ display:flex; flex-direction:column; gap:3px; flex:1; }
+.sb-item{
+  display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:var(--radius-sm);
+  font-size:13.5px; font-weight:600; color:var(--text-muted); transition:all .2s var(--ease);
+}
+.sb-item svg{ color:var(--text-faint); flex-shrink:0; transition:color .2s; }
+.sb-item:hover{ background:var(--surface-soft); color:var(--text); }
+.sb-item.active{ background:var(--primary); color:#fff; box-shadow:0 8px 18px rgba(47,111,94,0.25); }
+.sb-item.active svg{ color:#fff; }
+
+.sb-doctor{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:var(--radius-sm); background:var(--surface-soft); margin-top:10px; }
+.sb-doctor-avatar{ width:36px; height:36px; border-radius:50%; background:var(--gold-soft); color:#8A6A2E; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; }
+.sb-doctor div{ line-height:1.35; min-width:0; }
+.sb-doctor strong{ font-size:12.5px; display:block; }
+.sb-doctor small{ font-size:10.5px; color:var(--text-faint); }
+
+/* ---- MAIN AREA ---- */
+.main-area{ flex:1; min-width:0; }
+.top-header{
+  position:sticky; top:0; z-index:50; background:rgba(247,250,248,0.85);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:14px 26px;
+}
+.th-title{ font-size:16.5px; font-weight:800; }
+.th-title small{ display:block; font-size:11.5px; font-weight:500; color:var(--text-faint); margin-top:2px; }
+.th-search{ display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-pill); padding:9px 16px; width:280px; color:var(--text-faint); }
+.th-search input{ border:none; outline:none; background:none; font-size:12.8px; width:100%; color:var(--text); }
+.th-actions{ display:flex; align-items:center; gap:8px; }
+.icon-btn{ position:relative; width:38px; height:38px; border-radius:var(--radius-pill); display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); transition:all .2s; }
+.icon-btn:hover{ background:var(--surface-soft); }
+.icon-btn .dot{ position:absolute; top:7px; left:8px; width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 0 2px var(--surface); }
+
+.view-content{ padding:24px 26px 60px; max-width:1280px; }
+
+/* ============ DASHBOARD ============ */
+.dash-hello{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+.dash-hello h2{ font-size:19px; font-weight:800; }
+.dash-hello span{ font-size:12.5px; color:var(--text-faint); font-weight:600; }
+
+.kpi-card.clickable{ cursor:pointer; }
+.kpi-card.clickable:hover{ border-color:var(--primary-light); }
+
+.trend-chart{ width:100%; height:120px; }
+.tc-line{ fill:none; stroke:var(--primary); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+.tc-fill{ fill:rgba(47,111,94,0.08); stroke:none; }
+.tc-dot{ fill:var(--primary); stroke:#fff; stroke-width:2; }
+.tc-labels{ display:flex; justify-content:space-between; font-size:10.5px; color:var(--text-faint); margin-top:6px; }
+
+/* ============ DEMO PANELS (clinic tools) ============ */
+.tool-demo{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); margin-top:16px; display:none; }
+.tool-demo.active{ display:block; animation:fadeUp .35s var(--ease); }
+.tool-demo-close{ font-size:12px; color:var(--text-faint); font-weight:600; display:flex; align-items:center; gap:5px; }
+
+/* mini calendar */
+.cal-week{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:14px; }
+.cal-day{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:10px 8px; min-height:110px; }
+.cal-day-head{ font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-align:center; }
+.cal-day.today{ background:#DFF2EA; }
+.cal-slot{ background:var(--surface); border-radius:8px; padding:5px 7px; font-size:10px; margin-bottom:4px; border-inline-start:2px solid var(--primary); }
+.cal-slot.busy{ border-inline-start-color:var(--coral); }
+
+.simple-demo-list{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.simple-demo-row{ display:flex; align-items:center; justify-content:space-between; background:var(--surface-soft); border-radius:var(--radius-sm); padding:11px 14px; font-size:12.8px; }
+.simple-demo-row .tag{ font-size:10.5px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:3px 9px; border-radius:var(--radius-pill); }
+
+/* toggle switch */
+.tg-switch{ position:relative; width:38px; height:22px; border-radius:var(--radius-pill); background:var(--border-strong); flex-shrink:0; transition:background .25s; }
+.tg-switch.on{ background:var(--primary); }
+.tg-switch::after{ content:''; position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:transform .25s var(--ease); box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.tg-switch.on::after{ transform:translateX(-16px); }
+
+/* instagram bot dashboard */
+.ig-status-bar{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.ig-status-dot{ width:9px; height:9px; border-radius:50%; background:#3FAE7A; box-shadow:0 0 0 4px rgba(63,174,122,0.2); }
+.ig-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
+.ig-kpi{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:13px; text-align:center; }
+.ig-kpi strong{ display:block; font-size:18px; font-weight:800; color:var(--primary-dark); }
+.ig-kpi span{ font-size:10.5px; color:var(--text-faint); }
+.ig-rule-row{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:var(--surface-soft); border-radius:var(--radius-sm); margin-bottom:8px; }
+.ig-rule-row div strong{ font-size:12.8px; display:block; }
+.ig-rule-row div span{ font-size:11px; color:var(--text-faint); }
+.ig-log{ font-size:12px; color:var(--text-muted); padding:9px 4px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.ig-log:last-child{ border-bottom:none; }
+.ig-log .dot-log{ width:5px; height:5px; border-radius:50%; background:var(--primary-light); flex-shrink:0; }
+
+.kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+.kpi-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:10px; transition:all .3s var(--ease); }
+.kpi-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-med); }
+.kpi-icon{ width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; }
+.kpi-icon.c1{ background:var(--surface-soft); color:var(--primary); }
+.kpi-icon.c2{ background:var(--gold-soft); color:#8A6A2E; }
+.kpi-icon.c3{ background:var(--coral-soft); color:var(--coral); }
+.kpi-icon.c4{ background:var(--blue-soft); color:var(--blue); }
+.kpi-icon.c5{ background:#EEE7FA; color:#8F6FD8; }
+.kpi-value{ font-size:23px; font-weight:800; }
+.kpi-label{ font-size:12px; color:var(--text-faint); }
+
+.dash-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:16px; }
+.panel-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); }
+.panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.panel-head h3{ font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.panel-head h3 svg{ color:var(--primary); }
+.panel-head .count{ font-size:11.5px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:4px 10px; border-radius:var(--radius-pill); }
+
+.appt-row{ display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:var(--radius-sm); transition:background .2s; }
+.appt-row:hover{ background:var(--surface-soft); }
+.appt-time{ font-size:12.5px; font-weight:800; color:var(--primary-dark); width:52px; flex-shrink:0; }
+.appt-info{ flex:1; min-width:0; }
+.appt-name{ font-size:13.5px; font-weight:700; }
+.appt-type{ font-size:11.5px; color:var(--text-faint); }
+.appt-status{ font-size:11px; font-weight:700; padding:4px 10px; border-radius:var(--radius-pill); flex-shrink:0; }
+.appt-status.waiting{ background:var(--gold-soft); color:#8A6A2E; }
+.appt-status.done{ background:#DFF2EA; color:var(--primary-dark); }
+.appt-status.pending{ background:var(--surface-soft); color:var(--text-faint); }
+
+.alert-row{ display:flex; align-items:flex-start; gap:11px; padding:12px 10px; border-radius:var(--radius-sm); border-inline-start:3px solid var(--coral); background:var(--coral-soft); margin-bottom:8px; }
+.alert-row .a-icon{ color:var(--coral); flex-shrink:0; margin-top:1px; }
+.alert-row strong{ font-size:12.8px; display:block; }
+.alert-row span{ font-size:11.5px; color:var(--text-muted); }
+
+/* ============ PATIENTS LIST ============ */
+.pat-search-bar{ display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+.pat-search-bar input{ flex:1; min-width:220px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-pill); padding:12px 18px; font-size:13px; outline:none; }
+.pat-search-bar input:focus{ border-color:var(--primary); }
+.pat-filters{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.pat-filter{ padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+.pat-filter.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+
+.pat-table{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-soft); }
+.pat-row{ display:flex; align-items:center; gap:14px; padding:14px 20px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
+.pat-row:last-child{ border-bottom:none; }
+.pat-row:hover{ background:var(--surface-soft); }
+.pat-avatar{ width:40px; height:40px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0; }
+.pat-info{ flex:1; min-width:0; }
+.pat-name{ font-size:13.8px; font-weight:700; }
+.pat-meta{ font-size:11.5px; color:var(--text-faint); }
+.pat-tag{ font-size:11px; font-weight:700; padding:4px 11px; border-radius:var(--radius-pill); flex-shrink:0; }
+.pat-tag.risk{ background:var(--coral-soft); color:var(--coral); }
+.pat-tag.ok{ background:#DFF2EA; color:var(--primary-dark); }
+
+/* ============ PATIENT DETAIL (split) ============ */
+.detail-header{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.back-link{ display:flex; align-items:center; gap:6px; font-size:12.8px; color:var(--text-muted); font-weight:600; }
+.detail-split{ display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; }
+
+.pd-head{ display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow-soft); }
+.pd-avatar{ width:56px; height:56px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex-shrink:0; }
+.pd-name{ font-size:16.5px; font-weight:800; }
+.pd-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; }
+
+.pd-tabs{ display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; scrollbar-width:none; }
+.pd-tabs::-webkit-scrollbar{ display:none; }
+.pd-tab{ flex-shrink:0; padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+.pd-tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+.pd-body-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); min-height:280px; }
+.pd-mini-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
+.pd-mini-item{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:12px 14px; }
+.pd-mini-item span{ display:block; font-size:11px; color:var(--text-faint); margin-bottom:3px; }
+.pd-mini-item strong{ font-size:14px; }
+
+/* AI side panel */
+.ai-side{ background:linear-gradient(160deg,#ffffff,#F3F9F6); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow-soft); position:sticky; top:78px; }
+.ai-side-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.ai-avatar{ width:38px; height:38px; border-radius:12px; overflow:hidden; flex-shrink:0; background:linear-gradient(145deg,var(--primary),var(--primary-dark)); color:#fff; display:flex; align-items:center; justify-content:center; }
+.ai-avatar img{ width:100%; height:100%; object-fit:cover; }
+.ai-side-head strong{ font-size:13.5px; display:block; }
+.ai-side-head small{ font-size:10.5px; color:var(--text-faint); }
+.ai-summary-box{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:13px 14px; font-size:12.5px; line-height:1.9; color:var(--text); margin-bottom:12px; }
+.ai-chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.ai-chip{ font-size:11px; font-weight:600; background:var(--surface); border:1px solid var(--border); padding:6px 12px; border-radius:var(--radius-pill); color:var(--primary-dark); }
+.ai-mini-input{ display:flex; gap:8px; }
+.ai-mini-input input{ flex:1; border:1px solid var(--border-strong); background:var(--surface); border-radius:var(--radius-pill); padding:10px 14px; font-size:12.5px; outline:none; }
+.ai-mini-input button{ width:38px; height:38px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* ============ AI ASSISTANT FULL PAGE ============ */
+.ai-page-head{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+.ai-page-avatar{ width:52px; height:52px; border-radius:16px; overflow:hidden; background:linear-gradient(145deg,var(--primary),var(--primary-dark)); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(47,111,94,0.3); }
+.ai-page-avatar img{ width:100%; height:100%; object-fit:cover; }
+.ai-page-head h2{ font-size:18px; font-weight:800; }
+.ai-page-head p{ font-size:12px; color:var(--text-faint); margin-top:3px; max-width:520px; line-height:1.7; }
+
+.chat-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); overflow:hidden; display:flex; flex-direction:column; height:min(560px,68vh); }
+.chat-messages{ flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:12px; }
+.msg{ max-width:74%; padding:11px 15px; border-radius:16px; font-size:13.3px; line-height:1.85; }
+.msg.ai{ align-self:flex-start; background:var(--surface-soft); border-bottom-right-radius:4px; }
+.msg.user{ align-self:flex-end; background:var(--primary); color:#fff; border-bottom-left-radius:4px; }
+.chat-input-row{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-top:1px solid var(--border); }
+.chat-input-row input{ flex:1; border:none; outline:none; background:var(--surface-soft); border-radius:var(--radius-pill); padding:11px 16px; font-size:13px; }
+.chat-quick{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.chat-quick button{ font-size:12px; font-weight:600; background:var(--surface); border:1px solid var(--border); padding:8px 14px; border-radius:var(--radius-pill); color:var(--primary-dark); }
+.chat-quick button:hover{ background:var(--surface-soft); }
+
+/* ============ TOOL GRID (clinic mgmt / growth) ============ */
+.tool-section-title{ font-size:14px; font-weight:700; color:var(--text-muted); margin:22px 0 12px; }
+.tool-section-title:first-child{ margin-top:0; }
+.tool-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.tool-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:10px; transition:all .3s var(--ease); cursor:pointer; }
+.tool-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-med); border-color:transparent; }
+.tool-icon{ width:38px; height:38px; border-radius:11px; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; }
+.tool-card h4{ font-size:13.5px; font-weight:700; }
+.tool-card p{ font-size:11.5px; color:var(--text-faint); line-height:1.6; }
+.tool-card.disabled{ opacity:.55; cursor:not-allowed; }
+.tool-badge{ font-size:9.5px; font-weight:700; background:var(--gold-soft); color:#8A6A2E; padding:3px 8px; border-radius:var(--radius-pill); align-self:flex-start; }
+
+/* Instagram demo panel */
+.ig-demo{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); margin-top:16px; }
+.ig-tabs{ display:flex; gap:8px; margin-bottom:14px; }
+.ig-tab{ padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface-soft); color:var(--text-muted); }
+.ig-tab.active{ background:var(--primary); color:#fff; }
+.ig-item{ display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:var(--radius-sm); border-bottom:1px solid var(--border); }
+.ig-item:last-child{ border-bottom:none; }
+.ig-item-avatar{ width:36px; height:36px; border-radius:50%; background:var(--surface-soft); flex-shrink:0; }
+.ig-item-text{ flex:1; min-width:0; }
+.ig-item-text strong{ font-size:12.8px; }
+.ig-item-text span{ font-size:11.5px; color:var(--text-faint); display:block; margin-top:2px; }
+.ig-ai-tag{ font-size:10px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:3px 9px; border-radius:var(--radius-pill); flex-shrink:0; }
+
+.demo-warn{ display:flex; gap:9px; align-items:flex-start; font-size:11.8px; color:#8A6A2E; background:var(--gold-soft); padding:11px 14px; border-radius:var(--radius-sm); line-height:1.8; margin-top:14px; }
+.demo-warn svg{ flex-shrink:0; width:16px; height:16px; margin-top:1px; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px){
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .dash-grid{ grid-template-columns:1fr; }
+  .detail-split{ grid-template-columns:1fr; }
+  .ai-side{ position:static; }
+  .tool-grid{ grid-template-columns:repeat(3,1fr); }
+  .ig-kpi-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 860px){
+  .sidebar{ position:fixed; inset-inline-end:0; top:0; height:100vh; transform:translateX(105%); transition:transform .3s var(--ease); box-shadow:var(--shadow-med); }
+  .sidebar.open{ transform:translateX(0); }
+  .th-search{ display:none; }
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .tool-grid{ grid-template-columns:repeat(2,1fr); }
+  .cal-week{ grid-template-columns:repeat(7,minmax(90px,1fr)); overflow-x:auto; }
+}
+@media (max-width: 560px){
+  .view-content{ padding:18px 14px 50px; }
+  .top-header{ padding:12px 14px; }
+  .kpi-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+  .kpi-card{ padding:14px; }
+  .tool-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= ICON SPRITE ================= -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M2 20c1-3.5 3.6-5.5 6-5.5s5 2 6 5.5"/><path d="M14.5 14.7c2.2.2 4.2 2 5 5.3"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.3"/><circle cx="15" cy="14" r="1.3"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.2"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 004 0"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6z"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M19 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M19 17H6a2 2 0 000 4h13"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M16 13h3"/><path d="M3 10h18"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M4 12h2M18 12h2M12 4v2M12 18v2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M17.7 6.3l-1.4 1.4M7.7 16.3l-1.4 1.4"/></symbol>
+<symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol>
+<symbol id="i-service" viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></symbol>
+<symbol id="i-report" viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.3"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.4"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 6c-2.5 4.5-9.5 9-9.5 9z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+<symbol id="i-pill" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="8" rx="4" transform="rotate(-30 12 14)"/><path d="M9 9l6 6"/></symbol>
+<symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l2-7 4 14 2-7h6"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 2a11 11 0 006 6l2-2.5 5 2v4a2 2 0 01-2 2A17 17 0 013 6a2 2 0 012-2z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c1-4 5-6 7-6s6 2 7 6"/></symbol>
+</defs>
+</svg>
+
+<div class="app-shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">
+        <img src="images/logo.png" alt="لوگوی کلینیک هوشمند" onerror="this.style.display='none'; this.parentElement.textContent='ه';">
+      </div>
+      <div class="sb-brand-text">
+        <span>کلینیک هوشمند</span>
+        <small>پنل پزشک</small>
+      </div>
+    </div>
+
+    <nav class="sb-nav" id="sbNav">
+      <a class="sb-item active" data-view="dashboard"><svg class="i"><use href="#i-grid"/></svg>داشبورد</a>
+      <a class="sb-item" data-view="patients"><svg class="i"><use href="#i-users"/></svg>بیماران</a>
+      <a class="sb-item" data-view="ai"><svg class="i"><use href="#i-bot"/></svg>دستیار هوشمند</a>
+      <a class="sb-item" data-view="growth"><svg class="i"><use href="#i-trend"/></svg>رشد کلینیک</a>
+      <a class="sb-item" data-view="clinic"><svg class="i"><use href="#i-building"/></svg>مدیریت کلینیک</a>
+    </nav>
+
+    <div class="sb-doctor">
+      <div class="sb-doctor-avatar">ح</div>
+      <div>
+        <strong>دکتر محمود حیدری</strong>
+        <small>فوق‌تخصص جراحی چاقی</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN AREA ================= -->
+  <main class="main-area">
+
+    <header class="top-header">
+      <div class="th-title" id="thTitle">داشبورد<small>خلاصه امروز کلینیک شما</small></div>
+      <div class="th-search" id="thSearch"><svg class="i-sm"><use href="#i-search"/></svg><input type="text" placeholder="جستجوی بیمار…"></div>
+      <div class="th-actions">
+        <button class="icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="icon-btn" id="menuBtn" style="display:none"><svg class="i"><use href="#i-grid"/></svg></button>
+      </div>
+    </header>
+
+    <div class="view-content">
+
+      <!-- ============ VIEW: DASHBOARD ============ -->
+      <section class="view active" id="view-dashboard">
+        <div class="dash-hello">
+          <h2 id="dashGreeting">صبح بخیر، دکتر حیدری</h2>
+          <span id="dashDate">شنبه، ۱۱ مرداد ۱۴۰۴</span>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card clickable" id="kpiAppt"><div class="kpi-icon c4"><svg class="i"><use href="#i-calendar"/></svg></div><span class="kpi-value">۹</span><span class="kpi-label">نوبت امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c2"><svg class="i"><use href="#i-activity"/></svg></div><span class="kpi-value">۲</span><span class="kpi-label">عمل امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c3"><svg class="i"><use href="#i-alert"/></svg></div><span class="kpi-value">۳</span><span class="kpi-label">نیازمند بررسی فوری</span></div>
+          <div class="kpi-card"><div class="kpi-icon c5"><svg class="i"><use href="#i-message"/></svg></div><span class="kpi-value">۵</span><span class="kpi-label">پیام نیازمند تایید</span></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-trend"/></svg>روند بیماران هفته اخیر</h3></div>
+            <svg class="trend-chart" viewBox="0 0 320 110" preserveAspectRatio="none">
+              <polyline class="tc-line" points="10,70 55,55 100,60 145,40 190,45 235,25 280,30"/>
+              <polygon class="tc-fill" points="10,70 55,55 100,60 145,40 190,45 235,25 280,30 280,110 10,110"/>
+              <circle class="tc-dot" cx="280" cy="30" r="4"/>
+            </svg>
+            <div class="tc-labels"><span>شنبه</span><span>یک‌شنبه</span><span>دوشنبه</span><span>سه‌شنبه</span><span>چهارشنبه</span><span>پنج‌شنبه</span><span>جمعه</span></div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-alert"/></svg>هشدارهای مهم</h3></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>احتمال عفونت زخم</strong><span>علی نجفی — بررسی فوری لازم است</span></div></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>آزمایش غیرطبیعی</strong><span>سارا احمدی — سطح آهن پایین</span></div></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>نیازمند تماس فوری</strong><span>رضا صادقی — علائم خطر گزارش شده</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: PATIENTS LIST ============ -->
+      <section class="view" id="view-patients">
+        <div class="pat-search-bar">
+          <input type="text" placeholder="جستجو با نام، موبایل، شماره پرونده یا کد ملی…">
+        </div>
+        <div class="pat-filters">
+          <span class="pat-filter active">همه</span>
+          <span class="pat-filter">بیماران امروز</span>
+          <span class="pat-filter">بیماران اخیر</span>
+          <span class="pat-filter">پرریسک</span>
+        </div>
+        <div class="pat-table" id="patTable">
+          <div class="pat-row" data-patient="mohammad"><div class="pat-avatar">م</div><div class="pat-info"><div class="pat-name">محمد رضایی</div><div class="pat-meta">روز ۳۲ بعد از عمل — پرونده #۱۰۲۴</div></div><span class="pat-tag ok">پایدار</span></div>
+          <div class="pat-row" data-patient="sara"><div class="pat-avatar">س</div><div class="pat-info"><div class="pat-name">سارا احمدی</div><div class="pat-meta">پیش از عمل — پرونده #۱۰۳۱</div></div><span class="pat-tag risk">پرریسک</span></div>
+          <div class="pat-row" data-patient="ali"><div class="pat-avatar">ع</div><div class="pat-info"><div class="pat-name">علی نجفی</div><div class="pat-meta">روز ۸ بعد از عمل — پرونده #۱۰۱۸</div></div><span class="pat-tag risk">پرریسک</span></div>
+          <div class="pat-row" data-patient="negar"><div class="pat-avatar">ن</div><div class="pat-info"><div class="pat-name">نگار موسوی</div><div class="pat-meta">مشاوره اولیه — پرونده #۱۰۴۰</div></div><span class="pat-tag ok">پایدار</span></div>
+        </div>
+        <div style="text-align:center; margin-top:16px;">
+          <button class="btn btn-soft btn-sm">بارگذاری ۲۰ بیمار بعدی (۴ از ۱۵۰)</button>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: PATIENT DETAIL ============ -->
+      <section class="view" id="view-patient-detail">
+        <div class="detail-header">
+          <button class="back-link" id="backToPatients"><svg class="i-sm"><use href="#i-back"/></svg>بازگشت به لیست بیماران</button>
+        </div>
+        <div class="detail-split">
+          <div>
+            <div class="pd-head">
+              <div class="pd-avatar" id="pdAvatar">م</div>
+              <div>
+                <div class="pd-name" id="pdName">محمد رضایی</div>
+                <div class="pd-sub" id="pdSub">پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل — اسلیو معده</div>
+              </div>
+            </div>
+            <div class="pd-tabs">
+              <span class="pd-tab active">اطلاعات هویتی</span>
+              <span class="pd-tab">تایم‌لاین درمان</span>
+              <span class="pd-tab">روند وزن</span>
+              <span class="pd-tab">آزمایش‌ها</span>
+              <span class="pd-tab">داروها</span>
+              <span class="pd-tab">تصاویر</span>
+              <span class="pd-tab">یادداشت پزشک</span>
+            </div>
+            <div class="pd-body-card">
+              <div class="pd-mini-grid">
+                <div class="pd-mini-item"><span>سن</span><strong>۳۸ سال</strong></div>
+                <div class="pd-mini-item"><span>نوع جراحی</span><strong>اسلیو معده</strong></div>
+                <div class="pd-mini-item"><span>وزن فعلی</span><strong>۸۲ کیلوگرم</strong></div>
+                <div class="pd-mini-item"><span>BMI</span><strong>۲۶.۴</strong></div>
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); line-height:1.9;">این بخش به‌صورت دمو نمایش داده می‌شود. در نسخه نهایی، اطلاعات کامل پرونده (تایم‌لاین، نمودار وزن، آزمایش‌ها، نسخه‌ها و تاریخچه ویزیت) از دیتابیس واقعی بارگذاری خواهد شد.</p>
+            </div>
+          </div>
+
+          <!-- AI Side Panel -->
+          <aside class="ai-side">
+            <div class="ai-side-head">
+              <div class="ai-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div><strong>دکتر هوشا</strong><small>دستیار هوشمند پزشک</small></div>
+            </div>
+            <div class="ai-summary-box">
+              خلاصه هوشمند: روند کاهش وزن این بیمار پایدار و مطابق انتظار است. در سه روز اخیر دریافت پروتئین کمتر از حد توصیه‌شده بوده. آزمایش خون اخیر طبیعی است.
+            </div>
+            <div class="ai-chip-row">
+              <span class="ai-chip">خلاصه پرونده</span>
+              <span class="ai-chip">تحلیل روند وزن</span>
+              <span class="ai-chip">تحلیل آزمایش</span>
+              <span class="ai-chip">تحلیل زخم</span>
+            </div>
+            <div class="ai-mini-input">
+              <input type="text" placeholder="سوالی درباره این بیمار بپرسید…">
+              <button><svg class="i-sm"><use href="#i-send"/></svg></button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: AI ASSISTANT (دکتر هوشا) ============ -->
+      <section class="view" id="view-ai">
+        <div class="ai-page-head">
+          <div class="ai-page-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+          <div>
+            <h2>دکتر هوشا — دستیار هوشمند پزشک</h2>
+            <p>مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک. برای تحلیل پرونده، آزمایش، تصویر یا پرسش پزشکی استفاده کنید.</p>
+          </div>
+        </div>
+
+        <div class="chat-card">
+          <div class="chat-messages" id="aiChatMessages">
+            <div class="msg ai"><p>سلام دکتر حیدری 👋 من دکتر هوشا هستم، دستیار هوشمند شما. مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک‌ام. هر سوالی درباره بیماران یا مسائل پزشکی داشتید، در خدمتم.</p></div>
+            <div class="msg user"><p>روند کاهش وزن محمد رضایی رو تحلیل کن</p></div>
+            <div class="msg ai"><p>روند کاهش وزن محمد رضایی در ۸ هفته اخیر پایدار و مطابق پروتکل استاندارد اسلیو معده است (۱۶٪ کاهش از وزن اولیه). توصیه می‌شود دریافت پروتئین روزانه افزایش یابد.</p></div>
+            <div class="msg ai" id="aiTyping" style="display:none"><p>در حال تحلیل…</p></div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="aiChatInput" placeholder="سوال خود را از دکتر هوشا بپرسید…">
+            <button class="icon-btn" id="aiChatSend"><svg class="i"><use href="#i-send"/></svg></button>
+          </div>
+        </div>
+        <div class="chat-quick">
+          <button>خلاصه بیماران پرریسک امروز</button>
+          <button>مقایسه پروتکل بای‌پس و اسلیو</button>
+          <button>تحلیل یک آزمایش جدید</button>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: CLINIC MANAGEMENT ============ -->
+      <section class="view" id="view-clinic">
+        <div class="tool-section-title">مدیریت عملیات</div>
+        <div class="tool-grid">
+          <div class="tool-card" data-demo="calendar"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم و نوبت‌ها</h4><p>مدیریت کامل نوبت‌دهی کلینیک</p></div>
+          <div class="tool-card" data-demo="reports"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>گزارش‌های مدیریتی</h4><p>آمار عملکرد و روند کلینیک</p></div>
+          <div class="tool-card" data-demo="secretary"><div class="tool-icon"><svg class="i"><use href="#i-users"/></svg></div><h4>مدیریت منشی</h4><p>دسترسی و وظایف پرسنل پذیرش</p></div>
+          <div class="tool-card" data-demo="services"><div class="tool-icon"><svg class="i"><use href="#i-service"/></svg></div><h4>مدیریت خدمات</h4><p>لیست خدمات و قیمت‌گذاری</p></div>
+          <div class="tool-card" data-demo="forms"><div class="tool-icon"><svg class="i"><use href="#i-form"/></svg></div><h4>مدیریت فرم‌ها</h4><p>فرم‌های پذیرش و رضایت‌نامه</p></div>
+          <div class="tool-card" data-demo="settings"><div class="tool-icon"><svg class="i"><use href="#i-settings"/></svg></div><h4>تنظیمات کلینیک</h4><p>اطلاعات عمومی و پیکربندی</p></div>
+        </div>
+
+        <!-- Demo: Calendar -->
+        <div class="tool-demo" id="demo-calendar">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>تقویم هفتگی کلینیک</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="cal-week">
+            <div class="cal-day"><div class="cal-day-head">شنبه</div><div class="cal-slot">۱۰:۳۰ محمد رضایی</div><div class="cal-slot busy">۱۲:۰۰ سارا احمدی</div></div>
+            <div class="cal-day today"><div class="cal-day-head">یک‌شنبه</div><div class="cal-slot">۱۱:۰۰ علی نجفی</div><div class="cal-slot">۱۴:۱۵ نگار موسوی</div><div class="cal-slot busy">۱۶:۰۰ رضا صادقی</div></div>
+            <div class="cal-day"><div class="cal-day-head">دوشنبه</div><div class="cal-slot">۰۹:۳۰ مریم کریمی</div></div>
+            <div class="cal-day"><div class="cal-day-head">سه‌شنبه</div><div class="cal-slot busy">۱۳:۰۰ حسین یزدانی</div></div>
+            <div class="cal-day"><div class="cal-day-head">چهارشنبه</div></div>
+            <div class="cal-day"><div class="cal-day-head">پنج‌شنبه</div><div class="cal-slot">۱۰:۰۰ عمل جراحی</div></div>
+            <div class="cal-day"><div class="cal-day-head">جمعه</div></div>
+          </div>
+        </div>
+
+        <!-- Demo: Reports -->
+        <div class="tool-demo" id="demo-reports">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-report"/></svg>گزارش‌های مدیریتی</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>تعداد بیماران این ماه</span><span class="tag">۱۲۸ نفر</span></div>
+            <div class="simple-demo-row"><span>تعداد عمل‌های موفق</span><span class="tag">۲۲ عمل</span></div>
+            <div class="simple-demo-row"><span>میانگین رضایت بیماران</span><span class="tag">۹۶٪</span></div>
+            <div class="simple-demo-row"><span>نرخ لغو نوبت</span><span class="tag">۴٪</span></div>
+          </div>
+        </div>
+
+        <!-- Demo: Secretary -->
+        <div class="tool-demo" id="demo-secretary">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>مدیریت منشی</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>مریم رستمی — منشی پذیرش</span><span class="tag">فعال</span></div>
+            <div class="simple-demo-row"><span>دسترسی: نوبت‌دهی، ثبت بیمار جدید</span><span class="tag">محدود</span></div>
+          </div>
+        </div>
+
+        <!-- Demo: Services -->
+        <div class="tool-demo" id="demo-services">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-service"/></svg>مدیریت خدمات</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>اسلیو معده</span><span class="tag">فعال</span></div>
+            <div class="simple-demo-row"><span>بای‌پس معده</span><span class="tag">فعال</span></div>
+            <div class="simple-demo-row"><span>بالون معده</span><span class="tag">فعال</span></div>
+          </div>
+        </div>
+
+        <!-- Demo: Forms -->
+        <div class="tool-demo" id="demo-forms">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-form"/></svg>مدیریت فرم‌ها</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>فرم پذیرش اولیه</span><span class="tag">۳ فیلد</span></div>
+            <div class="simple-demo-row"><span>رضایت‌نامه جراحی</span><span class="tag">فعال</span></div>
+          </div>
+        </div>
+
+        <!-- Demo: Settings -->
+        <div class="tool-demo" id="demo-settings">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-settings"/></svg>تنظیمات کلینیک</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>نام کلینیک</span><span class="tag">کلینیک هوشمند</span></div>
+            <div class="simple-demo-row"><span>ساعات کاری</span><span class="tag">۹ صبح تا ۸ شب</span></div>
+          </div>
+        </div>
+
+        <div class="tool-section-title">امور مالی</div>
+        <div class="tool-grid">
+          <div class="tool-card" data-demo="salary"><div class="tool-icon"><svg class="i"><use href="#i-wallet"/></svg></div><h4>حقوق پرسنل</h4><p>محاسبه و پرداخت ماهانه</p></div>
+          <div class="tool-card" data-demo="bills"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>قبض‌ها و هزینه‌ها</h4><p>ثبت و پیگیری هزینه‌های کلینیک</p></div>
+          <div class="tool-card" data-demo="income"><div class="tool-icon"><svg class="i"><use href="#i-trend"/></svg></div><h4>درآمد کلینیک</h4><p>گزارش مالی و نمودار درآمد</p></div>
+        </div>
+
+        <div class="tool-demo" id="demo-salary">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-wallet"/></svg>حقوق پرسنل</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>مریم رستمی — منشی</span><span class="tag">پرداخت‌شده</span></div>
+            <div class="simple-demo-row"><span>دکتر حیدری</span><span class="tag">در انتظار تسویه</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-bills">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-file"/></svg>قبض‌ها و هزینه‌ها</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>قبض برق مطب</span><span class="tag">۱٬۲۰۰٬۰۰۰ تومان</span></div>
+            <div class="simple-demo-row"><span>اجاره ماهانه</span><span class="tag">پرداخت‌شده</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-income">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-trend"/></svg>درآمد کلینیک</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>درآمد این ماه</span><span class="tag">۸۴۰ میلیون تومان</span></div>
+            <div class="simple-demo-row"><span>رشد نسبت به ماه قبل</span><span class="tag">+۱۲٪</span></div>
+          </div>
+        </div>
+        <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>بخش امور مالی حساس‌ترین قسمت از نظر امنیتی است؛ در نسخه نهایی دسترسی آن باید محدود به پزشک/مدیر کلینیک باشد.</div>
+      </section>
+
+      <!-- ============ VIEW: GROWTH & MARKETING ============ -->
+      <section class="view" id="view-growth">
+        <div class="tool-section-title">محتوا و شبکه‌های اجتماعی</div>
+        <div class="tool-grid">
+          <div class="tool-card" data-demo="instagram"><div class="tool-icon"><svg class="i"><use href="#i-camera"/></svg></div><h4>مدیریت هوشمند اینستاگرام</h4><p>ربات ادمین هوشمند: پاسخ خودکار، تعامل و تولید محتوا</p><span class="tool-badge">هوش مصنوعی</span></div>
+          <div class="tool-card" data-demo="blog"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>مدیریت بلاگ سایت</h4><p>نوشتن و انتشار مقالات با کمک AI</p></div>
+          <div class="tool-card" data-demo="content-cal"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم محتوایی</h4><p>برنامه‌ریزی انتشار هفتگی</p></div>
+          <div class="tool-card" data-demo="before-after"><div class="tool-icon"><svg class="i"><use href="#i-image"/></svg></div><h4>تصاویر Before/After</h4><p>آرشیو و مدیریت تصاویر تحول بیماران</p></div>
+          <div class="tool-card" data-demo="sms"><div class="tool-icon"><svg class="i"><use href="#i-phone"/></svg></div><h4>کمپین پیامکی</h4><p>ارسال کمپین به بیماران</p></div>
+          <div class="tool-card" data-demo="ads"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>تحلیل تبلیغات</h4><p>عملکرد کمپین‌های تبلیغاتی</p></div>
+        </div>
+
+        <!-- Instagram Smart Admin Bot demo -->
+        <div class="tool-demo" id="demo-instagram">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-camera"/></svg>ربات ادمین هوشمند اینستاگرام</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="ig-status-bar"><span class="ig-status-dot"></span><span style="font-size:12.5px; font-weight:700; color:#3FAE7A;">فعال و در حال کار</span></div>
+
+          <div class="ig-kpi-grid">
+            <div class="ig-kpi"><strong>۴۲</strong><span>پیام پاسخ‌داده‌شده امروز</span></div>
+            <div class="ig-kpi"><strong>۹۴٪</strong><span>نرخ پاسخ‌گویی</span></div>
+            <div class="ig-kpi"><strong>۱.۲ دقیقه</strong><span>میانگین زمان پاسخ</span></div>
+            <div class="ig-kpi"><strong>+۲۸</strong><span>فالوور جدید هفته</span></div>
+          </div>
+
+          <div class="panel-head"><h3 style="font-size:13px;">قوانین خودکارسازی</h3></div>
+          <div class="ig-rule-row"><div><strong>پاسخ خودکار به سوالات متداول</strong><span>هزینه، نوبت، آدرس، ساعات کاری</span></div><div class="tg-switch on"></div></div>
+          <div class="ig-rule-row"><div><strong>تشخیص و ارجاع پیام‌های حساس</strong><span>سوالات پزشکی برای تایید پزشک ارسال می‌شود</span></div><div class="tg-switch on"></div></div>
+          <div class="ig-rule-row"><div><strong>تعامل خودکار با کامنت‌ها</strong><span>لایک و پاسخ مودبانه به کامنت‌های مثبت</span></div><div class="tg-switch on"></div></div>
+          <div class="ig-rule-row"><div><strong>خوش‌آمدگویی به فالوور جدید</strong><span>ارسال پیام معرفی خودکار</span></div><div class="tg-switch"></div></div>
+
+          <div class="panel-head" style="margin-top:16px;"><h3 style="font-size:13px;">فعالیت اخیر ربات</h3></div>
+          <div class="ig-log"><span class="dot-log"></span>۱۲ پیام درباره هزینه و نوبت به‌صورت خودکار پاسخ داده شد</div>
+          <div class="ig-log"><span class="dot-log"></span>۳ پیام نیازمند تایید پزشک برای بررسی ارسال شد</div>
+          <div class="ig-log"><span class="dot-log"></span>۷ کامنت جدید لایک و پاسخ داده شد</div>
+
+          <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>اتصال واقعی به اینستاگرام نیازمند Meta API، مجوز رسمی و بررسی امنیتی توکن‌هاست؛ این بخش فعلاً فقط نمایش دمو است.</div>
+        </div>
+
+        <div class="tool-demo" id="demo-blog">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-file"/></svg>مدیریت بلاگ سایت</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>«۷ نکته قبل از جراحی اسلیو معده»</span><span class="tag">منتشرشده</span></div>
+            <div class="simple-demo-row"><span>«تغذیه صحیح بعد از بای‌پس معده»</span><span class="tag">پیش‌نویس AI</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-content-cal">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>تقویم محتوایی</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>شنبه — پست آموزشی تغذیه</span><span class="tag">زمان‌بندی‌شده</span></div>
+            <div class="simple-demo-row"><span>سه‌شنبه — ریلز تحول بیمار</span><span class="tag">پیش‌نویس</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-before-after">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-image"/></svg>تصاویر Before/After</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>محمد رضایی — ۱۶ کیلوگرم کاهش</span><span class="tag">رضایت‌نامه ثبت‌شده</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-sms">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-phone"/></svg>کمپین پیامکی</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>یادآوری نوبت فردا</span><span class="tag">۹ گیرنده</span></div>
+          </div>
+        </div>
+        <div class="tool-demo" id="demo-ads">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-report"/></svg>تحلیل تبلیغات</h3><button class="tool-demo-close" data-close><svg class="i-sm"><use href="#i-back"/></svg>بستن</button></div>
+          <div class="simple-demo-list">
+            <div class="simple-demo-row"><span>کمپین اینستاگرام مرداد</span><span class="tag">۲۴ لید جدید</span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ---------- سوییچ ویوها از سایدبار ---------- */
+const sbItems = document.querySelectorAll('.sb-item');
+const views = document.querySelectorAll('.view');
+const thTitle = document.getElementById('thTitle');
+const titles = {
+  dashboard: ['داشبورد','خلاصه امروز کلینیک شما'],
+  patients: ['بیماران','جستجو و مدیریت پرونده‌ها'],
+  'patient-detail': ['پرونده بیمار','مشاهده کامل و تحلیل هوشمند'],
+  ai: ['دستیار هوشمند','دکتر هوشا در خدمت شماست'],
+  clinic: ['مدیریت کلینیک','ابزارهای عملیاتی و مالی'],
+  growth: ['رشد و بازاریابی','ابزارهای توسعه کلینیک']
+};
+
+const thSearch = document.getElementById('thSearch');
+const searchVisibleViews = ['dashboard','patients'];
+
+function showView(name){
+  views.forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  sbItems.forEach(i=>i.classList.toggle('active', i.dataset.view===name));
+  if(titles[name]){ thTitle.innerHTML = titles[name][0] + '<small>'+titles[name][1]+'</small>'; }
+  thSearch.style.display = searchVisibleViews.includes(name) ? 'flex' : 'none';
+  window.scrollTo({top:0, behavior:'instant'});
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+sbItems.forEach(item=>{
+  item.addEventListener('click', ()=> showView(item.dataset.view));
+});
+
+/* ---------- کلیک روی کارت «نوبت امروز» -> بیماران ---------- */
+document.getElementById('kpiAppt').addEventListener('click', ()=>{
+  showView('patients');
+  document.querySelectorAll('.pat-filter').forEach(f=>f.classList.remove('active'));
+  document.querySelectorAll('.pat-filter')[1].classList.add('active');
+});
+
+/* ---------- سلام پویا بر اساس ساعت ---------- */
+const hour = new Date().getHours();
+let greet = 'صبح بخیر';
+if(hour >= 12 && hour < 17) greet = 'ظهر بخیر';
+else if(hour >= 17 && hour < 20) greet = 'عصر بخیر';
+else if(hour >= 20 || hour < 5) greet = 'شب بخیر';
+document.getElementById('dashGreeting').textContent = greet + '، دکتر حیدری';
+
+/* ---------- دموهای ابزار (مدیریت کلینیک / رشد کلینیک) ---------- */
+document.querySelectorAll('[data-demo]').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const id = 'demo-' + card.dataset.demo;
+    const target = document.getElementById(id);
+    if(!target) return;
+    const wasActive = target.classList.contains('active');
+    document.querySelectorAll('.tool-demo').forEach(d=>d.classList.remove('active'));
+    if(!wasActive){
+      target.classList.add('active');
+      target.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+  });
+});
+document.querySelectorAll('[data-close]').forEach(btn=>{
+  btn.addEventListener('click', ()=> btn.closest('.tool-demo').classList.remove('active'));
+});
+
+/* ---------- سوییچ‌های قوانین خودکارسازی اینستاگرام ---------- */
+document.querySelectorAll('.tg-switch').forEach(sw=>{
+  sw.addEventListener('click', ()=> sw.classList.toggle('on'));
+});
+
+/* ---------- کلیک روی بیمار -> پرونده ---------- */
+const patNames = {
+  mohammad:{name:'محمد رضایی', sub:'پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل — اسلیو معده', letter:'م'},
+  sara:{name:'سارا احمدی', sub:'پرونده #۱۰۳۱ — پیش از عمل', letter:'س'},
+  ali:{name:'علی نجفی', sub:'پرونده #۱۰۱۸ — روز ۸ بعد از عمل', letter:'ع'},
+  negar:{name:'نگار موسوی', sub:'پرونده #۱۰۴۰ — مشاوره اولیه', letter:'ن'}
+};
+document.querySelectorAll('.pat-row').forEach(row=>{
+  row.addEventListener('click', ()=>{
+    const p = patNames[row.dataset.patient];
+    document.getElementById('pdName').textContent = p.name;
+    document.getElementById('pdSub').textContent = p.sub;
+    document.getElementById('pdAvatar').textContent = p.letter;
+    views.forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-patient-detail').classList.add('active');
+    thTitle.innerHTML = titles['patient-detail'][0] + '<small>'+titles['patient-detail'][1]+'</small>';
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+document.getElementById('backToPatients').addEventListener('click', ()=> showView('patients'));
+
+/* ---------- فیلترهای بیماران (دمو) ---------- */
+document.querySelectorAll('.pat-filter').forEach(f=>{
+  f.addEventListener('click', ()=>{
+    document.querySelectorAll('.pat-filter').forEach(x=>x.classList.remove('active'));
+    f.classList.add('active');
+  });
+});
+
+/* ---------- تب‌های پرونده بیمار (دمو - فقط ظاهری) ---------- */
+document.querySelectorAll('.pd-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.pd-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+/* ---------- چت با دکتر هوشا ---------- */
+const aiInput = document.getElementById('aiChatInput');
+const aiSend = document.getElementById('aiChatSend');
+const aiMessages = document.getElementById('aiChatMessages');
+const aiTyping = document.getElementById('aiTyping');
+
+function sendAiChat(){
+  const val = aiInput.value.trim();
+  if(!val) return;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = '<p></p>';
+  userMsg.querySelector('p').textContent = val;
+  aiMessages.insertBefore(userMsg, aiTyping);
+  aiInput.value = '';
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  aiTyping.style.display = 'block';
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  setTimeout(()=>{
+    aiTyping.style.display = 'none';
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.innerHTML = '<p>این پاسخ دموی دکتر هوشا است. در نسخه نهایی، پاسخ بر اساس منابع معتبر جراحی چاقی و پروتکل‌های اختصاصی کلینیک تولید خواهد شد.</p>';
+    aiMessages.insertBefore(aiMsg, aiTyping);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }, 1100);
+}
+aiSend.addEventListener('click', sendAiChat);
+aiInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendAiChat(); });
+
+/* ---------- سایدبار موبایل ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+function checkMobile(){
+  menuBtn.style.display = window.innerWidth <= 860 ? 'flex' : 'none';
+}
+checkMobile();
+window.addEventListener('resize', checkMobile);
+menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+</script>
+</body>
+</html>
