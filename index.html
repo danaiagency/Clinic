@@ -52,6 +52,10 @@
   --gold:#C9A15A;
   --gold-soft:#F6ECD8;
   --coral:#D9736A;
+  --coral-soft:#FBE8E5;
+  --blue:#4FA9D8;
+  --blue-soft:#E7F3FA;
+  --sidebar-w: 248px;
 
   --text:#16211D;
   --text-muted:#5C6E67;
@@ -962,6 +966,232 @@ section.page-sec{ padding:70px 0; }
   .nutrition-rings{ grid-template-columns:repeat(3, 1fr); }
 }
 
+
+
+/* ============================================================
+   استایل‌های پنل پزشک (نسخه جدید و کامل) — ادغام‌شده
+   کلاس‌های تداخلی با تگ dr- پیشوند شده‌اند (dr-icon-btn, dr-chat-card,
+   dr-chat-messages, dr-chat-input-row, dr-msg)
+   ============================================================ */
+/* قانون حیاتی نمایش/مخفی‌سازی صفحات پنل پزشک (این قانون در استخراج اولیه جا افتاده بود) */
+.view{ display:none; }
+.view.active{ display:block; animation:fadeUp .4s var(--ease); }
+
+/* ============ APP SHELL ============ */
+.app-shell{ display:flex; min-height:100vh; }
+
+/* ---- SIDEBAR ---- */
+.sidebar{
+  width:var(--sidebar-w); flex-shrink:0; background:var(--surface);
+  border-left:1px solid var(--border); display:flex; flex-direction:column;
+  position:sticky; top:0; height:100vh; padding:20px 14px; z-index:60;
+}
+.sb-brand{ display:flex; align-items:center; gap:10px; padding:6px 8px 22px; }
+.sb-logo{
+  width:40px; height:40px; border-radius:12px; flex-shrink:0; overflow:hidden;
+  background:linear-gradient(145deg, var(--primary), var(--primary-dark));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:16px; box-shadow:0 6px 16px rgba(47,111,94,0.3);
+}
+.sb-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.sb-brand-text{ display:flex; flex-direction:column; line-height:1.3; }
+.sb-brand-text span{ font-weight:700; font-size:14px; }
+.sb-brand-text small{ font-size:10.5px; color:var(--text-faint); }
+
+.sb-nav{ display:flex; flex-direction:column; gap:3px; flex:1; }
+.sb-item{
+  display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:var(--radius-sm);
+  font-size:13.5px; font-weight:600; color:var(--text-muted); transition:all .2s var(--ease);
+}
+.sb-item svg{ color:var(--text-faint); flex-shrink:0; transition:color .2s; }
+.sb-item:hover{ background:var(--surface-soft); color:var(--text); }
+.sb-item.active{ background:var(--primary); color:#fff; box-shadow:0 8px 18px rgba(47,111,94,0.25); }
+.sb-item.active svg{ color:#fff; }
+
+.sb-doctor{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:var(--radius-sm); background:var(--surface-soft); margin-top:10px; }
+.sb-doctor-avatar{ width:36px; height:36px; border-radius:50%; background:var(--gold-soft); color:#8A6A2E; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; }
+.sb-doctor div{ line-height:1.35; min-width:0; }
+.sb-doctor strong{ font-size:12.5px; display:block; }
+.sb-doctor small{ font-size:10.5px; color:var(--text-faint); }
+
+/* ---- MAIN AREA ---- */
+.main-area{ flex:1; min-width:0; }
+.top-header{
+  position:sticky; top:0; z-index:50; background:rgba(247,250,248,0.85);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:14px 26px;
+}
+.th-title{ font-size:16.5px; font-weight:800; }
+.th-title small{ display:block; font-size:11.5px; font-weight:500; color:var(--text-faint); margin-top:2px; }
+.th-search{ display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-pill); padding:9px 16px; width:280px; color:var(--text-faint); }
+.th-search input{ border:none; outline:none; background:none; font-size:12.8px; width:100%; color:var(--text); }
+.th-actions{ display:flex; align-items:center; gap:8px; }
+.dr-icon-btn{ position:relative; width:38px; height:38px; border-radius:var(--radius-pill); display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); transition:all .2s; }
+.dr-icon-btn:hover{ background:var(--surface-soft); }
+.dr-icon-btn .dot{ position:absolute; top:7px; left:8px; width:6px; height:6px; border-radius:50%; background:var(--coral); box-shadow:0 0 0 2px var(--surface); }
+
+.view-content{ padding:24px 26px 60px; max-width:1280px; }
+
+/* ============ DASHBOARD ============ */
+.kpi-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:22px; }
+.kpi-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:10px; transition:all .3s var(--ease); }
+.kpi-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-med); }
+.kpi-icon{ width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; }
+.kpi-icon.c1{ background:var(--surface-soft); color:var(--primary); }
+.kpi-icon.c2{ background:var(--gold-soft); color:#8A6A2E; }
+.kpi-icon.c3{ background:var(--coral-soft); color:var(--coral); }
+.kpi-icon.c4{ background:var(--blue-soft); color:var(--blue); }
+.kpi-icon.c5{ background:#EEE7FA; color:#8F6FD8; }
+.kpi-value{ font-size:23px; font-weight:800; }
+.kpi-label{ font-size:12px; color:var(--text-faint); }
+
+.dash-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:16px; }
+.panel-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); }
+.panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.panel-head h3{ font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.panel-head h3 svg{ color:var(--primary); }
+.panel-head .count{ font-size:11.5px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:4px 10px; border-radius:var(--radius-pill); }
+
+.appt-row{ display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:var(--radius-sm); transition:background .2s; }
+.appt-row:hover{ background:var(--surface-soft); }
+.appt-time{ font-size:12.5px; font-weight:800; color:var(--primary-dark); width:52px; flex-shrink:0; }
+.appt-info{ flex:1; min-width:0; }
+.appt-name{ font-size:13.5px; font-weight:700; }
+.appt-type{ font-size:11.5px; color:var(--text-faint); }
+.appt-status{ font-size:11px; font-weight:700; padding:4px 10px; border-radius:var(--radius-pill); flex-shrink:0; }
+.appt-status.waiting{ background:var(--gold-soft); color:#8A6A2E; }
+.appt-status.done{ background:#DFF2EA; color:var(--primary-dark); }
+.appt-status.pending{ background:var(--surface-soft); color:var(--text-faint); }
+
+.alert-row{ display:flex; align-items:flex-start; gap:11px; padding:12px 10px; border-radius:var(--radius-sm); border-inline-start:3px solid var(--coral); background:var(--coral-soft); margin-bottom:8px; }
+.alert-row .a-icon{ color:var(--coral); flex-shrink:0; margin-top:1px; }
+.alert-row strong{ font-size:12.8px; display:block; }
+.alert-row span{ font-size:11.5px; color:var(--text-muted); }
+
+/* ============ PATIENTS LIST ============ */
+.pat-search-bar{ display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+.pat-search-bar input{ flex:1; min-width:220px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-pill); padding:12px 18px; font-size:13px; outline:none; }
+.pat-search-bar input:focus{ border-color:var(--primary); }
+.pat-filters{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.pat-filter{ padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+.pat-filter.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+
+.pat-table{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-soft); }
+.pat-row{ display:flex; align-items:center; gap:14px; padding:14px 20px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
+.pat-row:last-child{ border-bottom:none; }
+.pat-row:hover{ background:var(--surface-soft); }
+.pat-avatar{ width:40px; height:40px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0; }
+.pat-info{ flex:1; min-width:0; }
+.pat-name{ font-size:13.8px; font-weight:700; }
+.pat-meta{ font-size:11.5px; color:var(--text-faint); }
+.pat-tag{ font-size:11px; font-weight:700; padding:4px 11px; border-radius:var(--radius-pill); flex-shrink:0; }
+.pat-tag.risk{ background:var(--coral-soft); color:var(--coral); }
+.pat-tag.ok{ background:#DFF2EA; color:var(--primary-dark); }
+
+/* ============ PATIENT DETAIL (split) ============ */
+.detail-header{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.back-link{ display:flex; align-items:center; gap:6px; font-size:12.8px; color:var(--text-muted); font-weight:600; }
+.detail-split{ display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; }
+
+.pd-head{ display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow-soft); }
+.pd-avatar{ width:56px; height:56px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex-shrink:0; }
+.pd-name{ font-size:16.5px; font-weight:800; }
+.pd-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; }
+
+.pd-tabs{ display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; scrollbar-width:none; }
+.pd-tabs::-webkit-scrollbar{ display:none; }
+.pd-tab{ flex-shrink:0; padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+.pd-tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+.pd-body-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); min-height:280px; }
+.pd-mini-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
+.pd-mini-item{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:12px 14px; }
+.pd-mini-item span{ display:block; font-size:11px; color:var(--text-faint); margin-bottom:3px; }
+.pd-mini-item strong{ font-size:14px; }
+
+/* AI side panel */
+.ai-side{ background:linear-gradient(160deg,#ffffff,#F3F9F6); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow-soft); position:sticky; top:78px; }
+.ai-side-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.ai-avatar{ width:38px; height:38px; border-radius:12px; overflow:hidden; flex-shrink:0; background:linear-gradient(145deg,var(--primary),var(--primary-dark)); color:#fff; display:flex; align-items:center; justify-content:center; }
+.ai-avatar img{ width:100%; height:100%; object-fit:cover; }
+.ai-side-head strong{ font-size:13.5px; display:block; }
+.ai-side-head small{ font-size:10.5px; color:var(--text-faint); }
+.ai-summary-box{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:13px 14px; font-size:12.5px; line-height:1.9; color:var(--text); margin-bottom:12px; }
+.ai-chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.ai-chip{ font-size:11px; font-weight:600; background:var(--surface); border:1px solid var(--border); padding:6px 12px; border-radius:var(--radius-pill); color:var(--primary-dark); }
+.ai-mini-input{ display:flex; gap:8px; }
+.ai-mini-input input{ flex:1; border:1px solid var(--border-strong); background:var(--surface); border-radius:var(--radius-pill); padding:10px 14px; font-size:12.5px; outline:none; }
+.ai-mini-input button{ width:38px; height:38px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* ============ AI ASSISTANT FULL PAGE ============ */
+.ai-page-head{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+.ai-page-avatar{ width:52px; height:52px; border-radius:16px; overflow:hidden; background:linear-gradient(145deg,var(--primary),var(--primary-dark)); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(47,111,94,0.3); }
+.ai-page-avatar img{ width:100%; height:100%; object-fit:cover; }
+.ai-page-head h2{ font-size:18px; font-weight:800; }
+.ai-page-head p{ font-size:12px; color:var(--text-faint); margin-top:3px; max-width:520px; line-height:1.7; }
+
+.dr-chat-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); overflow:hidden; display:flex; flex-direction:column; height:min(560px,68vh); }
+.dr-chat-messages{ flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:12px; }
+.dr-msg{ max-width:74%; padding:11px 15px; border-radius:16px; font-size:13.3px; line-height:1.85; }
+.dr-msg.ai{ align-self:flex-start; background:var(--surface-soft); border-bottom-right-radius:4px; }
+.dr-msg.user{ align-self:flex-end; background:var(--primary); color:#fff; border-bottom-left-radius:4px; }
+.dr-chat-input-row{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-top:1px solid var(--border); }
+.dr-chat-input-row input{ flex:1; border:none; outline:none; background:var(--surface-soft); border-radius:var(--radius-pill); padding:11px 16px; font-size:13px; }
+.chat-quick{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.chat-quick button{ font-size:12px; font-weight:600; background:var(--surface); border:1px solid var(--border); padding:8px 14px; border-radius:var(--radius-pill); color:var(--primary-dark); }
+.chat-quick button:hover{ background:var(--surface-soft); }
+
+/* ============ TOOL GRID (clinic mgmt / growth) ============ */
+.tool-section-title{ font-size:14px; font-weight:700; color:var(--text-muted); margin:22px 0 12px; }
+.tool-section-title:first-child{ margin-top:0; }
+.tool-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.tool-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:10px; transition:all .3s var(--ease); cursor:pointer; }
+.tool-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-med); border-color:transparent; }
+.tool-icon{ width:38px; height:38px; border-radius:11px; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; }
+.tool-card h4{ font-size:13.5px; font-weight:700; }
+.tool-card p{ font-size:11.5px; color:var(--text-faint); line-height:1.6; }
+.tool-card.disabled{ opacity:.55; cursor:not-allowed; }
+.tool-badge{ font-size:9.5px; font-weight:700; background:var(--gold-soft); color:#8A6A2E; padding:3px 8px; border-radius:var(--radius-pill); align-self:flex-start; }
+
+/* Instagram demo panel */
+.ig-demo{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); margin-top:16px; }
+.ig-tabs{ display:flex; gap:8px; margin-bottom:14px; }
+.ig-tab{ padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface-soft); color:var(--text-muted); }
+.ig-tab.active{ background:var(--primary); color:#fff; }
+.ig-item{ display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:var(--radius-sm); border-bottom:1px solid var(--border); }
+.ig-item:last-child{ border-bottom:none; }
+.ig-item-avatar{ width:36px; height:36px; border-radius:50%; background:var(--surface-soft); flex-shrink:0; }
+.ig-item-text{ flex:1; min-width:0; }
+.ig-item-text strong{ font-size:12.8px; }
+.ig-item-text span{ font-size:11.5px; color:var(--text-faint); display:block; margin-top:2px; }
+.ig-ai-tag{ font-size:10px; font-weight:700; color:var(--primary-dark); background:#DFF2EA; padding:3px 9px; border-radius:var(--radius-pill); flex-shrink:0; }
+
+.demo-warn{ display:flex; gap:9px; align-items:flex-start; font-size:11.8px; color:#8A6A2E; background:var(--gold-soft); padding:11px 14px; border-radius:var(--radius-sm); line-height:1.8; margin-top:14px; }
+.demo-warn svg{ flex-shrink:0; width:16px; height:16px; margin-top:1px; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px){
+  .kpi-grid{ grid-template-columns:repeat(3,1fr); }
+  .dash-grid{ grid-template-columns:1fr; }
+  .detail-split{ grid-template-columns:1fr; }
+  .ai-side{ position:static; }
+  .tool-grid{ grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width: 860px){
+  .sidebar{ position:fixed; inset-inline-end:0; top:0; height:100vh; transform:translateX(105%); transition:transform .3s var(--ease); box-shadow:var(--shadow-med); }
+  .sidebar.open{ transform:translateX(0); }
+  .th-search{ display:none; }
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .tool-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 560px){
+  .view-content{ padding:18px 14px 50px; }
+  .top-header{ padding:12px 14px; }
+  .kpi-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+  .kpi-card{ padding:14px; }
+  .tool-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+}
+
 </style>
 </head>
 <body>
@@ -1013,10 +1243,23 @@ section.page-sec{ padding:70px 0; }
 <symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></symbol>
 <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M4 12h16"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.3"/><circle cx="15" cy="14" r="1.3"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.2"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M19 17H6a2 2 0 000 4h13"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M16 13h3"/><path d="M3 10h18"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M4 12h2M18 12h2M12 4v2M12 18v2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M17.7 6.3l-1.4 1.4M7.7 16.3l-1.4 1.4"/></symbol>
+<symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol>
+<symbol id="i-service" viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></symbol>
+<symbol id="i-report" viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></symbol>
 </defs>
 </svg>
-<body>
 
+<!-- ============================================================
+     صفحه ۱ — لندینگ اصلی سایت
+     ============================================================ -->
 <div id="screen-landing" class="screen active">
 
   <header class="site-nav">
@@ -1236,6 +1479,9 @@ section.page-sec{ padding:70px 0; }
 
 </div>
 
+<!-- ============================================================
+     صفحه ۲ — ورود کاربران (دمو)
+     ============================================================ -->
 <div id="screen-login" class="screen">
   <div class="login-screen-wrap">
     <div class="login-box reveal show">
@@ -1255,25 +1501,749 @@ section.page-sec{ padding:70px 0; }
         <div class="field"><label>شماره موبایل</label><input type="text" placeholder="مثلاً 0912xxxxxxx"></div>
         <div class="field"><label>رمز عبور</label><input type="password" placeholder="••••••••"></div>
         <div class="demo-note"><svg class="i-sm"><use href="#i-sparkles"/></svg>این یک نسخه دمو است؛ نیازی به اطلاعات واقعی نیست، فقط دکمه ورود آزمایشی رو بزنید.</div>
-        <a class="btn btn-primary" href="patient-panel.html" style="text-decoration:none; justify-content:center;">ورود آزمایشی به پنل بیماران</a>
+        <button class="btn btn-primary" onclick="goTo('screen-panel')">ورود آزمایشی به پنل بیماران</button>
       </div>
 
       <div class="login-panel" data-panel="doctor">
         <div class="field"><label>نام کاربری</label><input type="text" placeholder="مثلاً dr.heidi"></div>
         <div class="field"><label>رمز عبور</label><input type="password" placeholder="••••••••"></div>
         <div class="demo-note"><svg class="i-sm"><use href="#i-sparkles"/></svg>این یک نسخه دمو است؛ نیازی به اطلاعات واقعی نیست، فقط دکمه ورود آزمایشی رو بزنید.</div>
-        <a class="btn btn-primary" href="doctor-panel.html" style="text-decoration:none; justify-content:center;">ورود آزمایشی به پنل پزشک</a>
+        <button class="btn btn-primary" onclick="goTo('screen-doctor')">ورود آزمایشی به پنل پزشک</button>
       </div>
 
       <div class="login-panel" data-panel="secretary">
         <div class="field"><label>نام کاربری</label><input type="text" placeholder="مثلاً reception1"></div>
         <div class="field"><label>رمز عبور</label><input type="password" placeholder="••••••••"></div>
         <div class="demo-note"><svg class="i-sm"><use href="#i-sparkles"/></svg>این یک نسخه دمو است؛ نیازی به اطلاعات واقعی نیست، فقط دکمه ورود آزمایشی رو بزنید.</div>
-        <a class="btn btn-primary" href="secretary-panel.html" style="text-decoration:none; justify-content:center;">ورود آزمایشی به پنل منشی</a>
+        <button class="btn btn-primary" onclick="goTo('screen-secretary')">ورود آزمایشی به پنل منشی</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- ============================================================
+     صفحه ۳ — پنل پزشک (نسخه کامل و جدید — دکتر هوشا)
+     ============================================================ -->
+<div id="screen-doctor" class="screen">
+<div class="app-shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">
+        <img src="images/logo.png" alt="لوگوی کلینیک هوشمند" onerror="this.style.display='none'; this.parentElement.textContent='ه';">
+      </div>
+      <div class="sb-brand-text">
+        <span>کلینیک هوشمند</span>
+        <small>پنل پزشک</small>
+      </div>
+    </div>
+
+    <nav class="sb-nav" id="sbNav">
+      <a class="sb-item active" data-view="dashboard"><svg class="i"><use href="#i-grid"/></svg>داشبورد</a>
+      <a class="sb-item" data-view="patients"><svg class="i"><use href="#i-users"/></svg>بیماران</a>
+      <a class="sb-item" data-view="ai"><svg class="i"><use href="#i-bot"/></svg>دستیار هوشمند</a>
+      <a class="sb-item" data-view="clinic"><svg class="i"><use href="#i-building"/></svg>مدیریت کلینیک</a>
+      <a class="sb-item" data-view="growth"><svg class="i"><use href="#i-trend"/></svg>رشد و بازاریابی</a>
+    </nav>
+
+    <div class="sb-doctor">
+      <div class="sb-doctor-avatar">ح</div>
+      <div>
+        <strong>دکتر حیدی</strong>
+        <small>جراح چاقی</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN AREA ================= -->
+  <main class="main-area">
+
+    <header class="top-header">
+      <div class="th-title" id="thTitle">داشبورد<small>خلاصه امروز کلینیک شما</small></div>
+      <div class="th-search"><svg class="i-sm"><use href="#i-search"/></svg><input type="text" placeholder="جستجوی بیمار…"></div>
+      <div class="th-actions">
+        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
+        <button class="dr-icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="dr-icon-btn" id="menuBtn" style="display:none"><svg class="i"><use href="#i-grid"/></svg></button>
+      </div>
+    </header>
+
+    <div class="view-content">
+
+      <!-- ============ VIEW: DASHBOARD ============ -->
+      <section class="view active" id="view-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-icon c1"><svg class="i"><use href="#i-users"/></svg></div><span class="kpi-value">۱۲</span><span class="kpi-label">بیمار امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c2"><svg class="i"><use href="#i-activity"/></svg></div><span class="kpi-value">۲</span><span class="kpi-label">عمل امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c3"><svg class="i"><use href="#i-alert"/></svg></div><span class="kpi-value">۳</span><span class="kpi-label">نیازمند بررسی فوری</span></div>
+          <div class="kpi-card"><div class="kpi-icon c4"><svg class="i"><use href="#i-calendar"/></svg></div><span class="kpi-value">۹</span><span class="kpi-label">نوبت امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c5"><svg class="i"><use href="#i-message"/></svg></div><span class="kpi-value">۵</span><span class="kpi-label">پیام نیازمند تایید</span></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>نوبت‌های امروز</h3><span class="count">۹ نوبت</span></div>
+            <div class="appt-list">
+              <div class="appt-row"><span class="appt-time">۱۰:۳۰</span><div class="appt-info"><div class="appt-name">محمد رضایی</div><div class="appt-type">ویزیت پیگیری</div></div><span class="appt-status done">حاضر</span></div>
+              <div class="appt-row"><span class="appt-time">۱۱:۱۵</span><div class="appt-info"><div class="appt-name">سارا احمدی</div><div class="appt-type">مشاوره اولیه</div></div><span class="appt-status waiting">در انتظار</span></div>
+              <div class="appt-row"><span class="appt-time">۱۲:۰۰</span><div class="appt-info"><div class="appt-name">علی نجفی</div><div class="appt-type">بررسی آزمایش</div></div><span class="appt-status pending">هنوز نرسیده</span></div>
+              <div class="appt-row"><span class="appt-time">۱۴:۱۵</span><div class="appt-info"><div class="appt-name">نگار موسوی</div><div class="appt-type">ویزیت پیگیری</div></div><span class="appt-status pending">هنوز نرسیده</span></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-alert"/></svg>هشدارهای مهم</h3></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>احتمال عفونت زخم</strong><span>علی نجفی — بررسی فوری لازم است</span></div></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>آزمایش غیرطبیعی</strong><span>سارا احمدی — سطح آهن پایین</span></div></div>
+            <div class="alert-row"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>نیازمند تماس فوری</strong><span>رضا صادقی — علائم خطر گزارش شده</span></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: PATIENTS LIST ============ -->
+      <section class="view" id="view-patients">
+        <div class="pat-search-bar">
+          <input type="text" placeholder="جستجو با نام، موبایل، شماره پرونده یا کد ملی…">
+        </div>
+        <div class="pat-filters">
+          <span class="pat-filter active">همه</span>
+          <span class="pat-filter">بیماران امروز</span>
+          <span class="pat-filter">بیماران اخیر</span>
+          <span class="pat-filter">پرریسک</span>
+        </div>
+        <div class="pat-table" id="patTable">
+          <div class="pat-row" data-patient="mohammad"><div class="pat-avatar">م</div><div class="pat-info"><div class="pat-name">محمد رضایی</div><div class="pat-meta">روز ۳۲ بعد از عمل — پرونده #۱۰۲۴</div></div><span class="pat-tag ok">پایدار</span></div>
+          <div class="pat-row" data-patient="sara"><div class="pat-avatar">س</div><div class="pat-info"><div class="pat-name">سارا احمدی</div><div class="pat-meta">پیش از عمل — پرونده #۱۰۳۱</div></div><span class="pat-tag risk">پرریسک</span></div>
+          <div class="pat-row" data-patient="ali"><div class="pat-avatar">ع</div><div class="pat-info"><div class="pat-name">علی نجفی</div><div class="pat-meta">روز ۸ بعد از عمل — پرونده #۱۰۱۸</div></div><span class="pat-tag risk">پرریسک</span></div>
+          <div class="pat-row" data-patient="negar"><div class="pat-avatar">ن</div><div class="pat-info"><div class="pat-name">نگار موسوی</div><div class="pat-meta">مشاوره اولیه — پرونده #۱۰۴۰</div></div><span class="pat-tag ok">پایدار</span></div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: PATIENT DETAIL ============ -->
+      <section class="view" id="view-patient-detail">
+        <div class="detail-header">
+          <button class="back-link" id="backToPatients"><svg class="i-sm"><use href="#i-back"/></svg>بازگشت به لیست بیماران</button>
+        </div>
+        <div class="detail-split">
+          <div>
+            <div class="pd-head">
+              <div class="pd-avatar" id="pdAvatar">م</div>
+              <div>
+                <div class="pd-name" id="pdName">محمد رضایی</div>
+                <div class="pd-sub" id="pdSub">پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل — اسلیو معده</div>
+              </div>
+            </div>
+            <div class="pd-tabs">
+              <span class="pd-tab active">اطلاعات هویتی</span>
+              <span class="pd-tab">تایم‌لاین درمان</span>
+              <span class="pd-tab">روند وزن</span>
+              <span class="pd-tab">آزمایش‌ها</span>
+              <span class="pd-tab">داروها</span>
+              <span class="pd-tab">تصاویر</span>
+              <span class="pd-tab">یادداشت پزشک</span>
+            </div>
+            <div class="pd-body-card">
+              <div class="pd-mini-grid">
+                <div class="pd-mini-item"><span>سن</span><strong>۳۸ سال</strong></div>
+                <div class="pd-mini-item"><span>نوع جراحی</span><strong>اسلیو معده</strong></div>
+                <div class="pd-mini-item"><span>وزن فعلی</span><strong>۸۲ کیلوگرم</strong></div>
+                <div class="pd-mini-item"><span>BMI</span><strong>۲۶.۴</strong></div>
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); line-height:1.9;">این بخش به‌صورت دمو نمایش داده می‌شود. در نسخه نهایی، اطلاعات کامل پرونده (تایم‌لاین، نمودار وزن، آزمایش‌ها، نسخه‌ها و تاریخچه ویزیت) از دیتابیس واقعی بارگذاری خواهد شد.</p>
+            </div>
+          </div>
+
+          <!-- AI Side Panel -->
+          <aside class="ai-side">
+            <div class="ai-side-head">
+              <div class="ai-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div><strong>دکتر هوشا</strong><small>دستیار هوشمند پزشک</small></div>
+            </div>
+            <div class="ai-summary-box">
+              خلاصه هوشمند: روند کاهش وزن این بیمار پایدار و مطابق انتظار است. در سه روز اخیر دریافت پروتئین کمتر از حد توصیه‌شده بوده. آزمایش خون اخیر طبیعی است.
+            </div>
+            <div class="ai-chip-row">
+              <span class="ai-chip">خلاصه پرونده</span>
+              <span class="ai-chip">تحلیل روند وزن</span>
+              <span class="ai-chip">تحلیل آزمایش</span>
+              <span class="ai-chip">تحلیل زخم</span>
+            </div>
+            <div class="ai-mini-input">
+              <input type="text" placeholder="سوالی درباره این بیمار بپرسید…">
+              <button><svg class="i-sm"><use href="#i-send"/></svg></button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: AI ASSISTANT (دکتر هوشا) ============ -->
+      <section class="view" id="view-ai">
+        <div class="ai-page-head">
+          <div class="ai-page-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+          <div>
+            <h2>دکتر هوشا — دستیار هوشمند پزشک</h2>
+            <p>مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک. برای تحلیل پرونده، آزمایش، تصویر یا پرسش پزشکی استفاده کنید.</p>
+          </div>
+        </div>
+
+        <div class="dr-chat-card">
+          <div class="dr-chat-messages" id="aiChatMessages">
+            <div class="dr-msg ai"><p>سلام دکتر حیدی 👋 چطور می‌تونم کمکتون کنم؟ می‌تونید پرونده بیمار، آزمایش یا عکس رو برام بفرستید یا سوال بپرسید.</p></div>
+            <div class="dr-msg user"><p>روند کاهش وزن محمد رضایی رو تحلیل کن</p></div>
+            <div class="dr-msg ai"><p>روند کاهش وزن محمد رضایی در ۸ هفته اخیر پایدار و مطابق پروتکل استاندارد اسلیو معده است (۱۶٪ کاهش از وزن اولیه). توصیه می‌شود دریافت پروتئین روزانه افزایش یابد.</p></div>
+            <div class="dr-msg ai" id="aiTyping" style="display:none"><p>در حال تحلیل…</p></div>
+          </div>
+          <div class="dr-chat-input-row">
+            <input type="text" id="aiChatInput" placeholder="سوال خود را از دکتر هوشا بپرسید…">
+            <button class="dr-icon-btn" id="aiChatSend"><svg class="i"><use href="#i-send"/></svg></button>
+          </div>
+        </div>
+        <div class="chat-quick">
+          <button>خلاصه بیماران پرریسک امروز</button>
+          <button>مقایسه پروتکل بای‌پس و اسلیو</button>
+          <button>تحلیل یک آزمایش جدید</button>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: CLINIC MANAGEMENT ============ -->
+      <section class="view" id="view-clinic">
+        <div class="tool-section-title">مدیریت عملیات</div>
+        <div class="tool-grid">
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم و نوبت‌ها</h4><p>مدیریت کامل نوبت‌دهی کلینیک</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-users"/></svg></div><h4>مدیریت منشی</h4><p>دسترسی و وظایف پرسنل پذیرش</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-user"/></svg></div><h4>مدیریت کاربران</h4><p>پزشکان، پرسنل و سطح دسترسی</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>گزارش‌های مدیریتی</h4><p>آمار عملکرد و روند کلینیک</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-settings"/></svg></div><h4>تنظیمات کلینیک</h4><p>اطلاعات عمومی و پیکربندی</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-form"/></svg></div><h4>مدیریت فرم‌ها</h4><p>فرم‌های پذیرش و رضایت‌نامه</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-service"/></svg></div><h4>مدیریت خدمات</h4><p>لیست خدمات و قیمت‌گذاری</p></div>
+        </div>
+
+        <div class="tool-section-title">امور مالی</div>
+        <div class="tool-grid">
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-wallet"/></svg></div><h4>حقوق پرسنل</h4><p>محاسبه و پرداخت ماهانه</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>قبض‌ها و هزینه‌ها</h4><p>ثبت و پیگیری هزینه‌های کلینیک</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-trend"/></svg></div><h4>درآمد کلینیک</h4><p>گزارش مالی و نمودار درآمد</p></div>
+        </div>
+        <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>بخش امور مالی حساس‌ترین قسمت از نظر امنیتی است؛ در نسخه نهایی دسترسی آن باید محدود به پزشک/مدیر کلینیک باشد.</div>
+      </section>
+
+      <!-- ============ VIEW: GROWTH & MARKETING ============ -->
+      <section class="view" id="view-growth">
+        <div class="tool-section-title">محتوا و شبکه‌های اجتماعی</div>
+        <div class="tool-grid">
+          <div class="tool-card" data-tool="instagram"><div class="tool-icon"><svg class="i"><use href="#i-camera"/></svg></div><h4>مدیریت اینستاگرام</h4><p>پاسخ خودکار دایرکت، کامنت و تعامل هوشمند</p><span class="tool-badge">هوش مصنوعی</span></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>مدیریت بلاگ سایت</h4><p>نوشتن و انتشار مقالات با کمک AI</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-message"/></svg></div><h4>تولید کپشن</h4><p>کپشن هوشمند برای پست‌ها</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-sparkles"/></svg></div><h4>ایده ریلز</h4><p>پیشنهاد سناریوی ویدیویی</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم محتوایی</h4><p>برنامه‌ریزی انتشار هفتگی</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-image"/></svg></div><h4>تصاویر Before/After</h4><p>آرشیو و مدیریت تصاویر تحول بیماران</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-phone"/></svg></div><h4>کمپین پیامکی</h4><p>ارسال کمپین به بیماران</p></div>
+          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>تحلیل تبلیغات</h4><p>عملکرد کمپین‌های تبلیغاتی</p></div>
+        </div>
+
+        <!-- Instagram demo -->
+        <div class="ig-demo" id="igDemo">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-camera"/></svg>مدیریت هوشمند اینستاگرام</h3></div>
+          <div class="ig-tabs">
+            <span class="ig-tab active">دایرکت‌ها</span>
+            <span class="ig-tab">کامنت‌ها</span>
+            <span class="ig-tab">تعامل خودکار</span>
+          </div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>user_reyhaneh</strong><span>هزینه عمل اسلیو چقدره؟</span></div><span class="ig-ai-tag">پاسخ AI ارسال شد</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94</strong><span>نوبت مشاوره می‌خوام بگیرم</span></div><span class="ig-ai-tag">در انتظار تایید پزشک</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>sara_k</strong><span>کامنت: عالی بود نتیجه‌تون 😍</span></div><span class="ig-ai-tag">لایک و پاسخ خودکار</span></div>
+          <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>اتصال واقعی به اینستاگرام نیازمند Meta API، مجوز رسمی و بررسی امنیتی توکن‌هاست؛ این بخش فعلاً فقط نمایش دمو است.</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- ============================================================
+     صفحه ۴ — پنل منشی (پایه)
+     ============================================================ -->
+<div id="screen-secretary" class="screen">
+  <header class="simple-topbar">
+    <div class="simple-topbar-inner">
+      <div class="brand"><div class="brand-mark">ه</div><div class="brand-name"><span>کلینیک هوشمند</span><small>پنل منشی</small></div></div>
+      <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
+    </div>
+  </header>
+  <main class="simple-main">
+    <div class="simple-welcome">
+      <h1>سلام 👋</h1>
+      <p>امروز ۹ نوبت ثبت شده و ۳ تماس در انتظار پاسخ دارید.</p>
+    </div>
+    <div class="simple-stats">
+      <div class="stat-box"><strong>۹</strong><span>نوبت امروز</span></div>
+      <div class="stat-box"><strong>۳</strong><span>تماس در انتظار</span></div>
+      <div class="stat-box"><strong>۵</strong><span>بیمار در صف انتظار</span></div>
+    </div>
+    <div class="simple-grid">
+      <div class="simple-card">
+        <h3><svg class="i-sm"><use href="#i-calendar"/></svg> نوبت‌دهی امروز</h3>
+        <div class="simple-list">
+          <div class="simple-row"><span>محمد رضایی — دکتر حیدی</span><span class="tag">۱۰:۳۰</span></div>
+          <div class="simple-row"><span>سارا احمدی — دکتر حیدی</span><span class="tag">۱۲:۰۰</span></div>
+          <div class="simple-row"><span>علی نجفی — دکتر حیدی</span><span class="tag">۱۴:۱۵</span></div>
+        </div>
+      </div>
+      <div class="simple-card">
+        <h3><svg class="i-sm"><use href="#i-phone"/></svg> تماس‌های در انتظار</h3>
+        <div class="simple-list">
+          <div class="simple-row"><span>مریم کریمی — سوال درباره نوبت</span></div>
+          <div class="simple-row"><span>حسین یزدانی — تغییر زمان ویزیت</span></div>
+        </div>
+      </div>
+      <div class="simple-card">
+        <h3><svg class="i-sm"><use href="#i-users"/></svg> بیماران در صف انتظار</h3>
+        <div class="simple-list">
+          <div class="simple-row"><span>نگار موسوی</span><span class="tag">مشاوره اولیه</span></div>
+          <div class="simple-row"><span>رضا صادقی</span><span class="tag">پیگیری</span></div>
+        </div>
+      </div>
+      <div class="simple-card">
+        <h3><svg class="i-sm"><use href="#i-list"/></svg> دسترسی سریع</h3>
+        <div class="simple-list">
+          <div class="simple-row"><span>ثبت نوبت جدید</span></div>
+          <div class="simple-row"><span>تقویم هفتگی کلینیک</span></div>
+          <div class="simple-row"><span>لیست بیماران</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="placeholder-note">این یک نسخه پایه و نمایشی از پنل منشی است و صرفاً برای دمو طراحی شده.</p>
+  </main>
+</div>
+
+<!-- ============================================================
+     صفحه ۵ — پنل بیماران «همراه هوشمند پیشرفته» (کامل، طبق نسخه اصلی)
+     ============================================================ -->
+<!-- ================= PATIENT PANEL (SCREEN 1) ================= -->
+<div id="screen-panel" class="screen">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="clinic-brand">
+        <div class="clinic-mark">ه</div>
+        <div class="clinic-name">
+          <span>کلینیک هوشمند</span>
+          <small>پنل بیماران</small>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="icon-btn avatar-btn" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
+        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')" style="margin-inline-start:6px;">خروج به سایت</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="panel-main">
+
+    <section class="welcome-card reveal">
+      <div class="welcome-text">
+        <h1>سلام محمد 👋</h1>
+        <p>امروز <strong>روز ۳۲</strong> بعد از عمل شماست. مسیر خوبی رو تا اینجا اومدید.</p>
+      </div>
+      <div class="welcome-stats">
+        <div class="w-stat">
+          <span class="w-stat-label">وزن فعلی</span>
+          <span class="w-stat-value">۸۲ <small>کیلوگرم</small></span>
+        </div>
+        <div class="w-stat-divider"></div>
+        <div class="w-stat">
+          <span class="w-stat-label">نوبت بعدی</span>
+          <span class="w-stat-value">۱۴ مرداد</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="basic-section reveal">
+      <div class="section-head">
+        <h2>خدمات پنل شما</h2>
+      </div>
+      <div class="basic-grid">
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-calendar"/></svg></span>
+          <span class="basic-title">نوبت‌دهی</span>
+          <span class="basic-desc">رزرو و مشاهده نوبت‌ها</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-file"/></svg></span>
+          <span class="basic-title">پرونده پزشکی</span>
+          <span class="basic-desc">سوابق و مدارک درمانی</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-message"/></svg></span>
+          <span class="basic-title">پیام به پزشک</span>
+          <span class="basic-desc">ارتباط مستقیم با تیم درمان</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-thermometer"/></svg></span>
+          <span class="basic-title">نتایج آزمایش</span>
+          <span class="basic-desc">۳ آزمایش جدید</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-pill"/></svg></span>
+          <span class="basic-title">دستور دارویی</span>
+          <span class="basic-desc">داروها و مکمل‌های فعال</span>
+        </a>
+        <a class="basic-card" href="#">
+          <span class="basic-icon"><svg class="i"><use href="#i-card"/></svg></span>
+          <span class="basic-title">صورت‌حساب</span>
+          <span class="basic-desc">پرداخت‌ها و فاکتورها</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="promo-section reveal">
+      <div class="promo-card" id="enterCompanionBtn" role="button" tabindex="0">
+        <div class="promo-glow"></div>
+        <div class="promo-badge"><svg class="i-sm"><use href="#i-sparkles"/></svg> ویژه شما</div>
+        <div class="promo-body">
+          <div class="promo-icon-wrap">
+            <svg class="i-lg"><use href="#i-sparkles"/></svg>
+          </div>
+          <h3>همراه هوشمند پیشرفته</h3>
+          <p>دستیار شخصی شما در تمام مسیر کاهش وزن و مراقبت پس از عمل. یک فضای اختصاصی که هر روز کنارتونه.</p>
+          <div class="promo-chips">
+            <span class="chip">تحلیل عکس غذا</span>
+            <span class="chip">حافظه هوشمند</span>
+            <span class="chip">دستاورد و امتیاز</span>
+            <span class="chip">مسیر درمان زنده</span>
+          </div>
+          <button class="btn btn-primary btn-lg">
+            ورود به همراه هوشمند
+            <svg class="i"><use href="#i-back"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= AI COMPANION (SCREEN 2) ================= -->
+<div id="screen-companion" class="screen">
+
+  <header class="comp-header">
+    <div class="comp-header-top">
+      <button class="icon-btn" id="backBtn" aria-label="بازگشت">
+        <svg class="i"><use href="#i-forward"/></svg>
+      </button>
+      <div class="comp-greeting">
+        <h1>سلام محمد <span class="wave">👋</span></h1>
+        <p>امروز <strong>روز ۳۲</strong> بعد از عمل شماست</p>
+      </div>
+      <div class="comp-level">
+        <span class="level-badge">Lv 5</span>
+      </div>
+    </div>
+    <div class="comp-header-stats">
+      <div class="mini-ring-wrap">
+        <svg class="mini-ring" viewBox="0 0 64 64">
+          <circle class="mini-ring-track" cx="32" cy="32" r="27"/>
+          <circle class="mini-ring-fill" cx="32" cy="32" r="27" style="--pct:78"/>
+        </svg>
+        <div class="mini-ring-text"><strong>78</strong><small>امتیاز</small></div>
+      </div>
+      <div class="xp-block">
+        <div class="xp-labels"><span>XP سطح ۵</span><span>۲,۴۵۰ / ۳,۰۰۰</span></div>
+        <div class="xp-bar"><div class="xp-fill" style="width:82%"></div></div>
+      </div>
+      <div class="streak-mini">
+        <svg class="i flame-i"><use href="#i-flame"/></svg>
+        <span>۱۲</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">نمای کلی</button>
+    <button class="tab" data-tab="features">امکانات</button>
+    <button class="tab" data-tab="achievements">دستاوردها</button>
+    <button class="tab" data-tab="timeline">مسیر درمان</button>
+    <button class="tab" data-tab="nutrition">تغذیه</button>
+    <button class="tab" data-tab="chat">دستیار هوشمند</button>
+    <button class="tab" data-tab="challenges">چالش‌ها</button>
+  </nav>
+
+  <main class="tab-content">
+
+    <!-- ===== TAB: OVERVIEW ===== -->
+    <section class="tab-panel active" id="tab-overview">
+
+      <div class="hero-progress-card">
+        <div class="hero-ring-wrap">
+          <svg class="hero-ring" viewBox="0 0 200 200">
+            <circle class="hero-ring-track" cx="100" cy="100" r="86"/>
+            <circle class="hero-ring-fill" cx="100" cy="100" r="86" style="--pct:69"/>
+          </svg>
+          <div class="hero-ring-center">
+            <span class="hero-ring-pct">۶۹٪</span>
+            <span class="hero-ring-label">تا هدف نهایی</span>
+          </div>
+        </div>
+        <div class="hero-progress-stats">
+          <div class="hp-stat">
+            <span class="hp-label">وزن فعلی</span>
+            <span class="hp-value">۸۲ <small>kg</small></span>
+          </div>
+          <div class="hp-stat">
+            <span class="hp-label">وزن هدف</span>
+            <span class="hp-value">۷۵ <small>kg</small></span>
+          </div>
+          <div class="hp-stat highlight">
+            <span class="hp-label">کاهش تاکنون</span>
+            <span class="hp-value">۱۶ <small>kg</small></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-recommend-card">
+        <div class="ai-recommend-icon"><svg class="i"><use href="#i-sparkles"/></svg></div>
+        <div>
+          <span class="ai-recommend-tag">پیشنهاد امروز هوش مصنوعی</span>
+          <p>سه روز پیاپیه که پروتئین کافی دریافت نکردید. امروز یک وعده تخم‌مرغ یا پنیر کم‌چرب اضافه کنید.</p>
+        </div>
+      </div>
+
+      <div class="weight-dash-card">
+        <div class="wd-head">
+          <h3>روند کاهش وزن</h3>
+          <span class="wd-badge"><svg class="i-sm"><use href="#i-trend-down"/></svg> ۱۶٪ کاهش</span>
+        </div>
+        <svg class="weight-chart" viewBox="0 0 320 120" preserveAspectRatio="none">
+          <polyline class="wc-line" points="10,14 50,24 90,32 130,44 170,56 210,70 250,82 300,90"/>
+          <polygon class="wc-fill" points="10,14 50,24 90,32 130,44 170,56 210,70 250,82 300,90 300,120 10,120"/>
+          <circle class="wc-dot" cx="300" cy="90" r="4"/>
+        </svg>
+        <div class="wd-grid">
+          <div class="wd-item"><span>BMI</span><strong>26.4</strong></div>
+          <div class="wd-item"><span>دور شکم</span><strong>۹۸ cm</strong></div>
+          <div class="wd-item"><span>هفته</span><strong>هشتم</strong></div>
+          <div class="wd-item"><span>روند</span><strong class="pos">پایدار ↓</strong></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== TAB: FEATURES ===== -->
+    <section class="tab-panel" id="tab-features">
+      <p class="tab-intro">همه‌چیزی که همراه هوشمند برای مسیر شما فراهم می‌کنه.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><svg class="i"><use href="#i-sparkles"/></svg><h4>AI هوشمند با حافظه</h4><p>گفتگوهای قبلی رو به یاد می‌سپاره</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-camera"/></svg><h4>تحلیل عکس غذا</h4><p>کالری و مواد مغذی رو از عکس تشخیص می‌ده</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-bars"/></svg><h4>تحلیل کالری</h4><p>پیگیری دقیق مصرف روزانه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-file"/></svg><h4>تحلیل آزمایش</h4><p>خوانش هوشمند نتایج آزمایشگاه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-heart"/></svg><h4>تحلیل عکس زخم</h4><p>پایش روند بهبودی محل جراحی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-list"/></svg><h4>برنامه غذایی شخصی</h4><p>متناسب با مرحله درمان شما</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-trend-down"/></svg><h4>تحلیل روند کاهش وزن</h4><p>نمودار و پیش‌بینی هوشمند</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-clock"/></svg><h4>Timeline درمان</h4><p>نقشه راه کامل تا یک سال آینده</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-trophy"/></svg><h4>Achievement</h4><p>مدال برای هر پیشرفت واقعی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-zap"/></svg><h4>گیمیفیکیشن</h4><p>سطح، امتیاز و رقابت با خودتون</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-flame"/></svg><h4>Streak</h4><p>روزهای پیاپی ثبت رو حفظ کنید</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-grid"/></svg><h4>داشبورد پیشرفته</h4><p>همه شاخص‌ها در یک نگاه</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-target"/></svg><h4>هدف‌گذاری</h4><p>اهداف کوتاه و بلندمدت شخصی</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-gift"/></svg><h4>Recipe AI</h4><p>پیشنهاد دستور غذای مناسب شما</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-droplet"/></svg><h4>Nutrition AI</h4><p>تعادل پروتئین، آب و ریزمغذی‌ها</p></div>
+        <div class="feature-card"><svg class="i"><use href="#i-bell"/></svg><h4>گزارش‌های هوشمند</h4><p>خلاصه هفتگی برای شما و پزشک</p></div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: ACHIEVEMENTS ===== -->
+    <section class="tab-panel" id="tab-achievements">
+
+      <div class="level-card">
+        <div class="level-left">
+          <div class="level-circle">۵</div>
+          <div>
+            <span class="level-title">سطح ۵ — پیگیر مصمم</span>
+            <span class="level-sub">۵۵۰ XP تا سطح بعدی</span>
+          </div>
+        </div>
+        <div class="xp-bar big"><div class="xp-fill" style="width:82%"></div></div>
+      </div>
+
+      <div class="streak-card">
+        <div class="streak-flame">
+          <svg class="i-xl flame-anim"><use href="#i-flame"/></svg>
+          <div class="streak-count"><strong>۱۲</strong><span>روز پیاپی</span></div>
+        </div>
+        <div class="streak-side">
+          <div class="streak-best">رکورد قبلی: <strong>۱۹ روز</strong></div>
+          <div class="heatmap" id="heatmap"></div>
+          <button class="btn btn-soft btn-sm" id="logWeightBtn">ثبت وزن امروز <svg class="i-sm"><use href="#i-check"/></svg></button>
+        </div>
+      </div>
+
+      <h3 class="section-sub-title">دیوار دستاوردها</h3>
+      <div class="badge-wall">
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-trend-down"/></svg></div>
+          <span>اولین ۵ کیلو</span>
+        </div>
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-calendar"/></svg></div>
+          <span>۳۰ روز ثبت وزن</span>
+        </div>
+        <div class="badge-item unlocked">
+          <div class="badge-icon gold"><svg class="i"><use href="#i-droplet"/></svg></div>
+          <span>قهرمان آب</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>قهرمان پروتئین</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>۱۰۰ روز بعد از عمل</span>
+        </div>
+        <div class="badge-item locked">
+          <div class="badge-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <span>۵۰ کیلو کاهش</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: TIMELINE ===== -->
+    <section class="tab-panel" id="tab-timeline">
+      <div class="timeline-status-card">
+        <span class="ts-tag">مرحله فعلی</span>
+        <h3>رژیم نرم</h3>
+        <p>۹ روز تا شروع مرحله «غذای معمولی». پزشک شما توصیه می‌کنه وعده‌ها رو کوچک و پرتکرار نگه دارید.</p>
+      </div>
+      <div class="timeline-scroll">
+        <div class="timeline-track">
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">مشاوره</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">آزمایش</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">عمل</span></div>
+          <div class="tl-step done"><span class="tl-dot"><svg class="i-sm"><use href="#i-check"/></svg></span><span class="tl-label">رژیم مایع</span></div>
+          <div class="tl-step current"><span class="tl-dot"><svg class="i-sm"><use href="#i-activity"/></svg></span><span class="tl-label">رژیم نرم</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">غذای معمولی</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۳ ماه</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۶ ماه</span></div>
+          <div class="tl-step"><span class="tl-dot"><svg class="i-sm"><use href="#i-clock"/></svg></span><span class="tl-label">۱ سال</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: NUTRITION ===== -->
+    <section class="tab-panel" id="tab-nutrition">
+      <div class="nutrition-rings">
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c1" cx="40" cy="40" r="34" style="--pct:74"/></svg>
+          <span class="nr-val">۸۹۰</span><span class="nr-lbl">کالری</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c2" cx="40" cy="40" r="34" style="--pct:60"/></svg>
+          <span class="nr-val">۴۸g</span><span class="nr-lbl">پروتئین</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c3" cx="40" cy="40" r="34" style="--pct:85"/></svg>
+          <span class="nr-val">۱.۷L</span><span class="nr-lbl">آب</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c4" cx="40" cy="40" r="34" style="--pct:40"/></svg>
+          <span class="nr-val">۲۲g</span><span class="nr-lbl">چربی</span>
+        </div>
+        <div class="nring-item">
+          <svg class="nring" viewBox="0 0 80 80"><circle class="nr-track" cx="40" cy="40" r="34"/><circle class="nr-fill c5" cx="40" cy="40" r="34" style="--pct:55"/></svg>
+          <span class="nr-val">۶۵g</span><span class="nr-lbl">کربوهیدرات</span>
+        </div>
+      </div>
+
+      <h3 class="section-sub-title">اسکنر غذا</h3>
+      <div class="scanner-card">
+        <div class="scanner-actions">
+          <button class="scan-btn" id="scanBtn"><svg class="i"><use href="#i-camera"/></svg>گرفتن عکس</button>
+          <button class="scan-btn ghost"><svg class="i"><use href="#i-upload"/></svg>آپلود از گالری</button>
+          <button class="scan-btn ghost"><svg class="i"><use href="#i-clock"/></svg>تاریخچه</button>
+        </div>
+        <div class="scan-result" id="scanResult">
+          <div class="scan-result-img"><svg class="i-lg"><use href="#i-image"/></svg></div>
+          <div class="scan-result-info">
+            <span class="scan-food-name">سینه مرغ گریل با سالاد</span>
+            <div class="scan-macros">
+              <span><b>۳۲۰</b> کالری</span>
+              <span><b>۳۸g</b> پروتئین</span>
+              <span><b>۹g</b> چربی</span>
+              <span><b>۱۲g</b> کربوهیدرات</span>
+            </div>
+            <p class="scan-suggestion"><svg class="i-sm"><use href="#i-sparkles"/></svg> پیشنهاد: کمی روغن زیتون اضافه کنید تا جذب ویتامین بهتر بشه.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: CHAT ===== -->
+    <section class="tab-panel" id="tab-chat">
+      <div class="chat-card">
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg ai">
+            <p>سلام محمد! چطور می‌تونم امروز کمکتون کنم؟ می‌تونید عکس غذا، عکس محل زخم یا جواب آزمایش رو برام بفرستید.</p>
+          </div>
+          <div class="msg user img-msg">
+            <div class="msg-img"><svg class="i"><use href="#i-image"/></svg><span>عکس غذا</span></div>
+          </div>
+          <div class="msg ai">
+            <p>این وعده حدود ۳۲۰ کالری و ۳۸ گرم پروتئین داره — عالیه برای این مرحله از رژیم شما.</p>
+          </div>
+          <div class="msg user img-msg">
+            <div class="msg-img"><svg class="i"><use href="#i-file"/></svg><span>PDF آزمایش خون</span></div>
+          </div>
+          <div class="msg ai">
+            <p>سطح آهن شما کمی پایینه. پیشنهاد می‌کنم این هفته با پزشک درباره مکمل آهن صحبت کنید.</p>
+          </div>
+          <div class="msg user">
+            <p>امروز میشه پیاده‌روی کنم؟</p>
+          </div>
+          <div class="msg ai" id="typingMsg" style="display:none">
+            <div class="typing"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <button class="icon-btn sm"><svg class="i"><use href="#i-paperclip"/></svg></button>
+          <button class="icon-btn sm"><svg class="i"><use href="#i-mic"/></svg></button>
+          <input type="text" id="chatInput" placeholder="پیام خود را بنویسید…">
+          <button class="icon-btn sm primary" id="chatSendBtn"><svg class="i"><use href="#i-send"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: CHALLENGES ===== -->
+    <section class="tab-panel" id="tab-challenges">
+      <h3 class="section-sub-title">ماموریت‌های امروز</h3>
+      <div class="mission-list">
+        <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-scale"/></svg></span><span class="mission-text">ثبت وزن</span><span class="mission-xp">+۱۰ XP</span></label>
+        <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-droplet"/></svg></span><span class="mission-text">خوردن ۸ لیوان آب</span><span class="mission-xp">+۱۵ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-camera"/></svg></span><span class="mission-text">ثبت یک وعده غذایی</span><span class="mission-xp">+۱۰ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-footprints"/></svg></span><span class="mission-text">۲۰ دقیقه پیاده‌روی</span><span class="mission-xp">+۲۰ XP</span></label>
+        <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-heart"/></svg></span><span class="mission-text">ثبت علائم امروز</span><span class="mission-xp">+۱۰ XP</span></label>
+      </div>
+
+      <h3 class="section-sub-title">چالش هفتگی</h3>
+      <div class="weekly-challenge-card">
+        <div class="wc-icon"><svg class="i-lg"><use href="#i-gift"/></svg></div>
+        <div class="wc-info">
+          <span class="wc-title">۷ روز ثبت کامل تغذیه</span>
+          <div class="wc-progress"><div class="wc-progress-fill" style="width:71%"></div></div>
+          <span class="wc-sub">۵ از ۷ روز — ۲ روز تا پاداش</span>
+        </div>
+        <span class="wc-reward">+۱۰۰ XP</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+
+<!-- confetti layer -->
+<div class="confetti-layer" id="confettiLayer"></div>
 
 <script>
 function goTo(id){
@@ -1305,11 +2275,235 @@ document.querySelectorAll('.faq-item').forEach(item=>{
   });
 });
 
+/* ---------- نمایش تدریجی عناصر reveal (برای همه صفحات، از جمله صفحات مخفی) ---------- */
 window.addEventListener('load', ()=>{
   document.querySelectorAll('.reveal').forEach((el,i)=>{
     setTimeout(()=> el.classList.add('show'), 60*i);
   });
 });
+
+/* ============================================================
+   منطق پنل بیماران «همراه هوشمند پیشرفته» (بدون تغییر نسبت به نسخه اصلی)
+   ============================================================ */
+
+/* ---------- ورود/خروج از همراه هوشمند ---------- */
+const panelScreen = document.getElementById('screen-panel');
+const companionScreen = document.getElementById('screen-companion');
+
+function enterCompanion(){
+  panelScreen.classList.remove('active');
+  companionScreen.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+}
+function exitCompanion(){
+  companionScreen.classList.remove('active');
+  panelScreen.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+}
+document.getElementById('enterCompanionBtn').addEventListener('click', enterCompanion);
+document.getElementById('enterCompanionBtn').addEventListener('keypress', e=>{ if(e.key==='Enter') enterCompanion(); });
+document.getElementById('backBtn').addEventListener('click', exitCompanion);
+
+/* ---------- تب‌های داخل همراه هوشمند ---------- */
+const compTabs = document.querySelectorAll('.tab');
+const compPanels = document.querySelectorAll('.tab-panel');
+compTabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    compTabs.forEach(t=>t.classList.remove('active'));
+    compPanels.forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+    tab.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    document.querySelector('.tab-content').scrollTo({top:0, behavior:'instant'});
+  });
+});
+
+/* ---------- هیت‌مپ استریک ---------- */
+const heatmap = document.getElementById('heatmap');
+const heatLevels = [0,1,2,3,1,2,3,0,2,3,3,1,2,3,3,2,1,0,2,3,3,1,2,3,3,2,1,3,3,2,3,3,1,2,3];
+heatLevels.forEach(l=>{
+  const d = document.createElement('span');
+  d.className = 'heat-cell l'+l;
+  heatmap.appendChild(d);
+});
+
+/* ---------- کانفتی + ثبت وزن ---------- */
+document.getElementById('logWeightBtn').addEventListener('click', ()=>{
+  const layer = document.getElementById('confettiLayer');
+  const colors = ['#2F6F5E','#8FD9C4','#C9A15A','#D9736A','#F3E7D0'];
+  for(let i=0;i<60;i++){
+    const c = document.createElement('span');
+    c.className = 'confetti-piece';
+    c.style.left = (45 + Math.random()*10) + '%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.setProperty('--x', (Math.random()*200-100)+'px');
+    c.style.setProperty('--r', (Math.random()*720-360)+'deg');
+    c.style.animationDelay = (Math.random()*0.15)+'s';
+    layer.appendChild(c);
+    setTimeout(()=>c.remove(), 1600);
+  }
+});
+
+/* ---------- دمو اسکنر غذا ---------- */
+const scanBtn = document.getElementById('scanBtn');
+const scanResult = document.getElementById('scanResult');
+scanResult.style.opacity = '1';
+scanBtn.addEventListener('click', ()=>{
+  scanResult.classList.remove('pulse-in');
+  void scanResult.offsetWidth;
+  scanResult.classList.add('pulse-in');
+});
+
+/* ---------- دمو گفتگو با دستیار هوشمند ---------- */
+const chatInput = document.getElementById('chatInput');
+const chatSendBtn = document.getElementById('chatSendBtn');
+const chatMessages = document.getElementById('chatMessages');
+const typingMsg = document.getElementById('typingMsg');
+
+function sendChat(){
+  const val = chatInput.value.trim();
+  if(!val) return;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = '<p></p>';
+  userMsg.querySelector('p').textContent = val;
+  chatMessages.insertBefore(userMsg, typingMsg);
+  chatInput.value = '';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  typingMsg.style.display = 'block';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  setTimeout(()=>{
+    typingMsg.style.display = 'none';
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.innerHTML = '<p>بله، با توجه به مرحله رژیم نرم شما، یک پیاده‌روی سبک ۱۵ تا ۲۰ دقیقه‌ای توصیه می‌شه. زیاده‌روی نکنید.</p>';
+    chatMessages.insertBefore(aiMsg, typingMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, 1200);
+}
+chatSendBtn.addEventListener('click', sendChat);
+chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
+
+
+/* ============================================================
+   منطق پنل پزشک (نسخه جدید و کامل — دکتر هوشا)
+   ============================================================ */
+
+/* ---------- سوییچ ویوها از سایدبار ---------- */
+const sbItems = document.querySelectorAll('.sb-item');
+const views = document.querySelectorAll('.view');
+const thTitle = document.getElementById('thTitle');
+const titles = {
+  dashboard: ['داشبورد','خلاصه امروز کلینیک شما'],
+  patients: ['بیماران','جستجو و مدیریت پرونده‌ها'],
+  'patient-detail': ['پرونده بیمار','مشاهده کامل و تحلیل هوشمند'],
+  ai: ['دستیار هوشمند','دکتر هوشا در خدمت شماست'],
+  clinic: ['مدیریت کلینیک','ابزارهای عملیاتی و مالی'],
+  growth: ['رشد و بازاریابی','ابزارهای توسعه کلینیک']
+};
+
+function showView(name){
+  views.forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  sbItems.forEach(i=>i.classList.toggle('active', i.dataset.view===name));
+  if(titles[name]){ thTitle.innerHTML = titles[name][0] + '<small>'+titles[name][1]+'</small>'; }
+  window.scrollTo({top:0, behavior:'instant'});
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+sbItems.forEach(item=>{
+  item.addEventListener('click', ()=> showView(item.dataset.view));
+});
+
+/* ---------- کلیک روی بیمار -> پرونده ---------- */
+const patNames = {
+  mohammad:{name:'محمد رضایی', sub:'پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل — اسلیو معده', letter:'م'},
+  sara:{name:'سارا احمدی', sub:'پرونده #۱۰۳۱ — پیش از عمل', letter:'س'},
+  ali:{name:'علی نجفی', sub:'پرونده #۱۰۱۸ — روز ۸ بعد از عمل', letter:'ع'},
+  negar:{name:'نگار موسوی', sub:'پرونده #۱۰۴۰ — مشاوره اولیه', letter:'ن'}
+};
+document.querySelectorAll('.pat-row').forEach(row=>{
+  row.addEventListener('click', ()=>{
+    const p = patNames[row.dataset.patient];
+    document.getElementById('pdName').textContent = p.name;
+    document.getElementById('pdSub').textContent = p.sub;
+    document.getElementById('pdAvatar').textContent = p.letter;
+    views.forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-patient-detail').classList.add('active');
+    thTitle.innerHTML = titles['patient-detail'][0] + '<small>'+titles['patient-detail'][1]+'</small>';
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+document.getElementById('backToPatients').addEventListener('click', ()=> showView('patients'));
+
+/* ---------- فیلترهای بیماران (دمو) ---------- */
+document.querySelectorAll('.pat-filter').forEach(f=>{
+  f.addEventListener('click', ()=>{
+    document.querySelectorAll('.pat-filter').forEach(x=>x.classList.remove('active'));
+    f.classList.add('active');
+  });
+});
+
+/* ---------- تب‌های پرونده بیمار (دمو - فقط ظاهری) ---------- */
+document.querySelectorAll('.pd-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.pd-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+/* ---------- چت با دکتر هوشا ---------- */
+const aiInput = document.getElementById('aiChatInput');
+const aiSend = document.getElementById('aiChatSend');
+const aiMessages = document.getElementById('aiChatMessages');
+const aiTyping = document.getElementById('aiTyping');
+
+function sendAiChat(){
+  const val = aiInput.value.trim();
+  if(!val) return;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.innerHTML = '<p></p>';
+  userMsg.querySelector('p').textContent = val;
+  aiMessages.insertBefore(userMsg, aiTyping);
+  aiInput.value = '';
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  aiTyping.style.display = 'block';
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  setTimeout(()=>{
+    aiTyping.style.display = 'none';
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.innerHTML = '<p>این پاسخ دموی دکتر هوشا است. در نسخه نهایی، پاسخ بر اساس منابع معتبر جراحی چاقی و پروتکل‌های اختصاصی کلینیک تولید خواهد شد.</p>';
+    aiMessages.insertBefore(aiMsg, aiTyping);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }, 1100);
+}
+aiSend.addEventListener('click', sendAiChat);
+aiInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendAiChat(); });
+
+/* ---------- تب‌های اینستاگرام دمو ---------- */
+document.querySelectorAll('.ig-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.ig-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+/* ---------- سایدبار موبایل ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+function checkMobile(){
+  menuBtn.style.display = window.innerWidth <= 860 ? 'flex' : 'none';
+}
+checkMobile();
+window.addEventListener('resize', checkMobile);
+menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+
 </script>
 </body>
 </html>
