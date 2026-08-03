@@ -1233,11 +1233,14 @@ section.page-sec{ padding:70px 0; }
   .tool-grid{ grid-template-columns:repeat(3,1fr); }
 }
 @media (max-width: 860px){
-  .sidebar{ position:fixed; inset-inline-end:0; top:0; height:100vh; transform:translateX(105%); transition:transform .3s var(--ease); box-shadow:var(--shadow-med); }
+  .sidebar{ position:fixed; right:0; top:0; height:100vh; transform:translateX(105%); transition:transform .3s var(--ease); box-shadow:var(--shadow-med); }
   .sidebar.open{ transform:translateX(0); }
   .th-search{ display:none; }
   .kpi-grid{ grid-template-columns:repeat(2,1fr); }
   .tool-grid{ grid-template-columns:repeat(2,1fr); }
+  .crm-grid{ grid-template-columns:repeat(2,1fr); }
+  .detail-split{ grid-template-columns:1fr; }
+  .ai-side{ position:static; }
 }
 @media (max-width: 560px){
   .view-content{ padding:18px 14px 50px; }
@@ -1245,6 +1248,11 @@ section.page-sec{ padding:70px 0; }
   .kpi-grid{ grid-template-columns:1fr 1fr; gap:10px; }
   .kpi-card{ padding:14px; }
   .tool-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+  .crm-grid{ grid-template-columns:1fr 1fr; gap:10px; }
+  .pd-mini-grid{ grid-template-columns:1fr 1fr; }
+  .new-appt-form{ grid-template-columns:1fr; }
+  .dr-msg{ max-width:88%; }
+  .th-title{ font-size:14.5px; }
 }
 
 </style>
