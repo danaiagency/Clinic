@@ -1063,11 +1063,22 @@ section.page-sec{ padding:70px 0; }
 .appt-status.waiting{ background:var(--gold-soft); color:#8A6A2E; }
 .appt-status.done{ background:#DFF2EA; color:var(--primary-dark); }
 .appt-status.pending{ background:var(--surface-soft); color:var(--text-faint); }
+.appt-list-scroll{ max-height:420px; overflow-y:auto; padding-inline-start:2px; }
+#todayApptsList .appt-row{ cursor:pointer; }
+.appt-done-btn{ display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:var(--radius-pill); color:var(--primary-dark); background:var(--surface-soft); border:1.5px solid var(--border-strong); flex-shrink:0; font-size:11.5px; font-weight:700; transition:all .2s var(--ease); }
+.appt-done-btn:hover{ color:#fff; background:var(--primary); border-color:var(--primary); transform:scale(1.04); }
 
 .alert-row{ display:flex; align-items:flex-start; gap:11px; padding:12px 10px; border-radius:var(--radius-sm); border-inline-start:3px solid var(--coral); background:var(--coral-soft); margin-bottom:8px; }
 .alert-row .a-icon{ color:var(--coral); flex-shrink:0; margin-top:1px; }
 .alert-row strong{ font-size:12.8px; display:block; }
 .alert-row span{ font-size:11.5px; color:var(--text-muted); }
+.alert-row.high{ border-inline-start-color:var(--coral); background:var(--coral-soft); }
+.alert-row.high .a-icon{ color:var(--coral); }
+.alert-row.mid{ border-inline-start-color:var(--gold); background:var(--gold-soft); }
+.alert-row.mid .a-icon{ color:#8A6A2E; }
+.alert-row.low{ border-inline-start-color:var(--blue); background:var(--blue-soft); }
+.alert-row.low .a-icon{ color:var(--blue); }
+.ai-suggest-list{ margin-bottom:14px; }
 
 /* ============ PATIENTS LIST ============ */
 .pat-search-bar{ display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
@@ -1153,6 +1164,20 @@ section.page-sec{ padding:70px 0; }
 .tool-card.disabled{ opacity:.55; cursor:not-allowed; }
 .tool-badge{ font-size:9.5px; font-weight:700; background:var(--gold-soft); color:#8A6A2E; padding:3px 8px; border-radius:var(--radius-pill); align-self:flex-start; }
 
+/* CRM */
+.crm-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:16px; }
+.crm-stat{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; text-align:center; box-shadow:var(--shadow-soft); }
+.crm-stat-val{ display:block; font-size:22px; font-weight:800; color:var(--primary-dark); }
+.crm-stat-lbl{ font-size:11.5px; color:var(--text-faint); }
+.crm-funnel{ display:flex; flex-direction:column; gap:8px; }
+.crm-funnel-step{ display:flex; align-items:center; justify-content:space-between; background:var(--surface-soft); border-radius:var(--radius-sm); padding:10px 14px; font-size:13px; }
+.crm-funnel-step b{ color:var(--primary-dark); font-size:14px; }
+
+/* Tool demo panels (management section) */
+.tool-demo-panel{ display:none; }
+.tool-demo-panel.open{ display:block; animation:fadeUp .35s var(--ease); }
+#demo-calendar.open{ display:block; }
+
 /* Instagram demo panel */
 .ig-demo{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); margin-top:16px; }
 .ig-tabs{ display:flex; gap:8px; margin-bottom:14px; }
@@ -1168,6 +1193,36 @@ section.page-sec{ padding:70px 0; }
 
 .demo-warn{ display:flex; gap:9px; align-items:flex-start; font-size:11.8px; color:#8A6A2E; background:var(--gold-soft); padding:11px 14px; border-radius:var(--radius-sm); line-height:1.8; margin-top:14px; }
 .demo-warn svg{ flex-shrink:0; width:16px; height:16px; margin-top:1px; }
+
+/* ============ CALENDAR (نوبت‌دهی منشی) ============ */
+.cal-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+.cal-nav{ display:flex; align-items:center; gap:10px; }
+.cal-month-label{ font-size:16px; font-weight:800; min-width:110px; text-align:center; }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+.cal-weekday{ text-align:center; font-size:11.5px; font-weight:700; color:var(--text-faint); padding:4px 0; }
+.cal-day{ position:relative; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); min-height:76px; padding:8px; display:flex; flex-direction:column; gap:6px; cursor:pointer; transition:all .2s var(--ease); }
+.cal-day:hover{ border-color:var(--primary); box-shadow:var(--shadow-soft); transform:translateY(-2px); }
+.cal-day.today{ border-color:var(--primary); background:linear-gradient(160deg,#fff,#F1F7F4); }
+.cal-day.selected{ box-shadow:0 0 0 2px var(--primary); }
+.cal-day.empty{ background:transparent; border-color:transparent; cursor:default; }
+.cal-day.empty:hover{ transform:none; box-shadow:none; }
+.cal-day.off{ background:repeating-linear-gradient(135deg, var(--surface-soft), var(--surface-soft) 6px, var(--surface) 6px, var(--surface) 12px); cursor:pointer; }
+.cal-day-num{ font-size:13px; font-weight:700; }
+.cal-day-dots{ display:flex; gap:4px; flex-wrap:wrap; margin-top:auto; align-items:center; }
+.cal-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.cal-dot.visit{ background:var(--primary); }
+.cal-dot.surgery{ background:var(--coral); }
+.cal-day-count{ font-size:10px; color:var(--text-faint); }
+.cal-legend{ display:flex; gap:16px; margin:14px 2px 22px; font-size:12px; color:var(--text-muted); }
+.cal-legend span{ display:flex; align-items:center; gap:6px; }
+
+.day-panel{ margin-top:4px; }
+.day-panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.new-appt-form{ display:none; grid-template-columns:1fr 1fr; gap:12px; background:var(--surface-soft); border-radius:var(--radius-md); padding:16px; margin-top:16px; }
+.new-appt-form.open{ display:grid; }
+.new-appt-form .field.full, .new-appt-form .full{ grid-column:1/-1; }
+.new-appt-form .field label{ display:block; font-size:12px; font-weight:600; color:var(--text-muted); margin-bottom:6px; }
+.new-appt-form input, .new-appt-form select{ width:100%; border:1px solid var(--border-strong); background:var(--surface); border-radius:var(--radius-sm); padding:10px 12px; font-size:13px; outline:none; }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1100px){
@@ -1543,15 +1598,15 @@ section.page-sec{ padding:70px 0; }
       <a class="sb-item active" data-view="dashboard"><svg class="i"><use href="#i-grid"/></svg>داشبورد</a>
       <a class="sb-item" data-view="patients"><svg class="i"><use href="#i-users"/></svg>بیماران</a>
       <a class="sb-item" data-view="ai"><svg class="i"><use href="#i-bot"/></svg>دستیار هوشمند</a>
-      <a class="sb-item" data-view="clinic"><svg class="i"><use href="#i-building"/></svg>مدیریت کلینیک</a>
       <a class="sb-item" data-view="growth"><svg class="i"><use href="#i-trend"/></svg>رشد و بازاریابی</a>
+      <a class="sb-item" data-view="clinic"><svg class="i"><use href="#i-building"/></svg>مدیریت کلینیک</a>
     </nav>
 
     <div class="sb-doctor">
       <div class="sb-doctor-avatar">ح</div>
       <div>
-        <strong>دکتر حیدی</strong>
-        <small>جراح چاقی</small>
+        <strong>دکتر محمود حیدری</strong>
+        <small>فوق تخصص جراحی چاقی</small>
       </div>
     </div>
   </aside>
@@ -1561,7 +1616,6 @@ section.page-sec{ padding:70px 0; }
 
     <header class="top-header">
       <div class="th-title" id="thTitle">داشبورد<small>خلاصه امروز کلینیک شما</small></div>
-      <div class="th-search"><svg class="i-sm"><use href="#i-search"/></svg><input type="text" placeholder="جستجوی بیمار…"></div>
       <div class="th-actions">
         <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
         <button class="dr-icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
@@ -1574,22 +1628,17 @@ section.page-sec{ padding:70px 0; }
       <!-- ============ VIEW: DASHBOARD ============ -->
       <section class="view active" id="view-dashboard">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-icon c1"><svg class="i"><use href="#i-users"/></svg></div><span class="kpi-value">۱۲</span><span class="kpi-label">بیمار امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c1"><svg class="i"><use href="#i-users"/></svg></div><span class="kpi-value">۲۵</span><span class="kpi-label">بیمار امروز</span></div>
           <div class="kpi-card"><div class="kpi-icon c2"><svg class="i"><use href="#i-activity"/></svg></div><span class="kpi-value">۲</span><span class="kpi-label">عمل امروز</span></div>
           <div class="kpi-card"><div class="kpi-icon c3"><svg class="i"><use href="#i-alert"/></svg></div><span class="kpi-value">۳</span><span class="kpi-label">نیازمند بررسی فوری</span></div>
-          <div class="kpi-card"><div class="kpi-icon c4"><svg class="i"><use href="#i-calendar"/></svg></div><span class="kpi-value">۹</span><span class="kpi-label">نوبت امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c4"><svg class="i"><use href="#i-calendar"/></svg></div><span class="kpi-value">۲۵</span><span class="kpi-label">نوبت امروز</span></div>
           <div class="kpi-card"><div class="kpi-icon c5"><svg class="i"><use href="#i-message"/></svg></div><span class="kpi-value">۵</span><span class="kpi-label">پیام نیازمند تایید</span></div>
         </div>
 
         <div class="dash-grid">
-          <div class="panel-card">
-            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>نوبت‌های امروز</h3><span class="count">۹ نوبت</span></div>
-            <div class="appt-list">
-              <div class="appt-row"><span class="appt-time">۱۰:۳۰</span><div class="appt-info"><div class="appt-name">محمد رضایی</div><div class="appt-type">ویزیت پیگیری</div></div><span class="appt-status done">حاضر</span></div>
-              <div class="appt-row"><span class="appt-time">۱۱:۱۵</span><div class="appt-info"><div class="appt-name">سارا احمدی</div><div class="appt-type">مشاوره اولیه</div></div><span class="appt-status waiting">در انتظار</span></div>
-              <div class="appt-row"><span class="appt-time">۱۲:۰۰</span><div class="appt-info"><div class="appt-name">علی نجفی</div><div class="appt-type">بررسی آزمایش</div></div><span class="appt-status pending">هنوز نرسیده</span></div>
-              <div class="appt-row"><span class="appt-time">۱۴:۱۵</span><div class="appt-info"><div class="appt-name">نگار موسوی</div><div class="appt-type">ویزیت پیگیری</div></div><span class="appt-status pending">هنوز نرسیده</span></div>
-            </div>
+          <div class="panel-card" id="todayApptsPanel">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>نوبت‌های امروز — بیمارانی که به مطب می‌آیند</h3><span class="count" id="todayApptsCount">۲۵ نوبت</span></div>
+            <div class="appt-list appt-list-scroll" id="todayApptsList"></div>
           </div>
 
           <div class="panel-card">
@@ -1684,14 +1733,21 @@ section.page-sec{ padding:70px 0; }
           <div>
             <h2>دکتر هوشا — دستیار هوشمند پزشک</h2>
             <p>مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک. برای تحلیل پرونده، آزمایش، تصویر یا پرسش پزشکی استفاده کنید.</p>
+            <div class="ai-chip-row" style="margin-top:8px;">
+              <span class="chip">📚 Bariatric Surgery: A Systematic Approach — Nguyen</span>
+              <span class="chip">📚 ASMBS Clinical Practice Guidelines</span>
+              <span class="chip">📄 مقالات ژورنال Obesity Surgery (PubMed)</span>
+            </div>
           </div>
         </div>
 
         <div class="dr-chat-card">
           <div class="dr-chat-messages" id="aiChatMessages">
-            <div class="dr-msg ai"><p>سلام دکتر حیدی 👋 چطور می‌تونم کمکتون کنم؟ می‌تونید پرونده بیمار، آزمایش یا عکس رو برام بفرستید یا سوال بپرسید.</p></div>
+            <div class="dr-msg ai"><p>سلام دکتر حیدری 👋 چطور می‌تونم کمکتون کنم؟ می‌تونید پرونده بیمار، آزمایش یا عکس رو برام بفرستید یا سوال بپرسید.</p></div>
             <div class="dr-msg user"><p>روند کاهش وزن محمد رضایی رو تحلیل کن</p></div>
             <div class="dr-msg ai"><p>روند کاهش وزن محمد رضایی در ۸ هفته اخیر پایدار و مطابق پروتکل استاندارد اسلیو معده است (۱۶٪ کاهش از وزن اولیه). توصیه می‌شود دریافت پروتئین روزانه افزایش یابد.</p></div>
+            <div class="dr-msg user"><p>بیمار روز ۱۰ بعد از بای‌پس گاستریک تاکی‌کاردی مداوم بالای ۱۲۰ و درد مبهم شکمی داره ولی تب و لکوسیتوز بارزی نداره. احتمال Anastomotic leak رو چطور رد کنم؟</p></div>
+            <div class="dr-msg ai"><p>تاکی‌کاردی ایزوله بدون علائم کلاسیک، خودش می‌تونه اولین و تنها نشانه leak باشه (حساسیت بالا، اختصاصیت پایین) — طبق کانسنسوس ASMBS/SAGES نباید صرفاً به شمارش WBC یا تب اکتفا کرد. توصیه می‌کنم: ۱) CT scan شکم با کنتراست خوراکی محلول در آب (نه باریوم) برای رد leak/کلکشن، ۲) بررسی ترند CRP سریالی (رشد تصاعدی در ۴۸-۷۲ ساعت هشدار‌دهنده‌ست)، ۳) اگر درین دارد بررسی آمیلاز مایع درین. در صورت بالا بودن ایندکس شک بالینی با وجود ایمیجینگ منفی، رویکرد استاندارد re-exploration زودهنگام است، چون تاخیر در leak می‌تونه به سپسیس و مرگ‌ومیر بالا منجر بشه. می‌خواید پروتکل کامل مدیریت leak کلینیک رو براتون بیارم؟</p></div>
             <div class="dr-msg ai" id="aiTyping" style="display:none"><p>در حال تحلیل…</p></div>
           </div>
           <div class="dr-chat-input-row">
@@ -1708,22 +1764,173 @@ section.page-sec{ padding:70px 0; }
 
       <!-- ============ VIEW: CLINIC MANAGEMENT ============ -->
       <section class="view" id="view-clinic">
-        <div class="tool-section-title">مدیریت عملیات</div>
-        <div class="tool-grid">
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم و نوبت‌ها</h4><p>مدیریت کامل نوبت‌دهی کلینیک</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-users"/></svg></div><h4>مدیریت منشی</h4><p>دسترسی و وظایف پرسنل پذیرش</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-user"/></svg></div><h4>مدیریت کاربران</h4><p>پزشکان، پرسنل و سطح دسترسی</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>گزارش‌های مدیریتی</h4><p>آمار عملکرد و روند کلینیک</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-settings"/></svg></div><h4>تنظیمات کلینیک</h4><p>اطلاعات عمومی و پیکربندی</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-form"/></svg></div><h4>مدیریت فرم‌ها</h4><p>فرم‌های پذیرش و رضایت‌نامه</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-service"/></svg></div><h4>مدیریت خدمات</h4><p>لیست خدمات و قیمت‌گذاری</p></div>
+
+        <div class="tool-section-title">CRM بیماران</div>
+        <div class="crm-grid">
+          <div class="crm-stat"><span class="crm-stat-val">۴۸۰</span><span class="crm-stat-lbl">بیمار فعال</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۶۲</span><span class="crm-stat-lbl">سرنخ جدید این ماه</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۳۱٪</span><span class="crm-stat-lbl">نرخ تبدیل مشاوره→عمل</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۹۲٪</span><span class="crm-stat-lbl">رضایت بیماران</span></div>
+        </div>
+        <div class="dash-grid">
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>قیف مراحل بیمار</h3></div>
+            <div class="crm-funnel">
+              <div class="crm-funnel-step"><span>سرنخ / تماس اول</span><b>۶۲</b></div>
+              <div class="crm-funnel-step"><span>مشاوره رزرو شد</span><b>۴۴</b></div>
+              <div class="crm-funnel-step"><span>مشاوره انجام شد</span><b>۳۶</b></div>
+              <div class="crm-funnel-step"><span>عمل برنامه‌ریزی شد</span><b>۱۹</b></div>
+              <div class="crm-funnel-step"><span>پیگیری پس از عمل</span><b>۱۷</b></div>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-sparkles"/></svg>کمپین‌های خودکار فعال</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>یادآوری سالانه چکاپ برای بیماران +۱ سال</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>پیام تبریک بعد از رسیدن به وزن هدف</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>پیگیری بیماران بی‌پاسخ بیش از ۳۰ روز</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>درخواست نظر و امتیاز بعد از هر ویزیت</span><span class="tag">فعال</span></div>
+            </div>
+          </div>
         </div>
 
-        <div class="tool-section-title">امور مالی</div>
+        <div class="tool-section-title">مدیریت عملیات</div>
         <div class="tool-grid">
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-wallet"/></svg></div><h4>حقوق پرسنل</h4><p>محاسبه و پرداخت ماهانه</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>قبض‌ها و هزینه‌ها</h4><p>ثبت و پیگیری هزینه‌های کلینیک</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-trend"/></svg></div><h4>درآمد کلینیک</h4><p>گزارش مالی و نمودار درآمد</p></div>
+          <div class="tool-card" data-demo="calendar"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم و نوبت‌ها</h4><p>مدیریت کامل نوبت‌دهی کلینیک</p></div>
+          <div class="tool-card" data-demo="secretary"><div class="tool-icon"><svg class="i"><use href="#i-users"/></svg></div><h4>مدیریت منشی</h4><p>دسترسی و وظایف پرسنل پذیرش</p></div>
+          <div class="tool-card" data-demo="users"><div class="tool-icon"><svg class="i"><use href="#i-user"/></svg></div><h4>مدیریت کاربران</h4><p>پزشکان، پرسنل و سطح دسترسی</p></div>
+          <div class="tool-card" data-demo="reports"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>گزارش‌های مدیریتی</h4><p>آمار عملکرد و روند کلینیک</p></div>
+          <div class="tool-card" data-demo="settings"><div class="tool-icon"><svg class="i"><use href="#i-settings"/></svg></div><h4>تنظیمات کلینیک</h4><p>اطلاعات عمومی و پیکربندی</p></div>
+          <div class="tool-card" data-demo="forms"><div class="tool-icon"><svg class="i"><use href="#i-form"/></svg></div><h4>مدیریت فرم‌ها</h4><p>فرم‌های پذیرش و رضایت‌نامه</p></div>
+          <div class="tool-card" data-demo="services"><div class="tool-icon"><svg class="i"><use href="#i-service"/></svg></div><h4>مدیریت خدمات</h4><p>لیست خدمات و قیمت‌گذاری</p></div>
+        </div>
+
+        <div id="opsDemoArea" style="margin-top:16px;">
+
+          <div class="tool-demo-panel" id="demo-calendar">
+            <div class="cal-header">
+              <div class="cal-nav">
+                <button class="dr-icon-btn sm"><svg class="i-sm"><use href="#i-back"/></svg></button>
+                <span class="cal-month-label">مرداد ۱۴۰۴</span>
+                <button class="dr-icon-btn sm"><svg class="i-sm"><use href="#i-forward"/></svg></button>
+              </div>
+              <button class="btn btn-primary btn-sm" id="openNewApptBtnDr"><svg class="i-sm"><use href="#i-plus"/></svg>ثبت نوبت جدید</button>
+            </div>
+            <div class="cal-legend">
+              <span><i class="cal-dot visit" style="display:inline-block;"></i> روز ویزیت</span>
+              <span><i class="cal-dot surgery" style="display:inline-block;"></i> روز عمل جراحی</span>
+              <span>جمعه‌ها تعطیل</span>
+            </div>
+            <div class="cal-grid">
+              <div class="cal-weekday">ش</div><div class="cal-weekday">ی</div><div class="cal-weekday">د</div>
+              <div class="cal-weekday">س</div><div class="cal-weekday">چ</div><div class="cal-weekday">پ</div><div class="cal-weekday">ج</div>
+            </div>
+            <div class="cal-grid" id="calGridDr" style="margin-top:8px;"></div>
+            <div class="day-panel panel-card" id="dayPanelDr">
+              <div class="day-panel-head">
+                <h3 id="dayPanelTitleDr">۱۴ مرداد — روز ویزیت</h3>
+                <span class="count" id="dayPanelCountDr">۲۵ نوبت</span>
+              </div>
+              <div class="appt-list" id="dayPanelListDr"></div>
+              <div class="new-appt-form" id="newApptFormDr">
+                <div class="field full"><label>نام بیمار</label><input type="text" id="newApptNameDr" placeholder="مثلاً محمد رضایی"></div>
+                <div class="field"><label>نوع نوبت</label><select id="newApptTypeDr"><option value="visit">ویزیت</option><option value="surgery">عمل جراحی</option></select></div>
+                <div class="field"><label>ساعت</label><input type="text" id="newApptTimeDr" placeholder="مثلاً ۱۷:۰۰"></div>
+                <div class="full" style="display:flex; gap:10px; margin-top:4px;">
+                  <button class="btn btn-primary btn-sm" id="saveNewApptBtnDr">ثبت نوبت</button>
+                  <button class="btn btn-soft btn-sm" id="cancelNewApptBtnDr">انصراف</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-secretary">
+            <div class="panel-head"><h3>عملکرد منشی — خانم احمدی</h3></div>
+            <div class="simple-stats">
+              <div class="stat-box"><strong>۲۵</strong><span>نوبت ثبت‌شده امروز</span></div>
+              <div class="stat-box"><strong>۹۶٪</strong><span>دقت ثبت اطلاعات</span></div>
+              <div class="stat-box"><strong>۱۸</strong><span>وظیفه تکمیل‌شده هفته</span></div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-users">
+            <div class="panel-head"><h3>کاربران و سطح دسترسی</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>دکتر محمود حیدری — پزشک / مدیر کلینیک</span><span class="tag">دسترسی کامل</span></div>
+              <div class="simple-row"><span>خانم احمدی — منشی</span><span class="tag">نوبت‌دهی و بیماران</span></div>
+              <div class="simple-row"><span>حسابدار کلینیک</span><span class="tag">فقط امور مالی</span></div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-reports">
+            <div class="panel-head"><h3>گزارش عملکرد این ماه</h3></div>
+            <div class="simple-stats">
+              <div class="stat-box"><strong>۱۴۰</strong><span>ویزیت انجام‌شده</span></div>
+              <div class="stat-box"><strong>۲۲</strong><span>عمل جراحی</span></div>
+              <div class="stat-box"><strong>۹۸٪</strong><span>رضایت بیماران</span></div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-settings">
+            <div class="panel-head"><h3>تنظیمات کلینیک</h3></div>
+            <div class="pd-mini-grid">
+              <div class="pd-mini-item"><span>نام کلینیک</span><strong>کلینیک هوشمند</strong></div>
+              <div class="pd-mini-item"><span>ساعات کاری</span><strong>ی‌،س‌،پ ۱۶–۲۱</strong></div>
+              <div class="pd-mini-item"><span>تلفن</span><strong>۰۲۱-۱۲۳۴۵۶۷۸</strong></div>
+              <div class="pd-mini-item"><span>آدرس</span><strong>تهران، ولیعصر</strong></div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-forms">
+            <div class="panel-head"><h3>فرم‌های کلینیک</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>فرم پذیرش اولیه</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>رضایت‌نامه جراحی</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>پرسشنامه سابقه پزشکی</span><span class="tag">فعال</span></div>
+            </div>
+          </div>
+
+          <div class="tool-demo-panel panel-card" id="demo-services">
+            <div class="panel-head"><h3>خدمات و قیمت‌گذاری</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>اسلیو معده</span><span class="tag">قیمت پایه</span></div>
+              <div class="simple-row"><span>بای‌پس معده</span><span class="tag">قیمت پایه</span></div>
+              <div class="simple-row"><span>بالون معده</span><span class="tag">قیمت پایه</span></div>
+              <div class="simple-row"><span>ویزیت مشاوره</span><span class="tag">قیمت پایه</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tool-section-title" style="margin-top:26px;">امور مالی</div>
+        <div class="tool-grid">
+          <div class="tool-card" data-demo="salary"><div class="tool-icon"><svg class="i"><use href="#i-wallet"/></svg></div><h4>حقوق پرسنل</h4><p>محاسبه و پرداخت ماهانه</p></div>
+          <div class="tool-card" data-demo="bills"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>قبض‌ها و هزینه‌ها</h4><p>ثبت و پیگیری هزینه‌های کلینیک</p></div>
+          <div class="tool-card" data-demo="revenue"><div class="tool-icon"><svg class="i"><use href="#i-trend"/></svg></div><h4>درآمد کلینیک</h4><p>گزارش مالی و نمودار درآمد</p></div>
+        </div>
+        <div id="finDemoArea" style="margin-top:16px;">
+          <div class="tool-demo-panel panel-card" id="demo-salary">
+            <div class="panel-head"><h3>حقوق این ماه</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>خانم احمدی — منشی</span><span class="tag">پرداخت‌شده</span></div>
+              <div class="simple-row"><span>حسابدار کلینیک</span><span class="tag">پرداخت‌شده</span></div>
+            </div>
+          </div>
+          <div class="tool-demo-panel panel-card" id="demo-bills">
+            <div class="panel-head"><h3>قبض‌ها و هزینه‌های اخیر</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>قبض برق مطب</span><span class="tag">پرداخت‌شده</span></div>
+              <div class="simple-row"><span>خرید تجهیزات اتاق عمل</span><span class="tag">در انتظار تایید</span></div>
+            </div>
+          </div>
+          <div class="tool-demo-panel panel-card" id="demo-revenue">
+            <div class="panel-head"><h3>درآمد این ماه</h3></div>
+            <div class="simple-stats">
+              <div class="stat-box"><strong>۱۹</strong><span>عمل انجام‌شده</span></div>
+              <div class="stat-box"><strong>۱۴۰</strong><span>ویزیت</span></div>
+              <div class="stat-box"><strong>↑۱۲٪</strong><span>رشد نسبت به ماه قبل</span></div>
+            </div>
+          </div>
         </div>
         <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>بخش امور مالی حساس‌ترین قسمت از نظر امنیتی است؛ در نسخه نهایی دسترسی آن باید محدود به پزشک/مدیر کلینیک باشد.</div>
       </section>
@@ -1732,11 +1939,8 @@ section.page-sec{ padding:70px 0; }
       <section class="view" id="view-growth">
         <div class="tool-section-title">محتوا و شبکه‌های اجتماعی</div>
         <div class="tool-grid">
-          <div class="tool-card" data-tool="instagram"><div class="tool-icon"><svg class="i"><use href="#i-camera"/></svg></div><h4>مدیریت اینستاگرام</h4><p>پاسخ خودکار دایرکت، کامنت و تعامل هوشمند</p><span class="tool-badge">هوش مصنوعی</span></div>
+          <div class="tool-card" data-tool="instagram"><div class="tool-icon"><svg class="i"><use href="#i-camera"/></svg></div><h4>اینستاگرام</h4><p>دایرکت، کامنت، تعامل خودکار، ایده ریلز، کپشن و تقویم انتشار — همه در یک‌جا</p><span class="tool-badge">هوش مصنوعی</span></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>مدیریت بلاگ سایت</h4><p>نوشتن و انتشار مقالات با کمک AI</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-message"/></svg></div><h4>تولید کپشن</h4><p>کپشن هوشمند برای پست‌ها</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-sparkles"/></svg></div><h4>ایده ریلز</h4><p>پیشنهاد سناریوی ویدیویی</p></div>
-          <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-calendar"/></svg></div><h4>تقویم محتوایی</h4><p>برنامه‌ریزی انتشار هفتگی</p></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-image"/></svg></div><h4>تصاویر Before/After</h4><p>آرشیو و مدیریت تصاویر تحول بیماران</p></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-phone"/></svg></div><h4>کمپین پیامکی</h4><p>ارسال کمپین به بیماران</p></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>تحلیل تبلیغات</h4><p>عملکرد کمپین‌های تبلیغاتی</p></div>
@@ -1744,15 +1948,27 @@ section.page-sec{ padding:70px 0; }
 
         <!-- Instagram demo -->
         <div class="ig-demo" id="igDemo">
-          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-camera"/></svg>مدیریت هوشمند اینستاگرام</h3></div>
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-bot"/></svg>آیدا — ادمین هوشمند اینستاگرام</h3></div>
+          <div class="ai-chip-row" style="margin-bottom:14px;">
+            <span class="chip">پاسخ خودکار دایرکت با لحن کلینیک</span>
+            <span class="chip">Lead Scoring مخاطبین جدی</span>
+            <span class="chip">فیلتر اسپم و ترول</span>
+            <span class="chip">تحلیل احساسات کامنت‌ها</span>
+            <span class="chip">رزرو نوبت مستقیم از دایرکت</span>
+            <span class="chip">گزارش عملکرد هفتگی</span>
+          </div>
           <div class="ig-tabs">
             <span class="ig-tab active">دایرکت‌ها</span>
             <span class="ig-tab">کامنت‌ها</span>
             <span class="ig-tab">تعامل خودکار</span>
+            <span class="ig-tab">ایده ریلز</span>
+            <span class="ig-tab">کپشن</span>
+            <span class="ig-tab">تقویم انتشار</span>
           </div>
           <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>user_reyhaneh</strong><span>هزینه عمل اسلیو چقدره؟</span></div><span class="ig-ai-tag">پاسخ AI ارسال شد</span></div>
-          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94</strong><span>نوبت مشاوره می‌خوام بگیرم</span></div><span class="ig-ai-tag">در انتظار تایید پزشک</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94</strong><span>نوبت مشاوره می‌خوام بگیرم</span></div><span class="ig-ai-tag">نوبت مستقیم ثبت شد ✅</span></div>
           <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>sara_k</strong><span>کامنت: عالی بود نتیجه‌تون 😍</span></div><span class="ig-ai-tag">لایک و پاسخ خودکار</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>spammer_promo22</strong><span>لینک تبلیغاتی مشکوک</span></div><span class="ig-ai-tag" style="background:var(--coral-soft);color:var(--coral);">اسپم — بلاک خودکار</span></div>
           <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>اتصال واقعی به اینستاگرام نیازمند Meta API، مجوز رسمی و بررسی امنیتی توکن‌هاست؛ این بخش فعلاً فقط نمایش دمو است.</div>
         </div>
       </section>
@@ -1763,59 +1979,299 @@ section.page-sec{ padding:70px 0; }
 </div>
 
 <!-- ============================================================
-     صفحه ۴ — پنل منشی (پایه)
+     صفحه ۴ — پنل منشی (نسخه هوشمند و کامل — خانم احمدی + دستیار یارا)
      ============================================================ -->
 <div id="screen-secretary" class="screen">
-  <header class="simple-topbar">
-    <div class="simple-topbar-inner">
-      <div class="brand"><div class="brand-mark">ه</div><div class="brand-name"><span>کلینیک هوشمند</span><small>پنل منشی</small></div></div>
-      <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
-    </div>
-  </header>
-  <main class="simple-main">
-    <div class="simple-welcome">
-      <h1>سلام 👋</h1>
-      <p>امروز ۹ نوبت ثبت شده و ۳ تماس در انتظار پاسخ دارید.</p>
-    </div>
-    <div class="simple-stats">
-      <div class="stat-box"><strong>۹</strong><span>نوبت امروز</span></div>
-      <div class="stat-box"><strong>۳</strong><span>تماس در انتظار</span></div>
-      <div class="stat-box"><strong>۵</strong><span>بیمار در صف انتظار</span></div>
-    </div>
-    <div class="simple-grid">
-      <div class="simple-card">
-        <h3><svg class="i-sm"><use href="#i-calendar"/></svg> نوبت‌دهی امروز</h3>
-        <div class="simple-list">
-          <div class="simple-row"><span>محمد رضایی — دکتر حیدی</span><span class="tag">۱۰:۳۰</span></div>
-          <div class="simple-row"><span>سارا احمدی — دکتر حیدی</span><span class="tag">۱۲:۰۰</span></div>
-          <div class="simple-row"><span>علی نجفی — دکتر حیدی</span><span class="tag">۱۴:۱۵</span></div>
-        </div>
+<div class="app-shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebarSc">
+    <div class="sb-brand">
+      <div class="sb-logo">
+        <img src="images/logo.png" alt="لوگوی کلینیک هوشمند" onerror="this.style.display='none'; this.parentElement.textContent='ه';">
       </div>
-      <div class="simple-card">
-        <h3><svg class="i-sm"><use href="#i-phone"/></svg> تماس‌های در انتظار</h3>
-        <div class="simple-list">
-          <div class="simple-row"><span>مریم کریمی — سوال درباره نوبت</span></div>
-          <div class="simple-row"><span>حسین یزدانی — تغییر زمان ویزیت</span></div>
-        </div>
-      </div>
-      <div class="simple-card">
-        <h3><svg class="i-sm"><use href="#i-users"/></svg> بیماران در صف انتظار</h3>
-        <div class="simple-list">
-          <div class="simple-row"><span>نگار موسوی</span><span class="tag">مشاوره اولیه</span></div>
-          <div class="simple-row"><span>رضا صادقی</span><span class="tag">پیگیری</span></div>
-        </div>
-      </div>
-      <div class="simple-card">
-        <h3><svg class="i-sm"><use href="#i-list"/></svg> دسترسی سریع</h3>
-        <div class="simple-list">
-          <div class="simple-row"><span>ثبت نوبت جدید</span></div>
-          <div class="simple-row"><span>تقویم هفتگی کلینیک</span></div>
-          <div class="simple-row"><span>لیست بیماران</span></div>
-        </div>
+      <div class="sb-brand-text">
+        <span>کلینیک هوشمند</span>
+        <small>پنل منشی</small>
       </div>
     </div>
-    <p class="placeholder-note">این یک نسخه پایه و نمایشی از پنل منشی است و صرفاً برای دمو طراحی شده.</p>
+
+    <nav class="sb-nav" id="sbNavSc">
+      <a class="sb-item sc-item active" data-view="dashboard"><svg class="i"><use href="#i-home"/></svg>کارتابل امروز</a>
+      <a class="sb-item sc-item" data-view="patients"><svg class="i"><use href="#i-users"/></svg>بیماران</a>
+      <a class="sb-item sc-item" data-view="comms"><svg class="i"><use href="#i-message"/></svg>ارتباطات</a>
+      <a class="sb-item sc-item" data-view="appts"><svg class="i"><use href="#i-calendar"/></svg>نوبت‌ها</a>
+      <a class="sb-item sc-item" data-view="tasks"><svg class="i"><use href="#i-check-circle"/></svg>وظایف</a>
+    </nav>
+
+    <div class="sb-doctor">
+      <div class="sb-doctor-avatar">ی</div>
+      <div>
+        <strong>خانم احمدی</strong>
+        <small>منشی کلینیک</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN AREA ================= -->
+  <main class="main-area">
+
+    <header class="top-header">
+      <div class="th-title" id="scThTitle">کارتابل امروز<small>سه‌شنبه، ۱۴ مرداد — روز ویزیت مطب (۱۶:۰۰ تا ۲۱:۰۰)</small></div>
+      <div class="th-actions">
+        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
+        <button class="dr-icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <button class="dr-icon-btn" id="menuBtnSc" style="display:none"><svg class="i"><use href="#i-grid"/></svg></button>
+      </div>
+    </header>
+
+    <div class="view-content">
+
+      <!-- ============ VIEW: کارتابل امروز ============ -->
+      <section class="view sc-view active" id="view-sc-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-icon c1"><svg class="i"><use href="#i-calendar"/></svg></div><span class="kpi-value">۲۵</span><span class="kpi-label">نوبت امروز</span></div>
+          <div class="kpi-card"><div class="kpi-icon c4"><svg class="i"><use href="#i-check"/></svg></div><span class="kpi-value">۱۸</span><span class="kpi-label">تایید‌شده</span></div>
+          <div class="kpi-card"><div class="kpi-icon c2"><svg class="i"><use href="#i-clock"/></svg></div><span class="kpi-value">۷</span><span class="kpi-label">در انتظار تایید</span></div>
+          <div class="kpi-card"><div class="kpi-icon c3"><svg class="i"><use href="#i-card"/></svg></div><span class="kpi-value">۲</span><span class="kpi-label">پرداخت معلق</span></div>
+          <div class="kpi-card"><div class="kpi-icon c5"><svg class="i"><use href="#i-message"/></svg></div><span class="kpi-value">۴</span><span class="kpi-label">گفتگوی بی‌پاسخ</span></div>
+          <div class="kpi-card"><div class="kpi-icon c1"><svg class="i"><use href="#i-users"/></svg></div><span class="kpi-value">۵</span><span class="kpi-label">صف انتظار</span></div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-calendar"/></svg>نوبت‌های امروز</h3><span class="count" id="scTodayApptsCount">۲۵ نوبت</span></div>
+            <div class="appt-list appt-list-scroll" id="scTodayApptsList"></div>
+          </div>
+
+          <!-- پنل دستیار هوشمند یارا -->
+          <aside class="ai-side">
+            <div class="ai-side-head">
+              <div class="ai-avatar"><img src="images/logo.png" alt="یارا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div><strong>یارا</strong><small>دستیار هوشمند منشی — پیشنهادهای اولویت‌بندی‌شده امروز</small></div>
+            </div>
+            <div class="ai-suggest-list">
+              <div class="alert-row high"><svg class="i-sm a-icon"><use href="#i-alert"/></svg><div><strong>پرونده عمل فردا ناقص است</strong><span>علی نجفی — رضایت‌نامه امضا نشده</span></div></div>
+              <div class="alert-row mid"><svg class="i-sm a-icon"><use href="#i-file"/></svg><div><strong>جواب آزمایش آپلود نشده</strong><span>سارا احمدی — قبل از ویزیت نیاز است</span></div></div>
+              <div class="alert-row mid"><svg class="i-sm a-icon"><use href="#i-card"/></svg><div><strong>پرداخت تایید نشده</strong><span>نگار موسوی — پیش‌پرداخت مشاوره</span></div></div>
+              <div class="alert-row low"><svg class="i-sm a-icon"><use href="#i-phone"/></svg><div><strong>نیازمند تماس یادآوری</strong><span>۲ بیمار — نوبت فردا صبح</span></div></div>
+            </div>
+            <div class="ai-mini-input">
+              <input type="text" placeholder="از دستیار بپرسید…">
+              <button><svg class="i-sm"><use href="#i-send"/></svg></button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: بیماران ============ -->
+      <section class="view sc-view" id="view-sc-patients">
+        <div class="pat-search-bar">
+          <input type="text" placeholder="جستجو با نام، موبایل، کد ملی یا شماره پرونده…">
+        </div>
+        <div class="pat-filters">
+          <span class="pat-filter active">همه</span>
+          <span class="pat-filter">بیماران امروز</span>
+          <span class="pat-filter">بیماران اخیر</span>
+          <span class="pat-filter">عمل‌های پیش‌رو</span>
+        </div>
+        <div class="pat-table" id="patTableSc">
+          <div class="pat-row" data-patient="mohammad"><div class="pat-avatar">م</div><div class="pat-info"><div class="pat-name">محمد رضایی</div><div class="pat-meta">روز ۳۲ بعد از عمل — پرونده #۱۰۲۴</div></div><span class="pat-tag ok">کامل</span></div>
+          <div class="pat-row" data-patient="sara"><div class="pat-avatar">س</div><div class="pat-info"><div class="pat-name">سارا احمدی</div><div class="pat-meta">پیش از عمل — پرونده #۱۰۳۱</div></div><span class="pat-tag risk">مدارک ناقص</span></div>
+          <div class="pat-row" data-patient="ali"><div class="pat-avatar">ع</div><div class="pat-info"><div class="pat-name">علی نجفی</div><div class="pat-meta">عمل فردا — پرونده #۱۰۱۸</div></div><span class="pat-tag risk">رضایت‌نامه ناقص</span></div>
+          <div class="pat-row" data-patient="negar"><div class="pat-avatar">ن</div><div class="pat-info"><div class="pat-name">نگار موسوی</div><div class="pat-meta">مشاوره اولیه — پرونده #۱۰۴۰</div></div><span class="pat-tag risk">پرداخت معلق</span></div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: پرونده بیمار ============ -->
+      <section class="view sc-view" id="view-sc-patient-detail">
+        <div class="detail-header">
+          <button class="back-link" id="backToPatientsSc"><svg class="i-sm"><use href="#i-back"/></svg>بازگشت به لیست بیماران</button>
+        </div>
+        <div class="detail-split">
+          <div>
+            <div class="pd-head">
+              <div class="pd-avatar" id="pdAvatarSc">م</div>
+              <div>
+                <div class="pd-name" id="pdNameSc">محمد رضایی</div>
+                <div class="pd-sub" id="pdSubSc">پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل</div>
+              </div>
+            </div>
+            <div class="pd-tabs">
+              <span class="pd-tab active" data-tab="info">اطلاعات هویتی</span>
+              <span class="pd-tab" data-tab="appts">نوبت‌ها</span>
+              <span class="pd-tab" data-tab="docs">مدارک</span>
+              <span class="pd-tab" data-tab="labs">آزمایش‌ها</span>
+              <span class="pd-tab" data-tab="pay">پرداخت‌ها</span>
+              <span class="pd-tab" data-tab="notes">یادداشت منشی</span>
+              <span class="pd-tab" data-tab="comms">ارتباطات</span>
+            </div>
+            <div class="pd-body-card">
+              <div class="pd-panel" data-panel="info">
+                <h3 class="section-sub-title" style="margin-top:0;">چک‌لیست آمادگی عمل</h3>
+                <div class="checklist" id="checklistSc">
+                  <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-message"/></svg></span><span class="mission-text">مشاوره انجام‌شده</span></label>
+                  <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-file"/></svg></span><span class="mission-text">آزمایش آپلود‌شده</span></label>
+                  <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-form"/></svg></span><span class="mission-text">رضایت‌نامه امضا‌شده</span></label>
+                  <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-card"/></svg></span><span class="mission-text">پرداخت تایید‌شده</span></label>
+                  <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-calendar"/></svg></span><span class="mission-text">عمل زمان‌بندی‌شده</span></label>
+                </div>
+              </div>
+              <div class="pd-panel" data-panel="appts" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">تاریخچه و نوبت‌های بیمار</h3>
+                <div class="appt-list">
+                  <div class="appt-row"><span class="appt-time">۱۴ مرداد</span><div class="appt-info"><div class="appt-name">ویزیت پیگیری</div><div class="appt-type">دکتر حیدری</div></div><span class="appt-status waiting">آینده</span></div>
+                  <div class="appt-row"><span class="appt-time">۲۰ تیر</span><div class="appt-info"><div class="appt-name">مشاوره اولیه</div><div class="appt-type">دکتر حیدری</div></div><span class="appt-status done">انجام‌شده</span></div>
+                </div>
+              </div>
+              <div class="pd-panel" data-panel="docs" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">مدارک بیمار</h3>
+                <div class="simple-list">
+                  <div class="simple-row"><span>کارت ملی و شناسنامه</span><span class="tag">آپلود‌شده</span></div>
+                  <div class="simple-row"><span>رضایت‌نامه جراحی</span><span class="tag">در انتظار</span></div>
+                  <div class="simple-row"><span>فرم پذیرش اولیه</span><span class="tag">آپلود‌شده</span></div>
+                </div>
+              </div>
+              <div class="pd-panel" data-panel="labs" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">آزمایش‌ها</h3>
+                <div class="simple-list">
+                  <div class="simple-row"><span>آزمایش خون کامل — ۱۰ مرداد</span><span class="tag">دریافت‌شده</span></div>
+                  <div class="simple-row"><span>ویتامین D و B12</span><span class="tag">در انتظار</span></div>
+                </div>
+              </div>
+              <div class="pd-panel" data-panel="pay" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">پرداخت‌ها</h3>
+                <div class="simple-list">
+                  <div class="simple-row"><span>پیش‌پرداخت مشاوره</span><span class="tag">پرداخت‌شده</span></div>
+                  <div class="simple-row"><span>هزینه عمل جراحی</span><span class="tag">در انتظار تایید</span></div>
+                </div>
+              </div>
+              <div class="pd-panel" data-panel="notes" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">یادداشت منشی</h3>
+                <p class="ai-summary-box">بیمار درخواست تماس بعد از ساعت ۱۸ دارد. ترجیح می‌دهد پیام واتساپ دریافت کند نه تماس تلفنی.</p>
+              </div>
+              <div class="pd-panel" data-panel="comms" style="display:none;">
+                <h3 class="section-sub-title" style="margin-top:0;">تاریخچه ارتباطات</h3>
+                <div class="simple-list">
+                  <div class="simple-row"><span>واتساپ — سوال درباره نوبت</span><span class="tag">دیروز</span></div>
+                  <div class="simple-row"><span>تماس تلفنی — تایید حضور</span><span class="tag">۳ روز پیش</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- خلاصه هوشمند بیمار -->
+          <aside class="ai-side">
+            <div class="ai-side-head">
+              <div class="ai-avatar"><svg class="i-sm"><use href="#i-bot"/></svg></div>
+              <div><strong>یارا</strong><small>خلاصه هوشمند برای منشی</small></div>
+            </div>
+            <div class="ai-summary-box" id="aiSummarySc">
+              بیمار قدیمی، مدارک کامل است. آخرین تماس دیروز بوده. یادآوری نوبت بعدی هنوز ارسال نشده.
+            </div>
+            <div class="ai-chip-row">
+              <span class="chip">ارسال یادآوری</span>
+              <span class="chip">تماس با بیمار</span>
+              <span class="chip">درخواست مدرک</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: ارتباطات ============ -->
+      <section class="view sc-view" id="view-sc-comms">
+        <div class="ig-tabs">
+          <span class="ig-tab active">همه</span>
+          <span class="ig-tab">نوبت‌دهی</span>
+          <span class="ig-tab">قیمت</span>
+          <span class="ig-tab">مشاوره</span>
+          <span class="ig-tab">اداری</span>
+        </div>
+        <div class="ig-demo" style="margin-top:14px;">
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>مریم کریمی — واتساپ</strong><span>نوبتم رو میشه جلو بندازید؟</span></div><span class="ig-ai-tag">نوبت‌دهی</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>حسین یزدانی — تلگرام</strong><span>هزینه بای‌پس معده چقدره؟</span></div><span class="ig-ai-tag">پاسخ AI ارسال شد</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>user_reyhaneh — اینستاگرام</strong><span>می‌خوام وقت مشاوره بگیرم</span></div><span class="ig-ai-tag">در انتظار تایید شما</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>سارا احمدی — واتساپ</strong><span>جواب آزمایشمو کجا بفرستم؟</span></div><span class="ig-ai-tag">اداری</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94 — چت سایت</strong><span>میشه نوبت فردامو کنسل کنم؟</span></div><span class="ig-ai-tag">نوبت‌دهی</span></div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: نوبت‌ها ============ -->
+      <section class="view sc-view" id="view-sc-appts">
+        <div class="cal-header">
+          <div class="cal-nav">
+            <button class="dr-icon-btn sm" id="calPrevBtnSc"><svg class="i-sm"><use href="#i-back"/></svg></button>
+            <span class="cal-month-label">مرداد ۱۴۰۴</span>
+            <button class="dr-icon-btn sm" id="calNextBtnSc"><svg class="i-sm"><use href="#i-forward"/></svg></button>
+          </div>
+          <button class="btn btn-primary btn-sm" id="openNewApptBtnSc"><svg class="i-sm"><use href="#i-plus"/></svg>ثبت نوبت جدید</button>
+        </div>
+
+        <div class="cal-legend">
+          <span><i class="cal-dot visit" style="display:inline-block;"></i> روز ویزیت</span>
+          <span><i class="cal-dot surgery" style="display:inline-block;"></i> روز عمل جراحی</span>
+          <span>جمعه‌ها تعطیل</span>
+        </div>
+        <div class="cal-grid" id="calWeekdaysSc">
+          <div class="cal-weekday">ش</div><div class="cal-weekday">ی</div><div class="cal-weekday">د</div>
+          <div class="cal-weekday">س</div><div class="cal-weekday">چ</div><div class="cal-weekday">پ</div><div class="cal-weekday">ج</div>
+        </div>
+        <div class="cal-grid" id="calGridSc" style="margin-top:8px;"></div>
+
+        <div class="day-panel panel-card" id="dayPanelSc">
+          <div class="day-panel-head">
+            <h3 id="dayPanelTitleSc">۱۴ مرداد — روز ویزیت</h3>
+            <span class="count" id="dayPanelCountSc">۲۵ نوبت</span>
+          </div>
+          <div class="appt-list" id="dayPanelListSc"></div>
+
+          <div class="new-appt-form" id="newApptFormSc">
+            <div class="field full"><label>نام بیمار</label><input type="text" id="newApptNameSc" placeholder="مثلاً محمد رضایی"></div>
+            <div class="field"><label>نوع نوبت</label>
+              <select id="newApptTypeSc"><option value="visit">ویزیت</option><option value="surgery">عمل جراحی</option></select>
+            </div>
+            <div class="field"><label>ساعت</label><input type="text" id="newApptTimeSc" placeholder="مثلاً ۱۷:۰۰"></div>
+            <div class="full" style="display:flex; gap:10px; margin-top:4px;">
+              <button class="btn btn-primary btn-sm" id="saveNewApptBtnSc">ثبت نوبت</button>
+              <button class="btn btn-soft btn-sm" id="cancelNewApptBtnSc">انصراف</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card" style="margin-top:16px;">
+          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>لیست انتظار</h3><span class="count">۵ نفر</span></div>
+          <div class="ai-recommend-card" style="margin-bottom:14px;">
+            <div class="ai-recommend-icon"><svg class="i"><use href="#i-sparkles"/></svg></div>
+            <div><span class="ai-recommend-tag">پیشنهاد جایگزینی</span><p>نوبت ساعت ۱۶:۲۰ خانم احمدی کنسل شد؛ «رضا صادقی» از لیست انتظار مناسب همین بازه‌ست.</p></div>
+          </div>
+          <div class="appt-list">
+            <div class="appt-row"><div class="appt-info"><div class="appt-name">رضا صادقی</div><div class="appt-type">پیگیری — منتظر نوبت خالی</div></div><button class="btn btn-soft btn-sm">تایید جایگزینی</button></div>
+            <div class="appt-row"><div class="appt-info"><div class="appt-name">مریم کریمی</div><div class="appt-type">مشاوره اولیه</div></div><button class="btn btn-soft btn-sm">تایید جایگزینی</button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: وظایف ============ -->
+      <section class="view sc-view" id="view-sc-tasks">
+        <h3 class="section-sub-title" style="margin-top:0;">وظایف امروز</h3>
+        <div class="mission-list">
+          <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-phone"/></svg></span><span class="mission-text">تماس یادآوری با ۲ بیمار نوبت فردا</span></label>
+          <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-file"/></svg></span><span class="mission-text">درخواست جواب آزمایش از سارا احمدی</span></label>
+          <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-card"/></svg></span><span class="mission-text">پیگیری پرداخت نگار موسوی</span></label>
+          <label class="mission-item"><input type="checkbox"><span class="mission-icon"><svg class="i"><use href="#i-form"/></svg></span><span class="mission-text">پیگیری رضایت‌نامه علی نجفی</span></label>
+          <label class="mission-item done"><input type="checkbox" checked disabled><span class="mission-icon"><svg class="i"><use href="#i-calendar"/></svg></span><span class="mission-text">هماهنگی اتاق عمل فردا</span></label>
+        </div>
+        <h3 class="section-sub-title">یادآوری‌های آماده ارسال</h3>
+        <div class="simple-list">
+          <div class="simple-row"><span>یادآوری نوبت فردا — محمد رضایی</span><button class="btn btn-soft btn-sm">ارسال</button></div>
+          <div class="simple-row"><span>یادآوری آماده‌سازی عمل — علی نجفی</span><button class="btn btn-soft btn-sm">ارسال</button></div>
+          <div class="simple-row"><span>یادآوری ویزیت پیگیری — رضا صادقی</span><button class="btn btn-soft btn-sm">ارسال</button></div>
+        </div>
+      </section>
+
+    </div>
   </main>
+</div>
 </div>
 
 <!-- ============================================================
@@ -2392,7 +2848,7 @@ chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
    ============================================================ */
 
 /* ---------- سوییچ ویوها از سایدبار ---------- */
-const sbItems = document.querySelectorAll('.sb-item');
+const sbItems = document.querySelectorAll('#sbNav .sb-item');
 const views = document.querySelectorAll('.view');
 const thTitle = document.getElementById('thTitle');
 const titles = {
@@ -2408,14 +2864,32 @@ function showView(name){
   views.forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   sbItems.forEach(i=>i.classList.toggle('active', i.dataset.view===name));
-  if(titles[name]){ thTitle.innerHTML = titles[name][0] + '<small>'+titles[name][1]+'</small>'; }
+  if(name === 'dashboard'){
+    thTitle.innerHTML = greetingTitle();
+  } else if(titles[name]){
+    thTitle.innerHTML = titles[name][0] + '<small>'+titles[name][1]+'</small>';
+  }
   window.scrollTo({top:0, behavior:'instant'});
   document.getElementById('sidebar').classList.remove('open');
 }
 
+/* ---------- تیتر پویا: سلام صبح/عصر‌بخیر + تاریخ امروز ---------- */
+function greetingTitle(){
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'صبح بخیر' : 'عصر بخیر';
+  let dateStr = '';
+  try{
+    dateStr = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { weekday:'long', day:'numeric', month:'long', year:'numeric' }).format(new Date());
+  }catch(e){ dateStr = new Date().toLocaleDateString('fa-IR'); }
+  return greet + ' دکتر حیدری<small>' + dateStr + '</small>';
+}
+thTitle.innerHTML = greetingTitle();
+
 sbItems.forEach(item=>{
   item.addEventListener('click', ()=> showView(item.dataset.view));
 });
+
+/* ---------- تیک «ویزیت انجام شد» و لیست ۲۵ نوبت امروز — پایین‌تر بعد از تعریف patNames ساخته می‌شود ---------- */
 
 /* ---------- کلیک روی بیمار -> پرونده ---------- */
 const patNames = {
@@ -2424,7 +2898,7 @@ const patNames = {
   ali:{name:'علی نجفی', sub:'پرونده #۱۰۱۸ — روز ۸ بعد از عمل', letter:'ع'},
   negar:{name:'نگار موسوی', sub:'پرونده #۱۰۴۰ — مشاوره اولیه', letter:'ن'}
 };
-document.querySelectorAll('.pat-row').forEach(row=>{
+document.querySelectorAll('#patTable .pat-row').forEach(row=>{
   row.addEventListener('click', ()=>{
     const p = patNames[row.dataset.patient];
     document.getElementById('pdName').textContent = p.name;
@@ -2438,18 +2912,70 @@ document.querySelectorAll('.pat-row').forEach(row=>{
 });
 document.getElementById('backToPatients').addEventListener('click', ()=> showView('patients'));
 
+/* ---------- ساخت لیست ۲۵ نوبت امروز دکتر ---------- */
+(function(){
+  const list = document.getElementById('todayApptsList');
+  const visitTypes = ['ویزیت پیگیری','مشاوره اولیه','بررسی آزمایش','پیگیری پس از عمل'];
+  const extraNames = ['رضا صادقی','مریم کریمی','حسین یزدانی','سمیه رستمی','امیر قاسمی','لیلا صفری','بهنام رادمنش','فرزانه اکبری','یاسمن نوری','کامران فتحی','الهام باقری','آرش کیانی'];
+  const knownOrder = ['mohammad','sara','ali','negar'];
+  const rows = [];
+  let h=16, m=0;
+  for(let i=0;i<25;i++){
+    let key=null, name, type;
+    if(i < knownOrder.length){ key = knownOrder[i]; name = patNames[key].name; type = visitTypes[i%visitTypes.length]; }
+    else { name = extraNames[(i-knownOrder.length) % extraNames.length]; type = visitTypes[i%visitTypes.length]; }
+    const time = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+    m += 12; if(m>=60){ m-=60; h++; }
+    let status = i<3 ? 'done' : (i<8 ? 'waiting' : 'pending');
+    let statusLabel = status==='done' ? 'حاضر' : (status==='waiting' ? 'در انتظار' : 'هنوز نرسیده');
+    rows.push({key, name, type, time, status, statusLabel});
+  }
+  rows.forEach(r=>{
+    const row = document.createElement('div');
+    row.className = 'appt-row';
+    if(r.key) row.dataset.patient = r.key;
+    row.innerHTML = '<span class="appt-time">'+r.time+'</span><div class="appt-info"><div class="appt-name">'+r.name+'</div><div class="appt-type">'+r.type+'</div></div><span class="appt-status '+r.status+'">'+r.statusLabel+'</span><button class="appt-done-btn" title="ویزیت انجام شد"><svg class="i-sm"><use href="#i-check-circle"/></svg>ویزیت شد</button>';
+    list.appendChild(row);
+  });
+
+  list.querySelectorAll('.appt-row').forEach(row=>{
+    row.addEventListener('click', (e)=>{
+      if(e.target.closest('.appt-done-btn')) return;
+      const key = row.dataset.patient;
+      const p = key && patNames[key] ? patNames[key] : { name: row.querySelector('.appt-name').textContent, sub:'پرونده بیمار — جزئیات کامل به‌زودی از دیتابیس بارگذاری می‌شود', letter: row.querySelector('.appt-name').textContent.charAt(0) };
+      document.getElementById('pdName').textContent = p.name;
+      document.getElementById('pdSub').textContent = p.sub;
+      document.getElementById('pdAvatar').textContent = p.letter;
+      views.forEach(v=>v.classList.remove('active'));
+      document.getElementById('view-patient-detail').classList.add('active');
+      thTitle.innerHTML = titles['patient-detail'][0] + '<small>'+titles['patient-detail'][1]+'</small>';
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+    row.querySelector('.appt-done-btn').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const name = row.querySelector('.appt-name').textContent;
+      if(confirm('ویزیت «' + name + '» تکمیل شد و از لیست امروز حذف شود؟')){
+        row.remove();
+        const remaining = list.querySelectorAll('.appt-row').length;
+        document.getElementById('todayApptsCount').textContent = remaining + ' نوبت';
+        if(remaining === 0){ list.innerHTML = '<p class="placeholder-note">همه نوبت‌های امروز ویزیت شدند.</p>'; }
+      }
+    });
+  });
+})();
+
 /* ---------- فیلترهای بیماران (دمو) ---------- */
-document.querySelectorAll('.pat-filter').forEach(f=>{
+document.querySelectorAll('#view-patients .pat-filter').forEach(f=>{
   f.addEventListener('click', ()=>{
-    document.querySelectorAll('.pat-filter').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('#view-patients .pat-filter').forEach(x=>x.classList.remove('active'));
     f.classList.add('active');
   });
 });
 
 /* ---------- تب‌های پرونده بیمار (دمو - فقط ظاهری) ---------- */
-document.querySelectorAll('.pd-tab').forEach(t=>{
+document.querySelectorAll('#view-patient-detail .pd-tab').forEach(t=>{
   t.addEventListener('click', ()=>{
-    document.querySelectorAll('.pd-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('#view-patient-detail .pd-tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
   });
 });
@@ -2486,10 +3012,27 @@ function sendAiChat(){
 aiSend.addEventListener('click', sendAiChat);
 aiInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendAiChat(); });
 
+/* ---------- نمایش دمو با کلیک روی کارت‌های مدیریت کلینیک ---------- */
+document.querySelectorAll('#view-clinic .tool-card[data-demo]').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const id = 'demo-' + card.dataset.demo;
+    const panel = document.getElementById(id);
+    if(!panel) return;
+    const scope = panel.closest('#opsDemoArea, #finDemoArea');
+    const wasOpen = panel.classList.contains('open');
+    scope.querySelectorAll('.tool-demo-panel').forEach(p=>p.classList.remove('open'));
+    if(!wasOpen){
+      panel.classList.add('open');
+      panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+  });
+});
+buildCalendar('Dr');
+
 /* ---------- تب‌های اینستاگرام دمو ---------- */
-document.querySelectorAll('.ig-tab').forEach(t=>{
+document.querySelectorAll('#view-growth .ig-tab').forEach(t=>{
   t.addEventListener('click', ()=>{
-    document.querySelectorAll('.ig-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('#view-growth .ig-tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
   });
 });
@@ -2503,6 +3046,231 @@ function checkMobile(){
 checkMobile();
 window.addEventListener('resize', checkMobile);
 menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+
+/* ============================================================
+   منطق پنل منشی (خانم احمدی)
+   ============================================================ */
+const scItems = document.querySelectorAll('.sc-item');
+const scViews = document.querySelectorAll('.sc-view');
+const scThTitle = document.getElementById('scThTitle');
+const scTitles = {
+  dashboard: ['کارتابل امروز','خلاصه وضعیت کلینیک برای شما'],
+  patients: ['بیماران','جستجو و مدیریت پرونده‌ها'],
+  'patient-detail': ['پرونده بیمار','چک‌لیست و خلاصه هوشمند'],
+  comms: ['ارتباطات','صندوق یکپارچه همه کانال‌ها'],
+  appts: ['نوبت‌ها','مدیریت نوبت‌دهی و لیست انتظار'],
+  tasks: ['وظایف','کارهای امروز و یادآوری‌ها']
+};
+function showViewSc(name){
+  scViews.forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-sc-'+name).classList.add('active');
+  scItems.forEach(i=>i.classList.toggle('active', i.dataset.view===name));
+  if(scTitles[name]){ scThTitle.innerHTML = scTitles[name][0] + '<small>'+scTitles[name][1]+'</small>'; }
+  window.scrollTo({top:0, behavior:'instant'});
+  document.getElementById('sidebarSc').classList.remove('open');
+}
+scItems.forEach(item=> item.addEventListener('click', ()=> showViewSc(item.dataset.view)));
+
+const patNamesSc = {
+  mohammad:{name:'محمد رضایی', sub:'پرونده #۱۰۲۴ — روز ۳۲ بعد از عمل', letter:'م'},
+  sara:{name:'سارا احمدی', sub:'پرونده #۱۰۳۱ — پیش از عمل', letter:'س'},
+  ali:{name:'علی نجفی', sub:'پرونده #۱۰۱۸ — عمل فردا', letter:'ع'},
+  negar:{name:'نگار موسوی', sub:'پرونده #۱۰۴۰ — مشاوره اولیه', letter:'ن'}
+};
+document.querySelectorAll('#patTableSc .pat-row').forEach(row=>{
+  row.addEventListener('click', ()=>{
+    const p = patNamesSc[row.dataset.patient];
+    document.getElementById('pdNameSc').textContent = p.name;
+    document.getElementById('pdSubSc').textContent = p.sub;
+    document.getElementById('pdAvatarSc').textContent = p.letter;
+    scViews.forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-sc-patient-detail').classList.add('active');
+    scThTitle.innerHTML = scTitles['patient-detail'][0] + '<small>'+scTitles['patient-detail'][1]+'</small>';
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+document.getElementById('backToPatientsSc').addEventListener('click', ()=> showViewSc('patients'));
+
+/* ============================================================
+   تقویم نوبت‌دهی (تابع عمومی — برای منشی و پنل دکتر) — مرداد ۱۴۰۴ (دمو)
+   ============================================================ */
+function buildCalendar(suffix, opts){
+  opts = opts || {};
+  const calGrid = document.getElementById('calGrid'+suffix);
+  const dayPanelTitle = document.getElementById('dayPanelTitle'+suffix);
+  const dayPanelCount = document.getElementById('dayPanelCount'+suffix);
+  const dayPanelList = document.getElementById('dayPanelList'+suffix);
+  const newApptForm = document.getElementById('newApptForm'+suffix);
+  if(!calGrid) return;
+  const namePool = ['محمد رضایی','سارا احمدی','علی نجفی','نگار موسوی','رضا صادقی','مریم کریمی','حسین یزدانی'];
+
+  const totalDays = 31;
+  const leadingBlanks = 4; // ۱ مرداد روی ستون چهارشنبه می‌افتد
+  function colOf(day){ return ((leadingBlanks + day - 1) % 7) + 1; }
+  function typeOf(day){
+    const c = colOf(day);
+    if(c === 7) return 'off';
+    if(c === 2 || c === 4 || c === 6) return 'visit';
+    return 'surgery';
+  }
+
+  const calendarData = {};
+  for(let d=1; d<=totalDays; d++){
+    const t = typeOf(d);
+    let appts = [];
+    if(t === 'visit'){
+      appts = [
+        {time:'۱۶:۰۰', name:namePool[d%namePool.length], type:'ویزیت پیگیری'},
+        {time:'۱۶:۲۰', name:namePool[(d+1)%namePool.length], type:'مشاوره اولیه'},
+        {time:'۱۶:۴۰', name:namePool[(d+2)%namePool.length], type:'بررسی آزمایش'}
+      ];
+    } else if(t === 'surgery'){
+      appts = [ {time:'۰۸:۰۰', name:namePool[d%namePool.length], type:'عمل جراحی — اسلیو معده'} ];
+    }
+    calendarData[d] = { type:t, appts };
+  }
+
+  let selectedDay = 14;
+
+  function renderCalendar(){
+    calGrid.innerHTML = '';
+    for(let i=0;i<leadingBlanks;i++){
+      const blank = document.createElement('div');
+      blank.className = 'cal-day empty';
+      calGrid.appendChild(blank);
+    }
+    for(let d=1; d<=totalDays; d++){
+      const info = calendarData[d];
+      const cell = document.createElement('div');
+      cell.className = 'cal-day' + (info.type==='off' ? ' off' : '') + (d===14 ? ' today' : '') + (d===selectedDay ? ' selected' : '');
+      cell.dataset.day = d;
+      let dots = '';
+      if(info.type === 'visit') dots = '<span class="cal-dot visit"></span><span class="cal-day-count">'+ (d===14 ? '۲۵' : info.appts.length+'+') +'</span>';
+      else if(info.type === 'surgery') dots = '<span class="cal-dot surgery"></span><span class="cal-day-count">'+ info.appts.length +'</span>';
+      else dots = '<span class="cal-day-count">تعطیل</span>';
+      cell.innerHTML = '<span class="cal-day-num">'+d+'</span><div class="cal-day-dots">'+dots+'</div>';
+      cell.addEventListener('click', ()=>{ selectedDay = d; renderCalendar(); renderDayPanel(); });
+      calGrid.appendChild(cell);
+    }
+  }
+
+  const dayNameByType = {visit:'روز ویزیت', surgery:'روز عمل جراحی', off:'تعطیل'};
+  function renderDayPanel(){
+    const info = calendarData[selectedDay];
+    dayPanelTitle.textContent = selectedDay + ' مرداد — ' + dayNameByType[info.type];
+    dayPanelCount.textContent = (info.type==='off') ? 'بدون نوبت' : (info.appts.length + (selectedDay===14 && info.type==='visit' ? '+ نوبت' : ' نوبت'));
+    dayPanelList.innerHTML = '';
+    if(info.type === 'off'){
+      dayPanelList.innerHTML = '<p class="placeholder-note">مطب در این روز تعطیل است.</p>';
+      return;
+    }
+    info.appts.forEach((a, idx)=>{
+      const row = document.createElement('div');
+      row.className = 'appt-row';
+      row.innerHTML = '<span class="appt-time">'+a.time+'</span><div class="appt-info"><div class="appt-name">'+a.name+'</div><div class="appt-type">'+a.type+'</div></div>'
+        + '<button class="btn btn-soft btn-sm cal-edit-btn">تغییر</button>'
+        + '<button class="btn btn-soft btn-sm cal-cancel-btn">لغو</button>';
+      row.querySelector('.cal-edit-btn').addEventListener('click', ()=>{
+        const newTime = prompt('ساعت جدید برای «'+a.name+'»:', a.time);
+        if(newTime && newTime.trim()){ a.time = newTime.trim(); renderDayPanel(); }
+      });
+      row.querySelector('.cal-cancel-btn').addEventListener('click', ()=>{
+        if(confirm('نوبت «'+a.name+'» ساعت '+a.time+' لغو شود؟')){
+          info.appts.splice(idx,1);
+          renderCalendar();
+          renderDayPanel();
+        }
+      });
+      dayPanelList.appendChild(row);
+    });
+    if(selectedDay===14 && info.type==='visit'){
+      const note = document.createElement('p');
+      note.className = 'placeholder-note';
+      note.style.marginTop = '10px';
+      note.textContent = 'و ۲۲ نوبت دیگر تا ساعت ۲۱:۰۰';
+      dayPanelList.appendChild(note);
+    }
+  }
+
+  document.getElementById('openNewApptBtn'+suffix).addEventListener('click', ()=>{
+    newApptForm.classList.add('open');
+    document.getElementById('newApptName'+suffix).focus();
+  });
+  document.getElementById('cancelNewApptBtn'+suffix).addEventListener('click', ()=>{
+    newApptForm.classList.remove('open');
+    document.getElementById('newApptName'+suffix).value='';
+    document.getElementById('newApptTime'+suffix).value='';
+  });
+  document.getElementById('saveNewApptBtn'+suffix).addEventListener('click', ()=>{
+    const name = document.getElementById('newApptName'+suffix).value.trim();
+    const time = document.getElementById('newApptTime'+suffix).value.trim();
+    const type = document.getElementById('newApptType'+suffix).value;
+    if(!name || !time){ return; }
+    calendarData[selectedDay].appts.push({ time, name, type: type==='visit' ? 'ویزیت (ثبت‌شده دستی)' : 'عمل جراحی (ثبت‌شده دستی)' });
+    if(calendarData[selectedDay].type === 'off'){ calendarData[selectedDay].type = type; }
+    document.getElementById('newApptName'+suffix).value=''; document.getElementById('newApptTime'+suffix).value='';
+    newApptForm.classList.remove('open');
+    renderCalendar();
+    renderDayPanel();
+  });
+
+  renderCalendar();
+  renderDayPanel();
+}
+buildCalendar('Sc');
+
+/* ---------- سایدبار موبایل منشی ---------- */
+const menuBtnSc = document.getElementById('menuBtnSc');
+const sidebarSc = document.getElementById('sidebarSc');
+function checkMobileSc(){
+  menuBtnSc.style.display = window.innerWidth <= 860 ? 'flex' : 'none';
+}
+checkMobileSc();
+window.addEventListener('resize', checkMobileSc);
+menuBtnSc.addEventListener('click', ()=> sidebarSc.classList.toggle('open'));
+
+/* ---------- تب‌ها و فیلترهای پنل منشی (اسکوپ‌شده، بدون تداخل با پنل پزشک) ---------- */
+document.querySelectorAll('#view-sc-patients .pat-filter').forEach(f=>{
+  f.addEventListener('click', ()=>{
+    document.querySelectorAll('#view-sc-patients .pat-filter').forEach(x=>x.classList.remove('active'));
+    f.classList.add('active');
+  });
+});
+document.querySelectorAll('#view-sc-patient-detail .pd-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('#view-sc-patient-detail .pd-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('#view-sc-patient-detail .pd-panel').forEach(p=>{ p.style.display = (p.dataset.panel===t.dataset.tab) ? 'block' : 'none'; });
+  });
+});
+
+/* ---------- ۲۵ نوبت امروز در کارتابل منشی ---------- */
+(function(){
+  const list = document.getElementById('scTodayApptsList');
+  if(!list) return;
+  const visitTypes = ['ویزیت پیگیری','مشاوره اولیه','بررسی آزمایش','پیگیری پس از عمل'];
+  const extraNames = ['رضا صادقی','مریم کریمی','حسین یزدانی','سمیه رستمی','امیر قاسمی','لیلا صفری','بهنام رادمنش','فرزانه اکبری','یاسمن نوری','کامران فتحی'];
+  const known = ['mohammad','sara','ali','negar'];
+  let h=16, m=0;
+  for(let i=0;i<25;i++){
+    let name = i<known.length ? patNamesSc[known[i]].name : extraNames[(i-known.length)%extraNames.length];
+    const type = visitTypes[i%visitTypes.length] + ' — دکتر حیدری';
+    const time = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+    m+=12; if(m>=60){ m-=60; h++; }
+    const status = i<12 ? 'done' : (i<20 ? 'waiting' : 'pending');
+    const label = status==='done' ? 'تایید‌شده' : (status==='waiting' ? 'در انتظار تایید' : 'هنوز نرسیده');
+    const row = document.createElement('div');
+    row.className = 'appt-row';
+    row.innerHTML = '<span class="appt-time">'+time+'</span><div class="appt-info"><div class="appt-name">'+name+'</div><div class="appt-type">'+type+'</div></div><span class="appt-status '+status+'">'+label+'</span>';
+    list.appendChild(row);
+  }
+})();
+document.querySelectorAll('#view-sc-comms .ig-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('#view-sc-comms .ig-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
 
 </script>
 </body>
