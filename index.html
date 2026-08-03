@@ -1009,7 +1009,8 @@ section.page-sec{ padding:70px 0; }
 .sb-nav{ display:flex; flex-direction:column; gap:3px; flex:1; }
 .sb-item{
   display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:var(--radius-sm);
-  font-size:13.5px; font-weight:600; color:var(--text-muted); transition:all .2s var(--ease);
+  font-size:13.5px; font-weight:600; color:var(--text-muted); box-shadow:none;
+  transition:background .2s var(--ease), color .2s var(--ease);
 }
 .sb-item svg{ color:var(--text-faint); flex-shrink:0; transition:color .2s; }
 .sb-item:hover{ background:var(--surface-soft); color:var(--text); }
@@ -1031,8 +1032,8 @@ section.page-sec{ padding:70px 0; }
   display:flex; align-items:center; justify-content:space-between; gap:14px;
   padding:14px 26px;
 }
-.th-title{ font-size:16.5px; font-weight:800; }
-.th-title small{ display:block; font-size:11.5px; font-weight:500; color:var(--text-faint); margin-top:2px; }
+.th-title{ font-size:16.5px; font-weight:800; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.th-title small{ display:block; font-size:11.5px; font-weight:500; color:var(--text-faint); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .th-search{ display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-pill); padding:9px 16px; width:280px; color:var(--text-faint); }
 .th-search input{ border:none; outline:none; background:none; font-size:12.8px; width:100%; color:var(--text); }
 .th-actions{ display:flex; align-items:center; gap:8px; }
@@ -1256,6 +1257,8 @@ section.page-sec{ padding:70px 0; }
 @media (max-width: 560px){
   .view-content{ padding:18px 14px 50px; }
   .top-header{ padding:12px 14px; }
+  .th-back-btn{ padding:9px; }
+  .th-back-label{ display:none; }
   .kpi-grid{ grid-template-columns:1fr 1fr; gap:10px; }
   .kpi-card{ padding:14px; }
   .tool-grid{ grid-template-columns:1fr 1fr; gap:10px; }
@@ -1263,7 +1266,7 @@ section.page-sec{ padding:70px 0; }
   .pd-mini-grid{ grid-template-columns:1fr 1fr; }
   .new-appt-form{ grid-template-columns:1fr; }
   .dr-msg{ max-width:88%; }
-  .th-title{ font-size:14.5px; }
+  .th-title{ font-size:14.5px; max-width:38vw; }
 }
 
 </style>
@@ -1636,7 +1639,7 @@ section.page-sec{ padding:70px 0; }
     <header class="top-header">
       <div class="th-title" id="thTitle">داشبورد<small>خلاصه امروز کلینیک شما</small></div>
       <div class="th-actions">
-        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
+        <button class="btn btn-soft btn-sm th-back-btn" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> <span class="th-back-label">بازگشت به سایت</span></button>
         <button class="dr-icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
         <button class="dr-icon-btn" id="menuBtn" style="display:none"><svg class="i"><use href="#i-grid"/></svg></button>
       </div>
@@ -2041,7 +2044,7 @@ section.page-sec{ padding:70px 0; }
     <header class="top-header">
       <div class="th-title" id="scThTitle">کارتابل امروز<small>سه‌شنبه، ۱۴ مرداد — روز ویزیت مطب (۱۶:۰۰ تا ۲۱:۰۰)</small></div>
       <div class="th-actions">
-        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
+        <button class="btn btn-soft btn-sm th-back-btn" onclick="goTo('screen-landing')"><svg class="i-sm"><use href="#i-forward"/></svg> <span class="th-back-label">بازگشت به سایت</span></button>
         <button class="dr-icon-btn"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
         <button class="dr-icon-btn" id="menuBtnSc" style="display:none"><svg class="i"><use href="#i-grid"/></svg></button>
       </div>
