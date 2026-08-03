@@ -327,7 +327,7 @@ section.page-sec{ padding:70px 0; }
 .login-head h2{ font-size:19px; font-weight:800; margin-bottom:6px; }
 .login-head p{ font-size:12.8px; color:var(--text-faint); }
 .role-tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; background:var(--surface-soft); padding:6px; border-radius:var(--radius-pill); margin-bottom:24px; overflow:hidden; }
-.role-tab{ padding:9px 6px; border-radius:12px; font-size:12.8px; font-weight:700; color:var(--text-muted); text-align:center; transition:all .25s var(--ease); }
+.role-tab{ padding:9px 6px; border-radius:var(--radius-pill); font-size:12.8px; font-weight:700; color:var(--text-muted); text-align:center; transition:all .25s var(--ease); }
 .role-tab.active{ background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(47,111,94,0.28); }
 .login-panel{ display:none; flex-direction:column; gap:14px; }
 .login-panel.active{ display:flex; }
@@ -1115,6 +1115,7 @@ section.page-sec{ padding:70px 0; }
 .detail-split{ display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; }
 
 .pd-head{ display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow-soft); }
+.pd-head > div{ min-width:0; }
 .pd-avatar{ width:56px; height:56px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex-shrink:0; }
 .pd-name{ font-size:16.5px; font-weight:800; }
 .pd-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; }
@@ -1338,7 +1339,7 @@ section.page-sec{ padding:70px 0; }
   <header class="site-nav">
     <div class="site-nav-inner">
       <div class="brand">
-        <div class="brand-mark">ه</div>
+        <div class="brand-mark"><img src="images/logo.png" alt="لوگوی کلینیک هوشمند" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.textContent='ه';"></div>
         <div class="brand-name">
           <span>کلینیک هوشمند</span>
           <small>پلتفرم هوشمند مدیریت چاقی</small>
@@ -1515,7 +1516,7 @@ section.page-sec{ padding:70px 0; }
       <div class="footer-grid">
         <div class="footer-about">
           <div class="brand">
-            <div class="brand-mark">ه</div>
+            <div class="brand-mark"><img src="images/logo.png" alt="لوگوی کلینیک هوشمند" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.textContent='ه';"></div>
             <div class="brand-name"><span>کلینیک هوشمند</span><small>پلتفرم هوشمند مدیریت چاقی</small></div>
           </div>
           <p>کلینیک هوشمند با تیمی متخصص و همراه هوشمند بیماران، مسیر کاهش وزن شما رو از ابتدا تا بازگشت به زندگی سالم، همراهی می‌کنه.</p>
@@ -1560,7 +1561,7 @@ section.page-sec{ padding:70px 0; }
     <div class="login-box reveal show">
       <button class="login-back" onclick="closeLogin()"><svg class="i-sm"><use href="#i-back"/></svg> بازگشت به سایت</button>
       <div class="login-head">
-        <div class="brand-mark">ه</div>
+        <div class="brand-mark"><img src="images/logo.png" alt="لوگوی کلینیک هوشمند" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.textContent='ه';"></div>
         <h2>ورود به پنل کاربری</h2>
         <p>یکی از نقش‌های زیر رو انتخاب کنید</p>
       </div>
@@ -2313,7 +2314,7 @@ section.page-sec{ padding:70px 0; }
       <div class="topbar-actions">
         <button class="icon-btn" aria-label="اعلان‌ها"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
         <button class="icon-btn avatar-btn" aria-label="حساب کاربری"><svg class="i"><use href="#i-user"/></svg></button>
-        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')" style="margin-inline-start:6px;">خروج به سایت</button>
+        <button class="btn btn-soft btn-sm" onclick="goTo('screen-landing')" style="margin-inline-start:6px;"><svg class="i-sm"><use href="#i-forward"/></svg> بازگشت به سایت</button>
       </div>
     </div>
   </header>
