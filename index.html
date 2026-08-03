@@ -320,7 +320,7 @@ section.page-sec{ padding:70px 0; }
 .login-head h2{ font-size:19px; font-weight:800; margin-bottom:6px; }
 .login-head p{ font-size:12.8px; color:var(--text-faint); }
 .role-tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; background:var(--surface-soft); padding:6px; border-radius:var(--radius-pill); margin-bottom:24px; }
-.role-tab{ padding:9px 6px; border-radius:var(--radius-pill); font-size:12.8px; font-weight:700; color:var(--text-muted); text-align:center; transition:all .25s var(--ease); }
+.role-tab{ padding:9px 6px; border-radius:12px; font-size:12.8px; font-weight:700; color:var(--text-muted); text-align:center; transition:all .25s var(--ease); }
 .role-tab.active{ background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(47,111,94,0.28); }
 .login-panel{ display:none; flex-direction:column; gap:14px; }
 .login-panel.active{ display:flex; }
@@ -1180,8 +1180,9 @@ section.page-sec{ padding:70px 0; }
 
 /* Instagram demo panel */
 .ig-demo{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); margin-top:16px; }
-.ig-tabs{ display:flex; gap:8px; margin-bottom:14px; }
-.ig-tab{ padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface-soft); color:var(--text-muted); }
+.ig-tabs{ display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.ig-tabs::-webkit-scrollbar{ display:none; }
+.ig-tab{ flex-shrink:0; padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface-soft); color:var(--text-muted); }
 .ig-tab.active{ background:var(--primary); color:#fff; }
 .ig-item{ display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:var(--radius-sm); border-bottom:1px solid var(--border); }
 .ig-item:last-child{ border-bottom:none; }
@@ -2713,6 +2714,8 @@ section.page-sec{ padding:70px 0; }
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if(id==='screen-doctor' && typeof showView==='function') showView('dashboard');
+  if(id==='screen-secretary' && typeof showViewSc==='function') showViewSc('dashboard');
   window.scrollTo({top:0, behavior:'instant'});
 }
 function openLogin(){ goTo('screen-login'); }
@@ -2857,7 +2860,7 @@ chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
 
 /* ---------- سوییچ ویوها از سایدبار ---------- */
 const sbItems = document.querySelectorAll('#sbNav .sb-item');
-const views = document.querySelectorAll('.view');
+const views = document.querySelectorAll('#screen-doctor .view');
 const thTitle = document.getElementById('thTitle');
 const titles = {
   dashboard: ['داشبورد','خلاصه امروز کلینیک شما'],
