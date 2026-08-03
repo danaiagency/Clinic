@@ -25,6 +25,13 @@
    با چیزی که آپلود کردید یکی باشه (حروف بزرگ و کوچک هم فرق داره).
 ۵) برای لوگوی کلینیک هم می‌تونید همین‌کارو با فایل images/logo.png انجام بدید؛
    اگه لوگو نذارید، همون حرف «آ» که الان به‌صورت متنی طراحی شده نمایش داده میشه.
+۵.۱) عکس‌های دیگه‌ای هم که توی پنل‌ها استفاده شدن و اسمشون از قبل توی کد آماده‌ست:
+   - images/doctor-heidari.jpg → عکس دکتر حیدری (آواتار کوچک در پنل پزشک)
+   - images/secretary-ahmadi.jpg → عکس خانم احمدی (آواتار کوچک در پنل منشی)
+   - images/ai-hoosha.png → آواتار دکتر هوشا (دستیار هوشمند پزشک)
+   - images/ai-yara.png → آواتار یارا (دستیار هوشمند منشی)
+   - images/ai-ida.png → آواتار ایدا (دستیار هوشمند اینستاگرام، بخش رشد و بازاریابی)
+   همه اینا هم اگه آپلود نشن، به‌جای عکس یه حرف یا آیکون جایگزین نشون داده میشه، سایت خراب نمیشه.
 ۶) تا وقتی عکس واقعی رو آپلود نکردید، به‌جای عکس یه باکس خاکستری با یه متن راهنما
    نشون داده میشه (این یعنی سایت خراب نیست، فقط منتظر عکس شماست).
 
@@ -319,7 +326,7 @@ section.page-sec{ padding:70px 0; }
 .login-head .brand-mark{ margin:0 auto 14px; }
 .login-head h2{ font-size:19px; font-weight:800; margin-bottom:6px; }
 .login-head p{ font-size:12.8px; color:var(--text-faint); }
-.role-tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; background:var(--surface-soft); padding:6px; border-radius:var(--radius-pill); margin-bottom:24px; }
+.role-tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; background:var(--surface-soft); padding:6px; border-radius:var(--radius-pill); margin-bottom:24px; overflow:hidden; }
 .role-tab{ padding:9px 6px; border-radius:12px; font-size:12.8px; font-weight:700; color:var(--text-muted); text-align:center; transition:all .25s var(--ease); }
 .role-tab.active{ background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(47,111,94,0.28); }
 .login-panel{ display:none; flex-direction:column; gap:14px; }
@@ -375,6 +382,7 @@ section.page-sec{ padding:70px 0; }
 @media (max-width: 720px){
   .nav-links{ display:none; }
   .nav-burger{ display:flex; }
+  .hero-float-card{ display:none; }
 }
 @media (max-width: 560px){
   .wrap{ padding:0 18px; }
@@ -1009,7 +1017,8 @@ section.page-sec{ padding:70px 0; }
 .sb-item.active svg{ color:#fff; }
 
 .sb-doctor{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:var(--radius-sm); background:var(--surface-soft); margin-top:10px; }
-.sb-doctor-avatar{ width:36px; height:36px; border-radius:50%; background:var(--gold-soft); color:#8A6A2E; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; }
+.sb-doctor-avatar{ width:36px; height:36px; border-radius:50%; background:var(--gold-soft); color:#8A6A2E; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; overflow:hidden; }
+.sb-doctor-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
 .sb-doctor div{ line-height:1.35; min-width:0; }
 .sb-doctor strong{ font-size:12.5px; display:block; }
 .sb-doctor small{ font-size:10.5px; color:var(--text-faint); }
@@ -1536,7 +1545,7 @@ section.page-sec{ padding:70px 0; }
       </div>
       <div class="footer-bottom">
         <p>© ۱۴۰۴ کلینیک هوشمند. تمامی حقوق محفوظ است.</p>
-        <p class="credit">ساخته شده توسط <strong>DanAi Agency</strong></p>
+        <p class="credit">ساخته شده توسط <a href="https://www.danaiagency.ir" target="_blank" rel="noopener"><strong>DanAi Agency</strong></a></p>
       </div>
     </div>
   </footer>
@@ -1612,7 +1621,7 @@ section.page-sec{ padding:70px 0; }
     </nav>
 
     <div class="sb-doctor">
-      <div class="sb-doctor-avatar">ح</div>
+      <div class="sb-doctor-avatar"><img src="images/doctor-heidari.jpg" alt="دکتر حیدری" onerror="this.style.display='none'; this.parentElement.textContent='ح';"></div>
       <div>
         <strong>دکتر محمود حیدری</strong>
         <small>فوق تخصص جراحی چاقی</small>
@@ -1715,7 +1724,7 @@ section.page-sec{ padding:70px 0; }
           <!-- AI Side Panel -->
           <aside class="ai-side">
             <div class="ai-side-head">
-              <div class="ai-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div class="ai-avatar"><img src="images/ai-hoosha.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
               <div><strong>دکتر هوشا</strong><small>دستیار هوشمند پزشک</small></div>
             </div>
             <div class="ai-summary-box">
@@ -1738,7 +1747,7 @@ section.page-sec{ padding:70px 0; }
       <!-- ============ VIEW: AI ASSISTANT (دکتر هوشا) ============ -->
       <section class="view" id="view-ai">
         <div class="ai-page-head">
-          <div class="ai-page-avatar"><img src="images/logo.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+          <div class="ai-page-avatar"><img src="images/ai-hoosha.png" alt="دکتر هوشا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
           <div>
             <h2>دکتر هوشا — دستیار هوشمند پزشک</h2>
             <p>مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک. برای تحلیل پرونده، آزمایش، تصویر یا پرسش پزشکی استفاده کنید.</p>
@@ -1777,15 +1786,15 @@ section.page-sec{ padding:70px 0; }
         <div class="tool-section-title">CRM بیماران</div>
         <div class="crm-grid">
           <div class="crm-stat"><span class="crm-stat-val">۴۸۰</span><span class="crm-stat-lbl">بیمار فعال</span></div>
-          <div class="crm-stat"><span class="crm-stat-val">۶۲</span><span class="crm-stat-lbl">سرنخ جدید این ماه</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۶۲</span><span class="crm-stat-lbl">لید جدید این ماه</span></div>
           <div class="crm-stat"><span class="crm-stat-val">۳۱٪</span><span class="crm-stat-lbl">نرخ تبدیل مشاوره→عمل</span></div>
           <div class="crm-stat"><span class="crm-stat-val">۹۲٪</span><span class="crm-stat-lbl">رضایت بیماران</span></div>
         </div>
         <div class="dash-grid">
           <div class="panel-card">
-            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>قیف مراحل بیمار</h3></div>
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>مراحل جذب بیمار</h3></div>
             <div class="crm-funnel">
-              <div class="crm-funnel-step"><span>سرنخ / تماس اول</span><b>۶۲</b></div>
+              <div class="crm-funnel-step"><span>لید / تماس اول</span><b>۶۲</b></div>
               <div class="crm-funnel-step"><span>مشاوره رزرو شد</span><b>۴۴</b></div>
               <div class="crm-funnel-step"><span>مشاوره انجام شد</span><b>۳۶</b></div>
               <div class="crm-funnel-step"><span>عمل برنامه‌ریزی شد</span><b>۱۹</b></div>
@@ -1948,7 +1957,7 @@ section.page-sec{ padding:70px 0; }
       <section class="view" id="view-growth">
         <div class="tool-section-title">محتوا و شبکه‌های اجتماعی</div>
         <div class="tool-grid">
-          <div class="tool-card" data-tool="instagram"><div class="tool-icon"><svg class="i"><use href="#i-camera"/></svg></div><h4>اینستاگرام</h4><p>دایرکت، کامنت، تعامل خودکار، ایده ریلز، کپشن و تقویم انتشار — همه در یک‌جا</p><span class="tool-badge">هوش مصنوعی</span></div>
+          <div class="tool-card" data-tool="instagram"><div class="tool-icon" style="overflow:hidden;padding:0;"><img src="images/ai-ida.png" alt="ایدا" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i&quot;><use href=&quot;#i-camera&quot;/></svg>';"></div><h4>ایدا — ادمین اینستاگرام</h4><p>دایرکت، کامنت، تعامل خودکار، ایده ریلز، کپشن و تقویم انتشار — همه در یک‌جا</p><span class="tool-badge">هوش مصنوعی</span></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>مدیریت بلاگ سایت</h4><p>نوشتن و انتشار مقالات با کمک AI</p></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-image"/></svg></div><h4>تصاویر Before/After</h4><p>آرشیو و مدیریت تصاویر تحول بیماران</p></div>
           <div class="tool-card"><div class="tool-icon"><svg class="i"><use href="#i-phone"/></svg></div><h4>کمپین پیامکی</h4><p>ارسال کمپین به بیماران</p></div>
@@ -1956,8 +1965,11 @@ section.page-sec{ padding:70px 0; }
         </div>
 
         <!-- Instagram demo -->
-        <div class="ig-demo" id="igDemo">
-          <div class="panel-head"><h3><svg class="i-sm"><use href="#i-bot"/></svg>آیدا — ادمین هوشمند اینستاگرام</h3></div>
+        <div class="ig-demo tool-demo-panel" id="igDemo">
+          <div class="ai-side-head">
+            <div class="ai-avatar"><img src="images/ai-ida.png" alt="ایدا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+            <div><strong>ایدا</strong><small>ادمین هوشمند اینستاگرام</small></div>
+          </div>
           <div class="ai-chip-row" style="margin-bottom:14px;">
             <span class="chip">پاسخ خودکار دایرکت با لحن کلینیک</span>
             <span class="chip">Lead Scoring مخاطبین جدی</span>
@@ -2014,7 +2026,7 @@ section.page-sec{ padding:70px 0; }
     </nav>
 
     <div class="sb-doctor">
-      <div class="sb-doctor-avatar">ی</div>
+      <div class="sb-doctor-avatar"><img src="images/secretary-ahmadi.jpg" alt="خانم احمدی" onerror="this.style.display='none'; this.parentElement.textContent='ی';"></div>
       <div>
         <strong>خانم احمدی</strong>
         <small>منشی کلینیک</small>
@@ -2056,7 +2068,7 @@ section.page-sec{ padding:70px 0; }
           <!-- پنل دستیار هوشمند یارا -->
           <aside class="ai-side">
             <div class="ai-side-head">
-              <div class="ai-avatar"><img src="images/logo.png" alt="یارا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div class="ai-avatar"><img src="images/ai-yara.png" alt="یارا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
               <div><strong>یارا</strong><small>دستیار هوشمند منشی — پیشنهادهای اولویت‌بندی‌شده امروز</small></div>
             </div>
             <div class="ai-suggest-list">
@@ -3039,6 +3051,15 @@ document.querySelectorAll('#view-clinic .tool-card[data-demo]').forEach(card=>{
   });
 });
 buildCalendar('Dr');
+
+/* ---------- باز/بسته کردن پنل ایدا با کلیک روی کارتش ---------- */
+document.querySelectorAll('#view-growth .tool-card[data-tool="instagram"]').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const panel = document.getElementById('igDemo');
+    panel.classList.toggle('open');
+    if(panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+});
 
 /* ---------- تب‌های اینستاگرام دمو ---------- */
 document.querySelectorAll('#view-growth .ig-tab').forEach(t=>{
