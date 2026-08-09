@@ -28,9 +28,9 @@
 ۵.۱) عکس‌های دیگه‌ای هم که توی پنل‌ها استفاده شدن و اسمشون از قبل توی کد آماده‌ست:
    - images/doctor-heidari.jpg → عکس دکتر حیدری (آواتار کوچک در پنل پزشک)
    - images/secretary-ahmadi.jpg → عکس خانم احمدی (آواتار کوچک در پنل منشی)
-   - images/ai-maxcohen.png → آواتار دکتر مکس کوهن (دستیار هوشمند پزشک)
+   - images/ai-maxcohen.png → آواتار دکتر لارنس (دستیار هوشمند پزشک)
    - images/ai-yara.png → آواتار یارا (دستیار هوشمند منشی)
-   - images/ai-ida.png → آواتار ایدا (دستیار هوشمند اینستاگرام، بخش رشد و بازاریابی)
+   - images/ai-ida.png → آواتار آیدا (دستیار هوشمند اینستاگرام، بخش رشد و بازاریابی)
    - images/ai-kian.png → آواتار کیان (مربی هوشمند تناسب‌اندام، پنل بیماران)
    - images/ai-nazanin.png → آواتار نازنین (کارشناس هوشمند تغذیه، پنل بیماران)
    - images/recipe-egg-white.jpg، recipe-grilled-chicken.jpg، recipe-lentil-soup.jpg،
@@ -87,7 +87,7 @@
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
-html{ scroll-behavior:smooth; overflow-x:hidden; }
+html{ scroll-behavior:smooth; }
 body{
   font-family:var(--font);
   background:
@@ -1196,26 +1196,35 @@ section.page-sec{ padding:70px 0; }
 .pat-tag.risk{ background:var(--coral-soft); color:var(--coral); }
 .pat-tag.ok{ background:#DFF2EA; color:var(--primary-dark); }
 
-/* ============ PATIENT DETAIL (split) ============ */
+/* ============ PATIENT DETAIL (split) ============
+   نکته فنی مهم: چون آیتم‌های grid/flex به‌صورت پیش‌فرض min-width:auto دارن
+   (نه 0)، بدون min-width:0 صریح روی هر دو ستون این Grid، تب‌های داخل
+   .pd-tabs (که عمداً overflow-x:auto دارن) کل ستون رو به اندازه محتوای
+   بدون‌شکستشون باز نگه می‌داشتن و کل صفحه رو در موبایل عریض‌تر از
+   viewport می‌کردن؛ چون body هم overflow-x:hidden داره، این عرض اضافه
+   به‌جای اسکرول افقی، به‌صورت بریده و نامرتب کلیپ می‌شد. همین باعث
+   می‌شد پرونده بیمار توی گوشی با اندازه درست باز نشه.
+   ============================================================ */
 .detail-header{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
 .back-link{ display:flex; align-items:center; gap:6px; font-size:12.8px; color:var(--text-muted); font-weight:600; }
-.detail-split{ display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; }
+.detail-split{ display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; max-width:100%; }
+.detail-split > *{ min-width:0; max-width:100%; }
 
 .pd-head{ display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow-soft); }
 .pd-head > div{ min-width:0; }
 .pd-avatar{ width:56px; height:56px; border-radius:50%; background:var(--surface-soft); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex-shrink:0; }
-.pd-name{ font-size:16.5px; font-weight:800; }
-.pd-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; }
+.pd-name{ font-size:16.5px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pd-sub{ font-size:12px; color:var(--text-faint); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
-.pd-tabs{ display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; scrollbar-width:none; }
+.pd-tabs{ display:flex; gap:6px; overflow-x:auto; overflow-y:hidden; max-width:100%; margin-bottom:14px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
 .pd-tabs::-webkit-scrollbar{ display:none; }
-.pd-tab{ flex-shrink:0; padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); }
+.pd-tab{ flex-shrink:0; padding:8px 16px; border-radius:var(--radius-pill); font-size:12.5px; font-weight:600; background:var(--surface); border:1px solid var(--border); color:var(--text-muted); white-space:nowrap; }
 .pd-tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
-.pd-body-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); min-height:280px; }
+.pd-body-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-soft); min-height:280px; max-width:100%; }
 .pd-mini-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
-.pd-mini-item{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:12px 14px; }
+.pd-mini-item{ background:var(--surface-soft); border-radius:var(--radius-sm); padding:12px 14px; min-width:0; }
 .pd-mini-item span{ display:block; font-size:11px; color:var(--text-faint); margin-bottom:3px; }
-.pd-mini-item strong{ font-size:14px; }
+.pd-mini-item strong{ font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; }
 
 /* AI side panel */
 .ai-side{ background:linear-gradient(160deg,#ffffff,#F3F9F6); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow-soft); position:sticky; top:78px; }
@@ -1237,6 +1246,9 @@ section.page-sec{ padding:70px 0; }
 .ai-page-avatar img{ width:100%; height:100%; object-fit:cover; }
 .ai-page-head h2{ font-size:18px; font-weight:800; }
 .ai-page-head p{ font-size:12px; color:var(--text-faint); margin-top:3px; max-width:520px; line-height:1.7; }
+.ai-page-avatar.lg-round{ width:84px; height:84px; border-radius:50%; }
+.ai-page-name-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ai-page-badge{ font-size:11px; font-weight:700; background:var(--surface-soft); border:1px solid var(--border); padding:4px 10px; border-radius:var(--radius-pill); color:var(--primary-dark); display:inline-flex; align-items:center; gap:4px; white-space:nowrap; }
 
 .dr-chat-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); overflow:hidden; display:flex; flex-direction:column; height:min(560px,68vh); }
 .dr-chat-messages{ flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:12px; }
@@ -1269,6 +1281,10 @@ section.page-sec{ padding:70px 0; }
 .crm-funnel{ display:flex; flex-direction:column; gap:8px; }
 .crm-funnel-step{ display:flex; align-items:center; justify-content:space-between; background:var(--surface-soft); border-radius:var(--radius-sm); padding:10px 14px; font-size:13px; }
 .crm-funnel-step b{ color:var(--primary-dark); font-size:14px; }
+.crm-funnel-step{ cursor:pointer; transition:background .2s, box-shadow .2s; }
+.crm-funnel-step:hover{ background:var(--border); }
+.crm-funnel-step.active{ background:var(--surface); box-shadow:0 0 0 2px var(--primary); }
+.crm-suggest{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
 
 /* Tool demo panels (management section) */
 .tool-demo-panel{ display:none; }
@@ -1566,7 +1582,7 @@ section.page-sec{ padding:70px 0; }
           <button class="back-link" id="backToPatients"><svg class="i-sm"><use href="#i-back"/></svg>بازگشت به لیست بیماران</button>
         </div>
         <div class="detail-split">
-          <div>
+          <div class="pd-main">
             <div class="pd-head">
               <div class="pd-avatar" id="pdAvatar">م</div>
               <div>
@@ -1597,8 +1613,8 @@ section.page-sec{ padding:70px 0; }
           <!-- AI Side Panel -->
           <aside class="ai-side">
             <div class="ai-side-head">
-              <div class="ai-avatar"><img src="images/ai-maxcohen.png" alt="دکتر مکس کوهن" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
-              <div><strong>دکتر مکس کوهن</strong><small>دستیار هوشمند پزشک</small></div>
+              <div class="ai-avatar"><img src="images/ai-maxcohen.png" alt="دکتر لارنس" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+              <div><strong>دکتر لارنس</strong><small>دستیار هوشمند پزشک</small></div>
             </div>
             <div class="ai-summary-box">
               خلاصه هوشمند: روند کاهش وزن این بیمار پایدار و مطابق انتظار است. در سه روز اخیر دریافت پروتئین کمتر از حد توصیه‌شده بوده. آزمایش خون اخیر طبیعی است.
@@ -1617,12 +1633,12 @@ section.page-sec{ padding:70px 0; }
         </div>
       </section>
 
-      <!-- ============ VIEW: AI ASSISTANT (دکتر مکس کوهن) ============ -->
+      <!-- ============ VIEW: AI ASSISTANT (دکتر لارنس) ============ -->
       <section class="view" id="view-ai">
         <div class="ai-page-head">
-          <div class="ai-page-avatar"><img src="images/ai-maxcohen.png" alt="دکتر مکس کوهن" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+          <div class="ai-page-avatar lg-round"><img src="images/ai-maxcohen.png" alt="دکتر لارنس" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
           <div>
-            <h2>دکتر مکس کوهن — دستیار هوشمند پزشک</h2>
+            <h2>دکتر لارنس — دستیار هوشمند پزشک</h2>
             <p>مجهز به منابع تخصصی جراحی چاقی و پروتکل‌های اختصاصی کلینیک. برای تحلیل پرونده، آزمایش، تصویر یا پرسش پزشکی استفاده کنید.</p>
             <div class="ai-chip-row" style="margin-top:8px;">
               <span class="chip">📚 Bariatric Surgery: A Systematic Approach — Nguyen</span>
@@ -1642,7 +1658,7 @@ section.page-sec{ padding:70px 0; }
             <div class="dr-msg ai" id="aiTyping" style="display:none"><p>در حال تحلیل…</p></div>
           </div>
           <div class="dr-chat-input-row">
-            <input type="text" id="aiChatInput" placeholder="سوال خود را از دکتر مکس کوهن بپرسید…">
+            <input type="text" id="aiChatInput" placeholder="سوال خود را از دکتر لارنس بپرسید…">
             <button class="dr-icon-btn" id="aiChatSend"><svg class="i"><use href="#i-send"/></svg></button>
           </div>
         </div>
@@ -1655,35 +1671,6 @@ section.page-sec{ padding:70px 0; }
 
       <!-- ============ VIEW: CLINIC MANAGEMENT ============ -->
       <section class="view" id="view-clinic">
-
-        <div class="tool-section-title">CRM بیماران</div>
-        <div class="crm-grid">
-          <div class="crm-stat"><span class="crm-stat-val">۴۸۰</span><span class="crm-stat-lbl">بیمار فعال</span></div>
-          <div class="crm-stat"><span class="crm-stat-val">۶۲</span><span class="crm-stat-lbl">لید جدید این ماه</span></div>
-          <div class="crm-stat"><span class="crm-stat-val">۳۱٪</span><span class="crm-stat-lbl">نرخ تبدیل مشاوره→عمل</span></div>
-          <div class="crm-stat"><span class="crm-stat-val">۹۲٪</span><span class="crm-stat-lbl">رضایت بیماران</span></div>
-        </div>
-        <div class="dash-grid">
-          <div class="panel-card">
-            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>مراحل جذب بیمار</h3></div>
-            <div class="crm-funnel">
-              <div class="crm-funnel-step"><span>لید / تماس اول</span><b>۶۲</b></div>
-              <div class="crm-funnel-step"><span>مشاوره رزرو شد</span><b>۴۴</b></div>
-              <div class="crm-funnel-step"><span>مشاوره انجام شد</span><b>۳۶</b></div>
-              <div class="crm-funnel-step"><span>عمل برنامه‌ریزی شد</span><b>۱۹</b></div>
-              <div class="crm-funnel-step"><span>پیگیری پس از عمل</span><b>۱۷</b></div>
-            </div>
-          </div>
-          <div class="panel-card">
-            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-sparkles"/></svg>کمپین‌های خودکار فعال</h3></div>
-            <div class="simple-list">
-              <div class="simple-row"><span>یادآوری سالانه چکاپ برای بیماران +۱ سال</span><span class="tag">فعال</span></div>
-              <div class="simple-row"><span>پیام تبریک بعد از رسیدن به وزن هدف</span><span class="tag">فعال</span></div>
-              <div class="simple-row"><span>پیگیری بیماران بی‌پاسخ بیش از ۳۰ روز</span><span class="tag">فعال</span></div>
-              <div class="simple-row"><span>درخواست نظر و امتیاز بعد از هر ویزیت</span><span class="tag">فعال</span></div>
-            </div>
-          </div>
-        </div>
 
         <div class="tool-section-title">مدیریت عملیات</div>
         <div class="tool-grid">
@@ -1828,42 +1815,87 @@ section.page-sec{ padding:70px 0; }
 
       <!-- ============ VIEW: GROWTH & MARKETING ============ -->
       <section class="view" id="view-growth">
+
+        <div class="ai-page-head">
+          <div class="ai-page-avatar lg-round"><img src="images/ai-ida.png" alt="آیدا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-lg&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+          <div>
+            <h2>آیدا — رشد، محتوا و ارتباط با بیماران</h2>
+            <p>مدیریت اینستاگرام، بلاگ، پیامک و تبلیغات به‌همراه پیگیری هوشمند قیف جذب بیماران (CRM) — برای افزایش لیدهای تبدیل‌شده به عمل.</p>
+          </div>
+        </div>
+
+        <div class="tool-section-title">CRM بیماران</div>
+        <div class="crm-grid">
+          <div class="crm-stat"><span class="crm-stat-val">۴۸۰</span><span class="crm-stat-lbl">بیمار فعال</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۶۲</span><span class="crm-stat-lbl">لید جدید این ماه</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۳۱٪</span><span class="crm-stat-lbl">نرخ تبدیل مشاوره→عمل</span></div>
+          <div class="crm-stat"><span class="crm-stat-val">۹۲٪</span><span class="crm-stat-lbl">رضایت بیماران</span></div>
+        </div>
+
+        <div class="crm-suggest">
+          <div class="alert-row high">
+            <svg class="i-sm a-icon"><use href="#i-alert"/></svg>
+            <div style="flex:1;">
+              <strong>۸ لید بیش از ۴۸ ساعت بی‌پاسخ مونده</strong>
+              <span>پیشنهاد آیدا: پیام پیگیری خودکار براشون ارسال بشه؟</span>
+              <div style="margin-top:8px;"><button class="btn btn-soft btn-sm" onclick="alert('این دکمه دموست — در نسخه نهایی، پیام پیگیری برای این ۸ لید ارسال می‌شود.')">پیام پیگیری بفرستم؟</button></div>
+            </div>
+          </div>
+          <div class="alert-row mid">
+            <svg class="i-sm a-icon"><use href="#i-alert"/></svg>
+            <div style="flex:1;">
+              <strong>نرخ تبدیل این هفته ۵٪ افت داشته</strong>
+              <span>پیشنهاد آیدا: علت افت رو تحلیل کنم؟</span>
+              <div style="margin-top:8px;"><button class="btn btn-soft btn-sm" onclick="alert('این دکمه دموست — در نسخه نهایی، تحلیل کامل افت نرخ تبدیل نمایش داده می‌شود.')">تحلیل کنم؟</button></div>
+            </div>
+          </div>
+          <div class="alert-row low">
+            <svg class="i-sm a-icon"><use href="#i-alert"/></svg>
+            <div style="flex:1;">
+              <strong>۳ بیمار بعد از عمل نظر ثبت نکردن</strong>
+              <span>پیشنهاد آیدا: درخواست نظر و امتیاز براشون بفرستم؟</span>
+              <div style="margin-top:8px;"><button class="btn btn-soft btn-sm" onclick="alert('این دکمه دموست — در نسخه نهایی، درخواست نظر برای این ۳ بیمار ارسال می‌شود.')">درخواست نظر بفرستم؟</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-users"/></svg>مراحل جذب بیمار</h3></div>
+            <div class="crm-funnel" id="crmFunnel">
+              <div class="crm-funnel-step" data-stage="0"><span>لید / تماس اول</span><b>۶۲</b></div>
+              <div class="crm-funnel-step" data-stage="1"><span>مشاوره رزرو شد</span><b>۴۴</b></div>
+              <div class="crm-funnel-step" data-stage="2"><span>مشاوره انجام شد</span><b>۳۶</b></div>
+              <div class="crm-funnel-step" data-stage="3"><span>عمل برنامه‌ریزی شد</span><b>۱۹</b></div>
+              <div class="crm-funnel-step" data-stage="4"><span>پیگیری پس از عمل</span><b>۱۷</b></div>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-head"><h3><svg class="i-sm"><use href="#i-sparkles"/></svg>کمپین‌های خودکار فعال</h3></div>
+            <div class="simple-list">
+              <div class="simple-row"><span>یادآوری سالانه چکاپ برای بیماران +۱ سال</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>پیام تبریک بعد از رسیدن به وزن هدف</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>پیگیری بیماران بی‌پاسخ بیش از ۳۰ روز</span><span class="tag">فعال</span></div>
+              <div class="simple-row"><span>درخواست نظر و امتیاز بعد از هر ویزیت</span><span class="tag">فعال</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-panel panel-card" id="crmFunnelPanel" style="display:none; margin-top:16px;">
+          <div class="day-panel-head">
+            <h3 id="crmFunnelPanelTitle">لید / تماس اول</h3>
+            <span class="count" id="crmFunnelPanelCount">۳ لید نمونه</span>
+          </div>
+          <div class="appt-list" id="crmFunnelPanelList"></div>
+        </div>
+
         <div class="tool-section-title">محتوا و شبکه‌های اجتماعی</div>
         <div class="tool-grid">
-          <div class="tool-card" data-tool="instagram"><div class="tool-icon" style="overflow:hidden;padding:0;"><img src="images/ai-ida.png" alt="ایدا" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i&quot;><use href=&quot;#i-camera&quot;/></svg>';"></div><h4>ایدا — ادمین اینستاگرام</h4><p>دایرکت، کامنت، تعامل خودکار، ایده ریلز، کپشن و تقویم انتشار — همه در یک‌جا</p><span class="tool-badge">هوش مصنوعی</span></div>
+          <div class="tool-card" data-tool="instagram"><div class="tool-icon" style="overflow:hidden;padding:0;"><img src="images/ai-ida.png" alt="آیدا" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i&quot;><use href=&quot;#i-camera&quot;/></svg>';"></div><h4>تولید محتوا و اینستاگرام</h4><p>دایرکت، کامنت، تعامل خودکار، ایده ریلز، کپشن و تقویم انتشار — همه در یک‌جا</p><span class="tool-badge">هوش مصنوعی</span></div>
           <div class="tool-card" data-demo="blog"><div class="tool-icon"><svg class="i"><use href="#i-file"/></svg></div><h4>مدیریت بلاگ سایت</h4><p>نوشتن و انتشار مقالات با کمک AI</p></div>
           <div class="tool-card" data-demo="gallery"><div class="tool-icon"><svg class="i"><use href="#i-image"/></svg></div><h4>تصاویر Before/After</h4><p>آرشیو و مدیریت تصاویر تحول بیماران</p></div>
           <div class="tool-card" data-demo="sms"><div class="tool-icon"><svg class="i"><use href="#i-phone"/></svg></div><h4>کمپین پیامکی</h4><p>ارسال کمپین به بیماران</p></div>
           <div class="tool-card" data-demo="ads"><div class="tool-icon"><svg class="i"><use href="#i-report"/></svg></div><h4>تحلیل تبلیغات</h4><p>عملکرد کمپین‌های تبلیغاتی</p></div>
-        </div>
-
-        <!-- Instagram demo -->
-        <div class="ig-demo tool-demo-panel" id="igDemo">
-          <div class="ai-side-head">
-            <div class="ai-avatar"><img src="images/ai-ida.png" alt="ایدا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
-            <div><strong>ایدا</strong><small>ادمین هوشمند اینستاگرام</small></div>
-          </div>
-          <div class="ai-chip-row" style="margin-bottom:14px;">
-            <span class="chip">پاسخ خودکار دایرکت با لحن کلینیک</span>
-            <span class="chip">Lead Scoring مخاطبین جدی</span>
-            <span class="chip">فیلتر اسپم و ترول</span>
-            <span class="chip">تحلیل احساسات کامنت‌ها</span>
-            <span class="chip">رزرو نوبت مستقیم از دایرکت</span>
-            <span class="chip">گزارش عملکرد هفتگی</span>
-          </div>
-          <div class="ig-tabs">
-            <span class="ig-tab active">دایرکت‌ها</span>
-            <span class="ig-tab">کامنت‌ها</span>
-            <span class="ig-tab">تعامل خودکار</span>
-            <span class="ig-tab">ایده ریلز</span>
-            <span class="ig-tab">کپشن</span>
-            <span class="ig-tab">تقویم انتشار</span>
-          </div>
-          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>user_reyhaneh</strong><span>هزینه عمل اسلیو چقدره؟</span></div><span class="ig-ai-tag">پاسخ AI ارسال شد</span></div>
-          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94</strong><span>نوبت مشاوره می‌خوام بگیرم</span></div><span class="ig-ai-tag">نوبت مستقیم ثبت شد ✅</span></div>
-          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>sara_k</strong><span>کامنت: عالی بود نتیجه‌تون 😍</span></div><span class="ig-ai-tag">لایک و پاسخ خودکار</span></div>
-          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>spammer_promo22</strong><span>لینک تبلیغاتی مشکوک</span></div><span class="ig-ai-tag" style="background:var(--coral-soft);color:var(--coral);">اسپم — بلاک خودکار</span></div>
-          <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>اتصال واقعی به اینستاگرام نیازمند Meta API، مجوز رسمی و بررسی امنیتی توکن‌هاست؛ این بخش فعلاً فقط نمایش دمو است.</div>
         </div>
 
         <div class="tool-demo-panel panel-card" id="demo-blog">
@@ -1903,6 +1935,61 @@ section.page-sec{ padding:70px 0; }
             <div class="stat-box"><strong>↓۱۹٪</strong><span>هزینه به ازای هر لید</span></div>
           </div>
           <p style="font-size:12px; color:var(--text-faint); margin-top:12px;">در نسخه نهایی، این بخش به حساب‌های تبلیغاتی اینستاگرام و گوگل متصل و به‌صورت زنده به‌روزرسانی می‌شود.</p>
+        </div>
+
+        <div class="tool-section-title">چت با آیدا</div>
+        <div class="dr-chat-card">
+          <div class="dr-chat-messages" id="growthChatMessages">
+            <div class="dr-msg ai"><p>سلام دکتر حیدری 👋 در مورد رشد، محتوا یا CRM بیماران چیزی لازم دارید؟</p></div>
+            <div class="dr-msg user"><p>نرخ تبدیل لیدهای این ماه رو تحلیل کن</p></div>
+            <div class="dr-msg ai"><p>نرخ تبدیل مشاوره→عمل این ماه ۳۱٪ بوده که نسبت به ماه قبل ۵٪ افت داشته. بیشترین ریزش در مرحله «مشاوره رزرو شد → مشاوره انجام شد» اتفاق افتاده. پیشنهاد می‌کنم یک پیام یادآوری خودکار ۲۴ ساعت قبل از مشاوره برای این گروه فعال بشه.</p></div>
+            <div class="dr-msg user"><p>یک کپشن اینستاگرام برای معرفی نتیجه یک بیمار بعد از عمل اسلیو بنویس</p></div>
+            <div class="dr-msg ai"><p>پیشنهاد کپشن: «یک مسیر، یک تصمیم، یک زندگی تازه 🌿 از امروز بهترین نسخه خودتون رو بسازید. برای مشاوره رایگان پیام بدید.» می‌خواید چند نسخه دیگه با لحن‌های متفاوت هم بسازم؟</p></div>
+            <div class="dr-msg ai" id="growthTyping" style="display:none"><p>در حال تحلیل…</p></div>
+          </div>
+          <div class="dr-chat-input-row">
+            <input type="text" id="growthChatInput" placeholder="سوال خود را از آیدا بپرسید…">
+            <button class="dr-icon-btn" id="growthChatSend"><svg class="i"><use href="#i-send"/></svg></button>
+          </div>
+        </div>
+        <div class="chat-quick">
+          <button>تحلیل قیف جذب این هفته</button>
+          <button>ایده کپشن اینستاگرام جدید</button>
+          <button>پیش‌نویس پیامک کمپین</button>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: INSTAGRAM (آیدا) ============ -->
+      <section class="view" id="view-instagram">
+        <div class="detail-header">
+          <button class="back-link" id="backToGrowth"><svg class="i-sm"><use href="#i-back"/></svg>بازگشت به رشد و بازاریابی</button>
+        </div>
+        <div class="ig-demo tool-demo-panel open">
+          <div class="ai-side-head">
+            <div class="ai-avatar"><img src="images/ai-ida.png" alt="آیدا" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg class=&quot;i-sm&quot;><use href=&quot;#i-bot&quot;/></svg>';"></div>
+            <div><strong>آیدا</strong><small>ادمین هوشمند اینستاگرام</small></div>
+          </div>
+          <div class="ai-chip-row" style="margin-bottom:14px;">
+            <span class="chip">پاسخ خودکار دایرکت با لحن کلینیک</span>
+            <span class="chip">Lead Scoring مخاطبین جدی</span>
+            <span class="chip">فیلتر اسپم و ترول</span>
+            <span class="chip">تحلیل احساسات کامنت‌ها</span>
+            <span class="chip">رزرو نوبت مستقیم از دایرکت</span>
+            <span class="chip">گزارش عملکرد هفتگی</span>
+          </div>
+          <div class="ig-tabs">
+            <span class="ig-tab active">دایرکت‌ها</span>
+            <span class="ig-tab">کامنت‌ها</span>
+            <span class="ig-tab">تعامل خودکار</span>
+            <span class="ig-tab">ایده ریلز</span>
+            <span class="ig-tab">کپشن</span>
+            <span class="ig-tab">تقویم انتشار</span>
+          </div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>user_reyhaneh</strong><span>هزینه عمل اسلیو چقدره؟</span></div><span class="ig-ai-tag">پاسخ AI ارسال شد</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>ali.moradi94</strong><span>نوبت مشاوره می‌خوام بگیرم</span></div><span class="ig-ai-tag">نوبت مستقیم ثبت شد ✅</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>sara_k</strong><span>کامنت: عالی بود نتیجه‌تون 😍</span></div><span class="ig-ai-tag">لایک و پاسخ خودکار</span></div>
+          <div class="ig-item"><div class="ig-item-avatar"></div><div class="ig-item-text"><strong>spammer_promo22</strong><span>لینک تبلیغاتی مشکوک</span></div><span class="ig-ai-tag" style="background:var(--coral-soft);color:var(--coral);">اسپم — بلاک خودکار</span></div>
+          <div class="demo-warn"><svg class="i-sm"><use href="#i-alert"/></svg>اتصال واقعی به اینستاگرام نیازمند Meta API، مجوز رسمی و بررسی امنیتی توکن‌هاست؛ این بخش فعلاً فقط نمایش دمو است.</div>
         </div>
       </section>
 
@@ -2048,12 +2135,28 @@ const titles = {
   dashboard: ['داشبورد','خلاصه امروز کلینیک شما'],
   patients: ['بیماران','جستجو و مدیریت پرونده‌ها'],
   'patient-detail': ['پرونده بیمار','مشاهده کامل و تحلیل هوشمند'],
-  ai: ['دستیار هوشمند','دکتر مکس کوهن در خدمت شماست'],
+  ai: ['دستیار هوشمند','دکتر لارنس در خدمت شماست'],
   clinic: ['مدیریت کلینیک','ابزارهای عملیاتی و مالی'],
-  growth: ['رشد و بازاریابی','ابزارهای توسعه کلینیک']
+  growth: ['رشد و بازاریابی','ابزارهای توسعه کلینیک'],
+  instagram: ['تولید محتوا و اینستاگرام','مدیریت هوشمند دایرکت، کامنت و انتشار محتوا']
 };
 
-function showView(name){
+/* همیشه تب پرونده بیمار و تب اینستاگرام با اولین گزینه باز شوند، نه آخرین جای بازدید قبلی */
+function resetPdTabs(){
+  document.querySelectorAll('#view-patient-detail .pd-tab').forEach((t,i)=> t.classList.toggle('active', i===0));
+}
+function resetIgTabs(){
+  document.querySelectorAll('#view-instagram .ig-tab').forEach((t,i)=> t.classList.toggle('active', i===0));
+}
+function applyPatientDetail(p){
+  if(!p) return;
+  document.getElementById('pdName').textContent = p.name;
+  document.getElementById('pdSub').textContent = p.sub;
+  document.getElementById('pdAvatar').textContent = p.letter;
+}
+
+function showView(name, patient){
+  if(name === 'patient-detail') applyPatientDetail(patient);
   views.forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   sbItems.forEach(i=>i.classList.toggle('active', i.dataset.view===name));
@@ -2062,6 +2165,8 @@ function showView(name){
   } else if(titles[name]){
     thTitle.innerHTML = titles[name][0] + '<small>'+titles[name][1]+'</small>';
   }
+  if(name === 'patient-detail') resetPdTabs();
+  if(name === 'instagram') resetIgTabs();
   window.scrollTo({top:0, behavior:'instant'});
   document.getElementById('sidebar').classList.remove('open');
 }
@@ -2078,8 +2183,45 @@ function greetingTitle(){
 }
 thTitle.innerHTML = greetingTitle();
 
+/* ============================================================
+   تاریخچه مرورگر (دکمه بازگشت گوشی/مرورگر)
+   هر جابه‌جایی واقعی بین ویوها یا باز شدن سایدبار موبایل،
+   یک state به history اضافه می‌کند تا دکمه بک به‌جای خروج کامل
+   از پنل، فقط یک مرحله برگردد.
+   ============================================================ */
+let currentNavState = { view:'dashboard', patient:null, sidebarOpen:false };
+history.replaceState(currentNavState, '');
+
+function navigateToView(name, patient){
+  currentNavState = { view:name, patient: patient || null, sidebarOpen:false };
+  history.pushState(currentNavState, '');
+  showView(name, patient);
+}
+
+function openSidebarDrawer(){
+  currentNavState = Object.assign({}, currentNavState, { sidebarOpen:true });
+  history.pushState(currentNavState, '');
+  document.getElementById('sidebar').classList.add('open');
+}
+function closeSidebarDrawer(){
+  if(currentNavState.sidebarOpen){
+    history.back(); /* popstate خودش کلاس open رو برمی‌داره تا با تاریخچه هماهنگ بمونه */
+  } else {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+window.addEventListener('popstate', (e)=>{
+  const state = e.state || { view:'dashboard', patient:null, sidebarOpen:false };
+  currentNavState = state;
+  document.getElementById('sidebar').classList.toggle('open', !!state.sidebarOpen);
+  if(!state.sidebarOpen){
+    showView(state.view, state.patient);
+  }
+});
+
 sbItems.forEach(item=>{
-  item.addEventListener('click', ()=> showView(item.dataset.view));
+  item.addEventListener('click', ()=> navigateToView(item.dataset.view));
 });
 
 /* ---------- تیک «ویزیت انجام شد» و لیست ۲۵ نوبت امروز — پایین‌تر بعد از تعریف patNames ساخته می‌شود ---------- */
@@ -2093,17 +2235,10 @@ const patNames = {
 };
 document.querySelectorAll('#patTable .pat-row').forEach(row=>{
   row.addEventListener('click', ()=>{
-    const p = patNames[row.dataset.patient];
-    document.getElementById('pdName').textContent = p.name;
-    document.getElementById('pdSub').textContent = p.sub;
-    document.getElementById('pdAvatar').textContent = p.letter;
-    views.forEach(v=>v.classList.remove('active'));
-    document.getElementById('view-patient-detail').classList.add('active');
-    thTitle.innerHTML = titles['patient-detail'][0] + '<small>'+titles['patient-detail'][1]+'</small>';
-    window.scrollTo({top:0, behavior:'instant'});
+    navigateToView('patient-detail', patNames[row.dataset.patient]);
   });
 });
-document.getElementById('backToPatients').addEventListener('click', ()=> showView('patients'));
+document.getElementById('backToPatients').addEventListener('click', ()=> navigateToView('patients'));
 
 /* ---------- ساخت لیست ۲۵ نوبت امروز دکتر ---------- */
 (function(){
@@ -2136,13 +2271,7 @@ document.getElementById('backToPatients').addEventListener('click', ()=> showVie
       if(e.target.closest('.appt-done-btn')) return;
       const key = row.dataset.patient;
       const p = key && patNames[key] ? patNames[key] : { name: row.querySelector('.appt-name').textContent, sub:'پرونده بیمار — جزئیات کامل به‌زودی از دیتابیس بارگذاری می‌شود', letter: row.querySelector('.appt-name').textContent.charAt(0) };
-      document.getElementById('pdName').textContent = p.name;
-      document.getElementById('pdSub').textContent = p.sub;
-      document.getElementById('pdAvatar').textContent = p.letter;
-      views.forEach(v=>v.classList.remove('active'));
-      document.getElementById('view-patient-detail').classList.add('active');
-      thTitle.innerHTML = titles['patient-detail'][0] + '<small>'+titles['patient-detail'][1]+'</small>';
-      window.scrollTo({top:0, behavior:'instant'});
+      navigateToView('patient-detail', p);
     });
     row.querySelector('.appt-done-btn').addEventListener('click', (e)=>{
       e.stopPropagation();
@@ -2173,7 +2302,7 @@ document.querySelectorAll('#view-patient-detail .pd-tab').forEach(t=>{
   });
 });
 
-/* ---------- چت با دکتر مکس کوهن ---------- */
+/* ---------- چت با دکتر لارنس ---------- */
 const aiInput = document.getElementById('aiChatInput');
 const aiSend = document.getElementById('aiChatSend');
 const aiMessages = document.getElementById('aiChatMessages');
@@ -2197,7 +2326,7 @@ function sendAiChat(){
     aiTyping.style.display = 'none';
     const aiMsg = document.createElement('div');
     aiMsg.className = 'msg ai';
-    aiMsg.innerHTML = '<p>این پاسخ دموی دکتر مکس کوهن است. در نسخه نهایی، پاسخ بر اساس منابع معتبر جراحی چاقی و پروتکل‌های اختصاصی کلینیک تولید خواهد شد.</p>';
+    aiMsg.innerHTML = '<p>این پاسخ دموی دکتر لارنس است. در نسخه نهایی، پاسخ بر اساس منابع معتبر جراحی چاقی و پروتکل‌های اختصاصی کلینیک تولید خواهد شد.</p>';
     aiMessages.insertBefore(aiMsg, aiTyping);
     aiMessages.scrollTop = aiMessages.scrollHeight;
   }, 1100);
@@ -2222,14 +2351,11 @@ document.querySelectorAll('#view-clinic .tool-card[data-demo]').forEach(card=>{
 });
 buildCalendar('Dr');
 
-/* ---------- باز/بسته کردن پنل ایدا با کلیک روی کارتش ---------- */
+/* ---------- کلیک روی کارت اینستاگرام -> صفحه جدید آیدا ---------- */
 document.querySelectorAll('#view-growth .tool-card[data-tool="instagram"]').forEach(card=>{
-  card.addEventListener('click', ()=>{
-    const panel = document.getElementById('igDemo');
-    panel.classList.toggle('open');
-    if(panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-  });
+  card.addEventListener('click', ()=> navigateToView('instagram'));
 });
+document.getElementById('backToGrowth').addEventListener('click', ()=> navigateToView('growth'));
 
 /* ---------- نمایش دمو با کلیک روی بقیه کارت‌های رشد و بازاریابی ---------- */
 document.querySelectorAll('#view-growth .tool-card[data-demo]').forEach(card=>{
@@ -2246,10 +2372,96 @@ document.querySelectorAll('#view-growth .tool-card[data-demo]').forEach(card=>{
   });
 });
 
+/* ---------- قیف تعاملی CRM (کلیک روی هر مرحله) ---------- */
+const crmLeads = {
+  0: [
+    {name:'رضا نجفی', phone:'۰۹۱۲۱۱۱۲۲۳۳', note:'تماس اول — هنوز پاسخ نداده'},
+    {name:'مینا شریفی', phone:'۰۹۱۹۲۲۲۳۳۴۴', note:'تماس اول — بیش از ۴۸ ساعت بی‌پاسخ'},
+    {name:'کاوه امینی', phone:'۰۹۳۵۳۳۳۴۴۵۵', note:'تماس اول — امروز ثبت شده'}
+  ],
+  1: [
+    {name:'الهام رستمی', phone:'۰۹۱۲۴۴۴۵۵۶۶', note:'مشاوره فردا ساعت ۱۷:۰۰'},
+    {name:'بابک کریمی', phone:'۰۹۱۹۵۵۵۶۶۷۷', note:'مشاوره چهارشنبه ساعت ۱۸:۰۰'}
+  ],
+  2: [
+    {name:'سمیرا قاسمی', phone:'۰۹۳۵۶۶۶۷۷۸۸', note:'مشاوره انجام شد — منتظر تصمیم'},
+    {name:'آرش فرهادی', phone:'۰۹۱۲۷۷۷۸۸۹۹', note:'مشاوره انجام شد — نیاز به پیگیری'}
+  ],
+  3: [
+    {name:'نگین طاهری', phone:'۰۹۱۹۸۸۸۹۹۰۰', note:'عمل — ۲۲ مرداد، اسلیو معده'},
+    {name:'یاسر مرادی', phone:'۰۹۳۵۹۹۹۰۰۱۱', note:'عمل — ۲۵ مرداد، بای‌پس گاستریک'}
+  ],
+  4: [
+    {name:'پریسا احمدی', phone:'۰۹۱۲۰۰۰۱۱۲۲', note:'پیگیری هفته دوم بعد از عمل'},
+    {name:'حامد یوسفی', phone:'۰۹۱۹۱۱۱۲۲۳۳', note:'پیگیری ماه اول بعد از عمل'}
+  ]
+};
+const crmFunnelPanel = document.getElementById('crmFunnelPanel');
+const crmFunnelPanelTitle = document.getElementById('crmFunnelPanelTitle');
+const crmFunnelPanelCount = document.getElementById('crmFunnelPanelCount');
+const crmFunnelPanelList = document.getElementById('crmFunnelPanelList');
+document.querySelectorAll('#crmFunnel .crm-funnel-step').forEach(step=>{
+  step.addEventListener('click', ()=>{
+    const wasActive = step.classList.contains('active');
+    document.querySelectorAll('#crmFunnel .crm-funnel-step').forEach(s=>s.classList.remove('active'));
+    if(wasActive){ crmFunnelPanel.style.display = 'none'; return; }
+    step.classList.add('active');
+    const stage = step.dataset.stage;
+    const leads = crmLeads[stage] || [];
+    crmFunnelPanelTitle.textContent = step.querySelector('span').textContent;
+    crmFunnelPanelCount.textContent = leads.length + ' لید نمونه';
+    crmFunnelPanelList.innerHTML = '';
+    leads.forEach(lead=>{
+      const row = document.createElement('div');
+      row.className = 'appt-row';
+      row.innerHTML = '<span class="appt-time">'+lead.phone+'</span><div class="appt-info"><div class="appt-name">'+lead.name+'</div><div class="appt-type">'+lead.note+'</div></div>'
+        + '<button class="btn btn-soft btn-sm crm-call-btn">تماس</button>'
+        + '<button class="btn btn-soft btn-sm crm-sms-btn">پیامک</button>';
+      row.querySelector('.crm-call-btn').addEventListener('click', ()=> alert('این دکمه دموست — در نسخه نهایی، تماس با «'+lead.name+'» برقرار می‌شود.'));
+      row.querySelector('.crm-sms-btn').addEventListener('click', ()=> alert('این دکمه دموست — در نسخه نهایی، پیامک برای «'+lead.name+'» ارسال می‌شود.'));
+      crmFunnelPanelList.appendChild(row);
+    });
+    crmFunnelPanel.style.display = 'block';
+    crmFunnelPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+});
+
+/* ---------- چت با آیدا (رشد و بازاریابی) ---------- */
+const growthInput = document.getElementById('growthChatInput');
+const growthSend = document.getElementById('growthChatSend');
+const growthMessages = document.getElementById('growthChatMessages');
+const growthTyping = document.getElementById('growthTyping');
+
+function sendGrowthChat(){
+  const val = growthInput.value.trim();
+  if(!val) return;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'dr-msg user';
+  userMsg.innerHTML = '<p></p>';
+  userMsg.querySelector('p').textContent = val;
+  growthMessages.insertBefore(userMsg, growthTyping);
+  growthInput.value = '';
+  growthMessages.scrollTop = growthMessages.scrollHeight;
+
+  growthTyping.style.display = 'block';
+  growthMessages.scrollTop = growthMessages.scrollHeight;
+
+  setTimeout(()=>{
+    growthTyping.style.display = 'none';
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'dr-msg ai';
+    aiMsg.innerHTML = '<p>این پاسخ دموی آیدا است. در نسخه نهایی، پاسخ بر اساس آمار واقعی CRM و شبکه‌های اجتماعی کلینیک تولید خواهد شد.</p>';
+    growthMessages.insertBefore(aiMsg, growthTyping);
+    growthMessages.scrollTop = growthMessages.scrollHeight;
+  }, 1100);
+}
+growthSend.addEventListener('click', sendGrowthChat);
+growthInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendGrowthChat(); });
+
 /* ---------- تب‌های اینستاگرام دمو ---------- */
-document.querySelectorAll('#view-growth .ig-tab').forEach(t=>{
+document.querySelectorAll('#view-instagram .ig-tab').forEach(t=>{
   t.addEventListener('click', ()=>{
-    document.querySelectorAll('#view-growth .ig-tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('#view-instagram .ig-tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
   });
 });
@@ -2262,7 +2474,13 @@ function checkMobile(){
 }
 checkMobile();
 window.addEventListener('resize', checkMobile);
-menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+menuBtn.addEventListener('click', ()=>{
+  if(sidebar.classList.contains('open')){
+    closeSidebarDrawer();
+  } else {
+    openSidebarDrawer();
+  }
+});
 
 </script>
 </body>
