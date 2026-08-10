@@ -1271,6 +1271,11 @@ input, textarea, select{ font-size:16px !important; }
   background:var(--surface); border-radius:22px 22px 0 0; padding:18px 18px 22px; box-shadow:var(--shadow-med);
   animation:bookUp .3s var(--ease);
 }
+.journey-track{ display:flex; flex-direction:column; gap:0; }
+.journey-node::before{
+  content:''; position:absolute; right:20px; top:44px; bottom:0; width:2px;
+  background:rgba(31,58,49,0.22);
+}
 @media (min-width:641px){
 .book-modal{ align-items:center; }
 .book-modal-card{ border-radius:var(--radius-lg); }
@@ -1442,6 +1447,14 @@ input, textarea, select{ font-size:16px !important; }
 .ex-cat-scroll::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:99px; }
 .ex-cat-scroll::-webkit-scrollbar-thumb:hover{ background:var(--primary-light); }
 }
+#exerciseTabs.ex-cat-scroll{ align-items:stretch; }
+#exerciseTabs .recipe-card{ position:relative; }
+#exerciseTabs .recipe-img{ height:100%; aspect-ratio:auto; }
+#exerciseTabs .recipe-info{
+  position:absolute; inset-inline:0; bottom:0; padding:16px 10px 8px;
+  background:linear-gradient(0deg, rgba(15,30,25,0.75), transparent);
+}
+#exerciseTabs .recipe-info strong{ color:#fff; margin-bottom:0; }
 /* ===== صفحه تمام‌صفحه ویدیوهای ورزش ===== */
 .ex-video-page{
   display:none; position:fixed; inset:0; z-index:250;
@@ -1479,7 +1492,7 @@ input, textarea, select{ font-size:16px !important; }
 }
 .back-to-overview svg{ width:15px; height:15px; }
 /* ===== تیزر «امروز» و «رسپی‌ها» در تب تغذیه ===== */
-.diet-teaser{ overflow:hidden; }
+.diet-teaser{ overflow:hidden; position:relative; }
 .diet-teaser:hover{ transform:translateY(-3px); box-shadow:var(--shadow-med); border-color:var(--primary-light); }
 .diet-teaser:active{ transform:translateY(-1px); }
 .diet-teaser-hint{
@@ -1584,7 +1597,7 @@ input, textarea, select{ font-size:16px !important; }
 .fdb-macros b{ color:var(--primary-dark); font-weight:800; }
 /* ---- بنر تصویری تب ورزش ---- */
 .ex-banner{
-  position:relative; border-radius:var(--radius-lg); overflow:hidden; height:140px;
+  position:relative; border-radius:var(--radius-lg); overflow:hidden; height:210px;
   margin-bottom:18px; background:linear-gradient(135deg,var(--blue),#2F6F5E);
 }
 .ex-banner img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -1740,13 +1753,8 @@ input, textarea, select{ font-size:16px !important; }
   background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
   padding:22px 18px; box-shadow:var(--shadow-soft);
 }
-.journey-track{ display:flex; flex-direction:column; gap:0; }
 .journey-node{ display:flex; align-items:center; gap:14px; position:relative; padding-bottom:26px; }
 .journey-node:last-child{ padding-bottom:0; }
-.journey-node::before{
-  content:''; position:absolute; right:20px; top:44px; bottom:0; width:2px;
-  background:rgba(31,58,49,0.22);
-}
 .journey-node.done::before{ background:var(--primary-light); }
 .journey-node:last-child::before{ display:none; }
 .journey-dot{
