@@ -4604,6 +4604,10 @@ const companionScreen = document.getElementById('screen-companion');
    ============================================================ */
 const modalStack = [];
 let popNavigating = false;
+let expectedPops = 0;
+/* استک تب‌های همراه هوشمند: هر تغییر تب یک state به history اضافه می‌کنه
+   تا دکمه بازگشت (موبایل/مرورگر) یک قدم عقب بره، نه مستقیم خروج کامل */
+let compTabStack = ['overview'];
 
 function openModalWithHistory(id){
   const el = document.getElementById(id);
@@ -4625,21 +4629,25 @@ function closeModalSilently(id){
 }
 function closeModalWithHistory(id){
   const idx = modalStack.lastIndexOf(id);
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('open');
+  if(idx !== -1) modalStack.splice(idx, 1);
   if(!popNavigating && idx !== -1){
+    expectedPops++;
     history.back();
-  } else {
-    const el = document.getElementById(id);
-    if(el) el.classList.remove('open');
-    if(idx !== -1) modalStack.splice(idx, 1);
   }
 }
 
 window.addEventListener('popstate', ()=>{
+  if(expectedPops > 0){ expectedPops--; return; }
   popNavigating = true;
   if(modalStack.length){
     const id = modalStack.pop();
     const el = document.getElementById(id);
     if(el) el.classList.remove('open');
+  } else if(compTabStack.length > 1){
+    compTabStack.pop();
+    switchToCompTab(compTabStack[compTabStack.length-1], true);
   } else if(companionScreen.classList.contains('active')){
     companionScreen.classList.remove('active');
     panelScreen.classList.add('active');
@@ -4653,17 +4661,36 @@ function enterCompanion(){
   panelScreen.classList.remove('active');
   companionScreen.classList.add('active');
   window.scrollTo({top:0, behavior:'instant'});
+  compTabStack = ['overview'];
   if(!popNavigating) history.pushState({screen:'companion'}, '', location.href);
 }
 function exitCompanion(){
-  if(!popNavigating){ history.back(); return; }
   companionScreen.classList.remove('active');
   panelScreen.classList.add('active');
   window.scrollTo({top:0, behavior:'instant'});
+  switchToCompTab('overview', true);
+  compTabStack = ['overview'];
+  if(!popNavigating){ expectedPops++; history.back(); }
 }
 document.getElementById('enterCompanionBtn').addEventListener('click', enterCompanion);
 document.getElementById('enterCompanionBtn').addEventListener('keypress', e=>{ if(e.key==='Enter') enterCompanion(); });
-document.getElementById('backBtn').addEventListener('click', exitCompanion);
+/* آیکون بازگشت هدر: پلکانی عمل کنه، نه همیشه خروج کامل
+   ۱) اگه مودالی باز بود، فقط همون بسته بشه
+   ۲) اگه تب فعلی نمای‌کلی نبود، برگرد به نمای‌کلی (همچنان داخل همراه هوشمند)
+   ۳) اگه از قبل رو نمای‌کلی بودیم، خروج کامل به پنل */
+function handleBackBtnClick(){
+  if(modalStack.length){
+    closeModalWithHistory(modalStack[modalStack.length-1]);
+    return;
+  }
+  const activeTab = document.querySelector('.tab.active');
+  if(activeTab && activeTab.dataset.tab !== 'overview'){
+    switchToCompTab('overview');
+  } else {
+    exitCompanion();
+  }
+}
+document.getElementById('backBtn').addEventListener('click', handleBackBtnClick);
 
 /* ---------- تب‌های داخل همراه هوشمند ---------- */
 const compTabs = document.querySelectorAll('.tab');
@@ -4676,7 +4703,7 @@ function resetTabState(tabName){
   if(tabName === 'coach'){
   }
 }
-function switchToCompTab(tabName){
+function switchToCompTab(tabName, fromHistory){
   const tab = document.querySelector('.tab[data-tab="'+tabName+'"]');
   if(!tab) return;
   compTabs.forEach(t=>t.classList.remove('active'));
@@ -4687,6 +4714,11 @@ function switchToCompTab(tabName){
   tab.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
   window.scrollTo({top:0, behavior:'instant'});
   document.querySelector('.tab-content').scrollTo({top:0, behavior:'instant'});
+
+  if(!fromHistory && compTabStack[compTabStack.length-1] !== tabName){
+    compTabStack.push(tabName);
+    if(!popNavigating) history.pushState({tab:tabName}, '', location.href);
+  }
 }
 compTabs.forEach(tab=>{
   tab.addEventListener('click', ()=> switchToCompTab(tab.dataset.tab));
@@ -5362,7 +5394,7 @@ thTitle.innerHTML = greetingTitle();
    از پنل، فقط یک مرحله برگردد.
    ============================================================ */
 let currentNavState = { view:'dashboard', patient:null, sidebarOpen:false };
-history.replaceState(currentNavState, '');
+if(!history.state) history.replaceState(currentNavState, '');
 
 function navigateToView(name, patient){
   currentNavState = { view:name, patient: patient || null, sidebarOpen:false };
@@ -5384,7 +5416,8 @@ function closeSidebarDrawer(){
 }
 
 window.addEventListener('popstate', (e)=>{
-  const state = e.state || { view:'dashboard', patient:null, sidebarOpen:false };
+  const state = e.state;
+  if(!state || typeof state.view === 'undefined') return;
   currentNavState = state;
   document.getElementById('sidebar').classList.toggle('open', !!state.sidebarOpen);
   if(!state.sidebarOpen){
@@ -5685,7 +5718,7 @@ function showViewSc(name, patient){
 
 /* ---------- تاریخچه مرورگر (pushState/popstate) ---------- */
 let scNavState = { view:'dashboard', patient:null, sidebarOpen:false };
-history.replaceState(scNavState, '');
+if(!history.state) history.replaceState(scNavState, '');
 
 function navigateSc(name, patient){
   scNavState = { view:name, patient: patient || null, sidebarOpen:false };
@@ -5694,7 +5727,8 @@ function navigateSc(name, patient){
 }
 
 window.addEventListener('popstate', (e)=>{
-  const state = e.state || { view:'dashboard', patient:null, sidebarOpen:false };
+  const state = e.state;
+  if(!state || typeof state.view === 'undefined') return;
   scNavState = state;
   sidebarSc.classList.toggle('open', !!state.sidebarOpen);
   if(!state.sidebarOpen){
